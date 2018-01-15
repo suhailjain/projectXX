@@ -1,28 +1,38 @@
 import React, { Component } from 'react';
-import { View, StatusBar, StyleSheet } from 'react-native';
+import { View, StatusBar, StyleSheet, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
+import { Button, Header, Divider } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
-import { Header } from 'react-native-elements';
 import * as actions from '../actions';
-import Button from './common/Button';
 
 const styles = StyleSheet.create({
+  outerContainer: {
+    flex: 1,
+  },
   container: {
     flex: 1,
+    justifyContent: 'center',
     backgroundColor: '#f2f2f2'
   },
 });
 
+const { width, height } = Dimensions.get('window');
+
 class PickLocation extends Component {
   render() {
     return (
-        <View style={styles.container}>
+        <View style={styles.outerContainer}>
         <StatusBar barStyle = "dark-content" hidden = {false}/>
         <Header
         backgroundColor='#003366'
         centerComponent={{ text: 'Unity One', style: { color: '#fff' } }}
         />
-        <Button onPress={() => {
+        <View style={styles.container}>
+        <Button
+        large
+        transparent={true}
+        textStyle={{ color: '#663300' }}
+        title='Rohini' onPress={() => {
           this.props.selectLocation('Rohini');
           this.props.postUrl('https://unityone-65a80.firebaseio.com/posts.json');
           this.props.likeUrl('https://unityone-65a80.firebaseio.com/posts');
@@ -30,9 +40,14 @@ class PickLocation extends Component {
           this.props.foodUrl('https://unityone-65a80.firebaseio.com/rohiniFood.json');
           this.props.dbRef('/posts');
           Actions.lobby();
-        }}>Rohini
-        </Button>
-        <Button onPress={() => {
+        }}
+        />
+        <Divider style={{ backgroundColor: '#003366', marginRight: width / 5, marginLeft: width / 5 }} />
+        <Button
+        large
+        transparent={true}
+        textStyle={{ color: '#663300' }}
+        title='Janakpuri' onPress={() => {
           this.props.selectLocation('Janakpuri');
           this.props.postUrl('https://unityone-65a80.firebaseio.com/jPosts.json');
           this.props.likeUrl('https://unityone-65a80.firebaseio.com/jPosts');
@@ -40,9 +55,14 @@ class PickLocation extends Component {
           this.props.foodUrl('https://unityone-65a80.firebaseio.com/janakpuriFood.json');
           this.props.dbRef('/jPosts');
           Actions.lobby();
-        }}>Janakpuri
-        </Button>
-        <Button onPress={() => {
+        }}
+        />
+        <Divider style={{ backgroundColor: '#003366', marginRight: width / 5, marginLeft: width / 5 }} />
+        <Button
+        large
+        transparent={true}
+        textStyle={{ color: '#663300' }}
+        title='Shahadra' onPress={() => {
           this.props.selectLocation('Shahadra');
           this.props.postUrl('https://unityone-65a80.firebaseio.com/sPosts.json');
           this.props.likeUrl('https://unityone-65a80.firebaseio.com/sPosts');
@@ -50,9 +70,9 @@ class PickLocation extends Component {
           this.props.foodUrl('https://unityone-65a80.firebaseio.com/shahdraFood.json');
           this.props.dbRef('/sPosts');
           Actions.lobby();
-        }}>
-          Shahadra
-        </Button>
+        }}
+        />
+        </View>
         </View>
     );
   }

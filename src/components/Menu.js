@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import { Button } from 'react-native-elements';
+import { Button, Tile } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import * as actions from '../actions';
+import fbAcess from './FirebaseConfig';
 
 const styles = StyleSheet.create({
   container: {
@@ -14,6 +15,15 @@ const styles = StyleSheet.create({
 });
 
 class Menu extends Component {
+  constructor() {
+    super();
+    this.state = { shop: { url: '' } };
+  }
+  componentWIllMount() {
+    fbAcess.database().ref('/backgrounds').once('child_added', (snapshot) => {
+      console.log(snapshot.val());
+  });
+  }
   renderCinepolis() {
     if (this.props.location === 'Rohini') {
       return (
@@ -27,6 +37,12 @@ class Menu extends Component {
   render() {
   return (
     <View >
+    <Tile
+   imageSrc={{ uri: this.state.shop.url }}
+   title="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores dolore exercitationem"
+   featured
+   caption="Some Caption Text"
+    />
 
     <Button title='Shopping' onPress={() => {
     this.props.purpose('shopping');
@@ -42,7 +58,11 @@ class Menu extends Component {
 
     {this.renderCinepolis()}
 
-    <Button title='Park Assist' onPress={() => Actions.park()} />
+    <Button title='Park Assist' onPress={() => {
+      this.props.cameraFace('back');
+      Actions.camera();
+    }}
+    />
     </View>
   );
 }

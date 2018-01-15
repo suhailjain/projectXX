@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     backgroundColor: '#003366',
+    marginBottom: 0,
   },
   container: {
     flex: 1,
