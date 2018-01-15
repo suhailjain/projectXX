@@ -8,13 +8,14 @@ import * as actions from '../../actions';
 class Cinepolis extends Component {
   menuIcon() {
     return (
-    <Icon name='menu' color='#fff' onPress={() => this.props.drawerState(false)} />
+    <Icon name='menu' color='#663300' onPress={() => this.props.drawerState(false)} />
   );
 }
     render() {
       return (
         <View>
         <Header
+        backgroundColor='#003366'
         leftComponent={this.menuIcon()}
         centerComponent={{ text: '', style: { color: '#fff' } }}
         rightComponent={{ icon: 'dots-three-vertical', color: '#fff' }}

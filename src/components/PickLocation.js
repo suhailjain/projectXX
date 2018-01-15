@@ -12,6 +12,7 @@ class PickLocation extends Component {
         <View>
         <StatusBar barStyle = "dark-content" hidden = {false}/>
         <Header
+        backgroundColor='#003366'
         centerComponent={{ text: 'Unity One', style: { color: '#fff' } }}
         />
         <Button onPress={() => {

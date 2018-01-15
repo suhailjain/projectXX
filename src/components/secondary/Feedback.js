@@ -1,19 +1,24 @@
 import React,{ Component } from 'react';
 import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
-import Header from '../common/Header';
+import { Header, Icon } from 'react-native-elements';
 import * as actions from '../../actions';
-import DrawerModal from '../common/DrawerModal';
 
 class Feedback extends Component {
+  menuIcon() {
+    return (
+    <Icon name='menu' color='#663300' onPress={() => this.props.drawerState(false)} />
+  );
+}
   render() {
     return (
       <View>
-      <Header headerText={'hi'} onPress={() => this.props.drawerState(false)} />
-        <Text>
-            feedback page!!!
-        </Text>
-        <DrawerModal />
+      <Header
+      backgroundColor='#003366'
+      leftComponent={this.menuIcon()}
+      centerComponent={{ text: '', style: { color: '#fff' } }}
+      rightComponent={{ icon: 'dots-three-vertical', color: '#fff' }}
+      />
       </View>
     );
   }

@@ -7,19 +7,23 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { Icon } from 'react-native-elements';
-import Button from '../common/Button';
+import { Icon, Button } from 'react-native-elements';
 import fbAccess from '../FirebaseConfig';
 import * as actions from '../../actions';
 
 //drawer close icon is here not in drawerModal.js
 
 const styles = StyleSheet.create({
+  containerOuter: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: '#003366',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#003366',
   },
   welcome: {
     fontSize: 20,
@@ -38,63 +42,85 @@ const loginCheck = () => {
 
 const DrawerMenu = (props) => {
   return (
-    <View style={styles.container}>
-
+    <View style={styles.containerOuter}>
     <Icon
-    raised
     name='navicon'
     type='font-awesome'
-    color='#f50'
+    color='#663300'
+    iconStyle={{ marginTop: 20 }}
     onPress={() => props.drawerState(true)}
     />
-      <Button onPress={() => {
+    <View style={styles.container}>
+      <Button
+      icon={{ name: 'home' }}
+      backgroundColor='#003366'
+        title='Home'
+        onPress={() => {
         props.drawerState(true);
         Actions.lobby();
-      }}>
-        Home
-      </Button>
-      <Button onPress={() => {
+        }}
+      />
+      <Button
+      icon={{ name: 'movie' }}
+      backgroundColor='#003366'
+        title='Unity Clip'
+        onPress={() => {
         props.drawerState(true);
         Actions.movie();
-      }}>
-        Unity Clip
-      </Button>
-      <Button onPress={() => {
+        }}
+      />
+      <Button
+      icon={{ name: 'feedback' }}
+      backgroundColor='#003366'
+        title='Feedback'
+        onPress={() => {
         if (loginCheck()) {
         Actions.feedback();
-      } else {
+        } else {
         Alert.alert('login is must');
-      }
-      }}>
-        Feedbacks
-      </Button>
-      <Button onPress={() => {
+        }
+        }}
+      />
+      <Button
+      icon={{ name: 'note' }}
+      backgroundColor='#003366'
+        title='Surveys'
+        onPress={() => {
           if (loginCheck()) {
           Actions.feedback();
         } else {
           Alert.alert('login is must');
         }
-      }}>
-        Surveys
-      </Button>
-      <Button onPress={() => {
+      }}
+      />
+      <Button
+      icon={{ name: 'collection' }}
+      backgroundColor='#003366'
+        title='Gallery'
+        onPress={() => {
         props.drawerState(true);
         Actions.gallery();
-      }}>
-        Gallery
-      </Button>
-      <Button onPress={() => {
+      }}
+      />
+      <Button
+      icon={{ name: 'group' }}
+      backgroundColor='#003366'
+        title='Connect'
+        onPress={() => {
         props.drawerState(true);
         Actions.connect();
-      }}>
-        Connect
-      </Button>
-      <Button onPress={() => {
+      }}
+      />
+      <Button
+      icon={{ name: 'info' }}
+      backgroundColor='#003366'
+        title='About'
+        onPress={() => {
         props.drawerState(true);
         Actions.about();
-      }}>
-        About Us
-      </Button>
+      }}
+      />
+    </View>
     </View>
   );
 };
