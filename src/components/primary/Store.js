@@ -18,7 +18,7 @@ class Store extends Component {
 
   render() {
   return (
-    <View>
+    <View style={styles.container}>
     <Button onPress={() => {
       this.viewModal();
     }}>
@@ -53,6 +53,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     margin: 10,
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#f2f2f2',
   },
 });
 

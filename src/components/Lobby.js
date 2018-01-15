@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
-import { Text, View, Dimensions } from 'react-native';
+import { Text, View, Dimensions, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { Header, Icon } from 'react-native-elements';
 import * as actions from '../actions';
 import Menu from './Menu';
 import DrawerModal from './common/DrawerModal';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f2f2f2'
+  },
+});
 
 class Lobby extends Component {
   constructor() {
@@ -14,12 +21,12 @@ class Lobby extends Component {
   }
   menuIcon() {
     return (
-    <Icon underlayColor='#003366' name='menu' color='#663300' onPress={() => this.props.drawerState(false)} />
+    <Icon name='menu' color='#663300' underlayColor='#003366' onPress={() => this.props.drawerState(false)} />
   );
   }
   render() {
     return (
-        <View>
+        <View style={styles.container}>
         <Header
         backgroundColor='#003366'
         leftComponent={this.menuIcon()}

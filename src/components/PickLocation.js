@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
-import { View, StatusBar } from 'react-native';
+import { View, StatusBar, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { Header } from 'react-native-elements';
 import * as actions from '../actions';
 import Button from './common/Button';
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f2f2f2'
+  },
+});
+
 class PickLocation extends Component {
   render() {
     return (
-        <View>
+        <View style={styles.container}>
         <StatusBar barStyle = "dark-content" hidden = {false}/>
         <Header
         backgroundColor='#003366'

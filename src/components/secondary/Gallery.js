@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
-import { Text, View, Alert } from 'react-native';
+import { Text, View, Alert, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { Header, Icon, Button } from 'react-native-elements';
 import ImageList from './ImageList';
 import * as actions from '../../actions';
 import fbAccess from '../FirebaseConfig';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f2f2f2'
+  },
+});
 
 const clickMe = () => {
   const user = fbAccess.auth().currentUser;
@@ -19,24 +26,26 @@ const clickMe = () => {
 class Gallery extends Component {
   menuIcon() {
     return (
-    <Icon name='menu' color='#663300' onPress={() => this.props.drawerState(false)} />
+    <Icon name='navigate-before' color='#663300' underlayColor='#003366' onPress={() => Actions.pop()} />
   );
+}
+cameraIcon() {
+  return (
+  <Icon name='add-a-photo' color='#663300' onPress={() => {
+    this.props.cameraFace('front');
+    clickMe();
+  }}
+  />
+);
 }
   render() {
     return (
-      <View>
+      <View style={styles.container}>
       <Header
       backgroundColor='#003366'
       leftComponent={this.menuIcon()}
       centerComponent={{ text: '', style: { color: '#fff' } }}
-      rightComponent={{ icon: 'dots-three-vertical', color: '#fff' }}
-      />
-      <Button
-      title='click'
-      onPress={() => {
-        this.props.cameraFace('front');
-        clickMe();
-      }}
+      rightComponent={{ icon: 'add-a-photo', color: '#fff' }}
       />
       <ImageList />
       </View>

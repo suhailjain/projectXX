@@ -1,16 +1,26 @@
-import { Text, View } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 import { Header, Icon } from 'react-native-elements';
+import * as actions from '../../actions';
 
-export default class Aboutus extends Component {
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f2f2f2'
+  },
+});
+
+class Aboutus extends Component {
   menuIcon() {
     return (
-    <Icon name='menu' color='#663300' onPress={() => this.props.drawerState(false)} />
+  <Icon name='navigate-before' color='#663300' underlayColor='#003366' onPress={() => Actions.pop()} />
   );
 }
   render() {
     return (
-      <View>
+      <View style={styles.container}>
       <Header
       backgroundColor='#003366'
       leftComponent={this.menuIcon()}
@@ -22,3 +32,5 @@ export default class Aboutus extends Component {
     );
   }
 }
+
+export default connect(null, actions)(Aboutus);

@@ -5,7 +5,7 @@ import { Header, Icon, Button } from 'react-native-elements';
 export default class Survey extends Component {
   menuIcon() {
     return (
-    <Icon name='menu' color='#663300' onPress={() => this.props.drawerState(false)} />
+    <Icon name='navigate-before' color='#663300' underlayColor='#003366' onPress={() => Actions.pop()} />
   );
 }
   render() {

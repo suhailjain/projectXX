@@ -1,10 +1,17 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import DrawerModal from '../common/DrawerModal';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f2f2f2'
+  },
+});
 
 const EventView = () => {
   return (
-    <View>
+    <View style={styles.container}>
     <DrawerModal />
     </View>
   );

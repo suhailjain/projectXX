@@ -46,8 +46,9 @@ const DrawerMenu = (props) => {
     <Icon
     name='navicon'
     type='font-awesome'
+    underlayColor='#003366'
     color='#663300'
-    iconStyle={{ marginTop: 20 }}
+    iconStyle={{ marginTop: 30, marginRight: 20 }}
     onPress={() => props.drawerState(true)}
     />
     <View style={styles.container}>
@@ -94,7 +95,7 @@ const DrawerMenu = (props) => {
       }}
       />
       <Button
-      icon={{ name: 'collection' }}
+      icon={{ name: 'collections' }}
       backgroundColor='#003366'
         title='Gallery'
         onPress={() => {

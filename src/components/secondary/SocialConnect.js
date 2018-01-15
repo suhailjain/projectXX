@@ -1,17 +1,27 @@
-import { Text, View } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import React, { Component } from 'react';
+import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
 import { Header, Icon, Button } from 'react-native-elements';
 import EmailPass from '../login/EmailPass';
+import * as actions from '../../actions';
 
-export default class SocialConnect extends Component {
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f2f2f2'
+  },
+});
+
+class SocialConnect extends Component {
   menuIcon() {
     return (
-    <Icon name='menu' color='#663300' onPress={() => this.props.drawerState(false)} />
+    <Icon name='navigate-before' color='#663300' underlayColor='#003366' onPress={() => Actions.pop()} />
   );
 }
   render() {
     return (
-      <View style={{ paddingTop: 20 }}>
+      <View style={styles.container}>
       <Header
       backgroundColor='#003366'
       leftComponent={this.menuIcon()}
@@ -23,3 +33,5 @@ export default class SocialConnect extends Component {
     );
   }
 }
+
+export default connect(null, actions)(SocialConnect);

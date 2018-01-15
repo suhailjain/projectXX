@@ -1,43 +1,48 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
+import { Button } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import * as actions from '../actions';
-import Button from './common/Button';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 0.8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
 class Menu extends Component {
   renderCinepolis() {
-    if(this.props.location === 'Rohini') {
+    if (this.props.location === 'Rohini') {
       return (
-        <Button onPress={() => {
+        <Button title='Cinepolis' onPress={() => {
           Actions.cinepolis();
-        }}>
-        Cinepolis
-        </Button>
+        }}
+        />
       );
     }
   }
   render() {
   return (
-    <View>
+    <View >
 
-    <Button onPress={() => {
+    <Button title='Shopping' onPress={() => {
     this.props.purpose('shopping');
       Actions.storelist();
-    }}>
-    Shopping
-    </Button>
+    }}
+    />
 
-    <Button onPress={() => {
+    <Button title='Food' onPress={() => {
     this.props.purpose('food');
       Actions.storelist();
-    }}>
-    Food
-    </Button>
+    }}
+    />
+
     {this.renderCinepolis()}
-    <Button onPress={() => Actions.park()}>
-    Park Assist
-    </Button>
+
+    <Button title='Park Assist' onPress={() => Actions.park()} />
     </View>
   );
 }

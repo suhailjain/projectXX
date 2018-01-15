@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { Header, Icon } from 'react-native-elements';
 import MovieList from './MovieList';
 import * as actions from '../../actions';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f2f2f2'
+  },
+});
 
 class Cinepolis extends Component {
   menuIcon() {
@@ -13,7 +20,7 @@ class Cinepolis extends Component {
 }
     render() {
       return (
-        <View>
+        <View style={styles.container} > 
         <Header
         backgroundColor='#003366'
         leftComponent={this.menuIcon()}
