@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import Modal from 'react-native-modal';
-import Button from '../common/Button';
+import { Button } from 'react-native-elements';
+
+const { width, height } = Dimensions.get('window');
 
 class Store extends Component {
   constructor() {
@@ -10,8 +12,6 @@ class Store extends Component {
   }
 
   viewModal = () => {
-    console.log('hi');
-    console.log(this.props.store);
     this.setState({ modalVisible: !this.state.modalVisible });
   }
 
@@ -19,15 +19,22 @@ class Store extends Component {
   render() {
   return (
     <View style={styles.container}>
-    <Button onPress={() => {
+    <Button
+    title={this.props.store.brand}
+    onPress={() => {
       this.viewModal();
-    }}>
-      {this.props.store.brand}
-    </Button>
-    <Modal isVisible={this.state.modalVisible}>
+    }}
+    />
+    <Modal
+    backdropOpacity={0.8}
+    onBackdropPress={() => this.setState({ modalVisible: !this.state.modalVisible })}
+    isVisible={this.state.modalVisible}
+    >
           <View style={styles.modalView} >
             <Text>find this store at</Text>
             <Text>{this.props.store.floor}</Text>
+            <Text>Ongoing Offers</Text>
+            <Text>{this.props.store.offer}</Text>
             <TouchableOpacity onPress={this.viewModal}>
               <Text>Hide me!</Text>
             </TouchableOpacity>
@@ -39,15 +46,16 @@ class Store extends Component {
 }
 
 const styles = StyleSheet.create({
+  modalContainer: {
+    width: width * 0.9,
+    height: height * 0.6,
+  },
   modalView: {
-    flex: 1,
-    marginRight: 10,
-    marginBottom: 10,
-    marginTop: 10,
-    marginLeft: 10,
+    width: width * 0.9,
+    height: height * 0.6,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#bab9bf',
   },
   welcome: {
     fontSize: 20,

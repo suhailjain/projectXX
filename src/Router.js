@@ -13,6 +13,7 @@ import DisplayImage from './components/secondary/DisplayImage';
 import StoreList from './components/primary/StoreList';
 import Cinepolis from './components/primary/Cinepolis';
 import ParkAssist from './components/ParkAssist';
+import EventList from './components//primary/EventList';
 
 class RouterComponent extends Component {
   render() {
@@ -31,6 +32,7 @@ class RouterComponent extends Component {
         <Scene key="storelist" component={StoreList} />
         <Scene key="cinepolis" component={Cinepolis} />
         <Scene key="park" component={ParkAssist} />
+        <Scene key='events' component={EventList} />
       </Router>
           );
   }

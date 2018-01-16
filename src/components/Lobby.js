@@ -31,7 +31,7 @@ class Lobby extends Component {
         backgroundColor='#003366'
         leftComponent={this.menuIcon()}
         centerComponent={{ text: '', style: { color: '#fff' } }}
-        rightComponent={{ icon: 'home', color: '#fff' }}
+        rightComponent={{ icon: 'local-parking', color: '#663300' }}
         />
         <Menu location={this.props.locate} />
         <DrawerModal visible={this.props.toggle} />

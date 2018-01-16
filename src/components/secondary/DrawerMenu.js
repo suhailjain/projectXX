@@ -72,6 +72,15 @@ const DrawerMenu = (props) => {
         }}
       />
       <Button
+      icon={{ name: 'collections' }}
+      backgroundColor='#003366'
+        title='Unity Selfie'
+        onPress={() => {
+        props.drawerState(true);
+        Actions.gallery();
+      }}
+      />
+      <Button
       icon={{ name: 'feedback' }}
       backgroundColor='#003366'
         title='Feedback'
@@ -93,15 +102,6 @@ const DrawerMenu = (props) => {
         } else {
           Alert.alert('login is must');
         }
-      }}
-      />
-      <Button
-      icon={{ name: 'collections' }}
-      backgroundColor='#003366'
-        title='Gallery'
-        onPress={() => {
-        props.drawerState(true);
-        Actions.gallery();
       }}
       />
       <Button

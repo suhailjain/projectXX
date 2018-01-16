@@ -38,15 +38,11 @@ class Menu extends Component {
   }
   render() {
   return (
-    <View >
-    <Tile
-   imageSrc={{ uri: urlBackground.pop() }}
-   title="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores dolore exercitationem"
-   featured
-   caption="Some Caption Text"
-    />
-
-    <Button title='Shopping' onPress={() => {
+    <View style={styles.container}>
+    <Button
+    rounded={true}
+    outline={true}
+    title='Shopping' onPress={() => {
     this.props.purpose('shopping');
       Actions.storelist();
     }}
@@ -55,6 +51,11 @@ class Menu extends Component {
     <Button title='Food' onPress={() => {
     this.props.purpose('food');
       Actions.storelist();
+    }}
+    />
+
+    <Button title='Events' onPress={() => {
+      Actions.events();
     }}
     />
 

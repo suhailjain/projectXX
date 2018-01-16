@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { FlatList, View } from 'react-native';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 import { Header, Icon } from 'react-native-elements';
 import Store from './Store';
 import * as actions from '../../actions';
@@ -27,7 +28,7 @@ class StoreList extends Component {
   }
   menuIcon() {
     return (
-    <Icon name='menu' color='#663300' onPress={() => this.props.drawerState(false)} />
+<Icon name='navigate-before' color='#663300' underlayColor='#003366' onPress={() => Actions.pop()} />
   );
 }
   render() {

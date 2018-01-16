@@ -6,6 +6,8 @@ import { Divider, Button } from 'react-native-elements';
 import * as actions from '../../actions';
 import fbAccess from '../FirebaseConfig';
 
+const { width, height } = Dimensions.get('window');
+
 const likeHandle = (url, id, likes) => {
     const user = fbAccess.auth().currentUser;
     if (user === null) {
@@ -40,13 +42,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   image: {
-    width: 300,
-    height: 300,
+    width: width * 0.8,
+    height: height * 0.25,
     justifyContent: 'center'
   },
 });
-
-const { width, height } = Dimensions.get('window');
 
 class ImageItem extends Component {
   render() {
@@ -74,6 +74,7 @@ class ImageItem extends Component {
       title={this.props.pic.likes}
       />
       </View>
+      <Text style={{ color: '#003366' }}>---------------------</Text>
       <Divider style={{ backgroundColor: '#003366', marginRight: width / 5, marginLeft: width / 5 }} />
       <Modal
       onBackdropPress={() => this.props.currentImageVisible(false)}
