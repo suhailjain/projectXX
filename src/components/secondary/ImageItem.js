@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, Image, Alert, TouchableOpacity } from 'react-native';
+import { View, Text, Image, Alert, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import Modal from 'react-native-modal';
+import { Divider, Button } from 'react-native-elements';
 import * as actions from '../../actions';
-import Button from '../common/Button';
 import fbAccess from '../FirebaseConfig';
 
 const likeHandle = (url, id, likes) => {
@@ -34,38 +34,57 @@ const likeHandle = (url, id, likes) => {
   }
 };
 
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    flex: 1,
+  },
+  image: {
+    width: 300,
+    height: 300,
+    justifyContent: 'center'
+  },
+});
+
+const { width, height } = Dimensions.get('window');
+
 class ImageItem extends Component {
   render() {
     console.log('success');
     console.log(this.props.highlight);
     return (
-      <View>
+      <View style={styles.container}>
       <TouchableOpacity onPress={() => {
         console.log(this.props.pic.url);
         this.props.currentImage(this.props.pic.url);
         this.props.currentImageVisible(true);
        }}>
       <Image
-        style={{ width: 300,
-        height: 300 }}
+        style={styles.image}
         source={{ uri: this.props.pic.url }}
       />
       </TouchableOpacity>
       <Text>
       {this.props.pic.title}
       </Text>
-      <Button onPress={() => likeHandle(this.props.dbref, this.props.pic.id, this.props.pic.likes)} >
-      like {this.props.pic.likes}
-      </Button>
+      <View style={{ flexDirection: 'row' }}>
+      <Button title='like' onPress={() => likeHandle(this.props.dbref, this.props.pic.id, this.props.pic.likes)} />
+      <Button
+      raised
+      title={this.props.pic.likes}
+      />
+      </View>
+      <Divider style={{ backgroundColor: '#003366', marginRight: width / 5, marginLeft: width / 5 }} />
       <Modal
       onBackdropPress={() => this.props.currentImageVisible(false)}
       isVisible={this.props.visible} >
       <Image
-        style={{ width: 300,
-        height: 300 }}
+        style={{ width: width * 0.90,
+        height: height * 0.85,
+        alignSelf: 'center',
+      }}
         source={{ uri: this.props.highlight }}
       />
-      <Text>confirm</Text>
       </Modal>
       </View>
     );

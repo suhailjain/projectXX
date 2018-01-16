@@ -13,15 +13,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-
+let urlBackground = [];
 class Menu extends Component {
   constructor() {
     super();
     this.state = { shop: { url: '' } };
   }
-  componentWIllMount() {
-    fbAcess.database().ref('/backgrounds').once('child_added', (snapshot) => {
+  componentWillMount() {
+    console.log('there?');
+    fbAcess.database().ref('/backgrounds').on('child_added', (snapshot) => {
       console.log(snapshot.val());
+      urlBackground.push(snapshot.val());
   });
   }
   renderCinepolis() {
@@ -38,7 +40,7 @@ class Menu extends Component {
   return (
     <View >
     <Tile
-   imageSrc={{ uri: this.state.shop.url }}
+   imageSrc={{ uri: urlBackground.pop() }}
    title="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores dolore exercitationem"
    featured
    caption="Some Caption Text"

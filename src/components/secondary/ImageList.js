@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, FlatList, ScrollView, List } from 'react-native';
+import { View, FlatList, ScrollView, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import ImageItem from './ImageItem';
 import fbAccess from '../FirebaseConfig';
@@ -7,7 +7,7 @@ import fbAccess from '../FirebaseConfig';
 class ImageList extends Component {
   constructor() {
     super();
-    this.state = { datalist: [] };
+    this.state = { datalist: [], isLoading: true };
   }
   componentWillMount() {
     const fbdb = fbAccess.database();
@@ -22,16 +22,20 @@ class ImageList extends Component {
         datalist: pics
       });
     }
-    });
+  });
+    this.setState({ isLoading: false });
   }
   render() {
     return (
       <ScrollView
+      contentContainerStyle={{ flex: 1 }}
       showsHorizontalScrollIndicator={false}
       showsVerticalScrollIndicator={false}
       >
+      <ActivityIndicator animating={this.state.isLoading} size='large' />
       <FlatList
         data={this.state.datalist}
+        contentContainerStyle={{ justifyContent: 'center' }}
         renderItem={({ item }) => <ImageItem pic={item} />}
         keyExtractor={item => item.id}
       />
