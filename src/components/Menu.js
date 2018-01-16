@@ -20,9 +20,7 @@ class Menu extends Component {
     this.state = { shop: { url: '' } };
   }
   componentWillMount() {
-    console.log('there?');
     fbAcess.database().ref('/backgrounds').on('child_added', (snapshot) => {
-      console.log(snapshot.val());
       urlBackground.push(snapshot.val());
   });
   }

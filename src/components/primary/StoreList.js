@@ -38,11 +38,12 @@ class StoreList extends Component {
       backgroundColor='#003366'
       leftComponent={this.menuIcon()}
       centerComponent={{ text: '', style: { color: '#fff' } }}
-      rightComponent={{ icon: 'dots-three-vertical', color: '#fff' }}
+      rightComponent={{ icon: 'local-parking', color: '#663300' }}
       />
       <FlatList
         data={this.state.storelist}
         renderItem={({ item }) => <Store store={item} />}
+        keyExtractor={item => item.brand}
       />
       </View>
     );

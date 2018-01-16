@@ -39,6 +39,7 @@ class PickLocation extends Component {
           this.props.storeUrl('https://unityone-65a80.firebaseio.com/rohiniShop.json');
           this.props.foodUrl('https://unityone-65a80.firebaseio.com/rohiniFood.json');
           this.props.dbRef('/posts');
+          this.props.eventUrl('https://unityone-65a80.firebaseio.com/rEvents.json');
           Actions.lobby();
         }}
         />
@@ -54,6 +55,7 @@ class PickLocation extends Component {
           this.props.storeUrl('https://unityone-65a80.firebaseio.com/janakpuriShop.json');
           this.props.foodUrl('https://unityone-65a80.firebaseio.com/janakpuriFood.json');
           this.props.dbRef('/jPosts');
+          this.props.eventUrl('https://unityone-65a80.firebaseio.com/jEvents.json');
           Actions.lobby();
         }}
         />
@@ -69,6 +71,7 @@ class PickLocation extends Component {
           this.props.storeUrl('https://unityone-65a80.firebaseio.com/shahdraShop.json');
           this.props.foodUrl('https://unityone-65a80.firebaseio.com/shahdraFood.json');
           this.props.dbRef('/sPosts');
+          this.props.eventUrl('https://unityone-65a80.firebaseio.com/sEvents.json');
           Actions.lobby();
         }}
         />

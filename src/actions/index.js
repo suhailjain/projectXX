@@ -89,3 +89,10 @@ export const currentMovieVisible = (bool) => {
     payload: bool
   };
 };
+
+export const eventUrl = (url) => {
+  return {
+    type: 'events',
+    payload: url
+  };
+};

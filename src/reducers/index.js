@@ -12,9 +12,10 @@ import CurrentImageVisible from './CurrentImageVisibleReducer';
 import CameraReducer from './CameraReducer';
 import MovieReducer from './MovieReducer';
 import MovieShowReducer from './MovieShowReducer';
+import EventUrlReducer from './EventUrlReducer';
 
 export default combineReducers({
-  
+
   currentLocation: LocationReducer,
   postsDB: PostsReducer,
   storeDB: StoreReducer,
@@ -27,6 +28,7 @@ export default combineReducers({
   visible: CurrentImageVisible,
   cameraFace: CameraReducer,
   movieVisible: MovieShowReducer,
-  movieSelected: MovieReducer
-
+  movieSelected: MovieReducer,
+  eventURL: EventUrlReducer
+  
 });

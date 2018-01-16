@@ -28,7 +28,7 @@ class ImageList extends Component {
   render() {
     return (
       <ScrollView
-      contentContainerStyle={{ flex: 1 }}
+      contentContainerStyle={{ flex: 1, marginBottom: 20 }}
       showsHorizontalScrollIndicator={false}
       showsVerticalScrollIndicator={false}
       >
@@ -37,6 +37,7 @@ class ImageList extends Component {
         data={this.state.datalist}
         contentContainerStyle={{ justifyContent: 'center' }}
         renderItem={({ item }) => <ImageItem pic={item} />}
+        contentContainerStyle={{ marginBottom: 20 }}
         keyExtractor={item => item.id}
       />
       </ScrollView>

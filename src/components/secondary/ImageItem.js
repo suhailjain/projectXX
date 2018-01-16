@@ -50,12 +50,9 @@ const styles = StyleSheet.create({
 
 class ImageItem extends Component {
   render() {
-    console.log('success');
-    console.log(this.props.highlight);
     return (
       <View style={styles.container}>
       <TouchableOpacity onPress={() => {
-        console.log(this.props.pic.url);
         this.props.currentImage(this.props.pic.url);
         this.props.currentImageVisible(true);
        }}>
