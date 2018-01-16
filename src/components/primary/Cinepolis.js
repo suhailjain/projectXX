@@ -18,14 +18,23 @@ class Cinepolis extends Component {
     <Icon name='menu' color='#663300' onPress={() => this.props.drawerState(false)} />
   );
 }
+rightIcon() {
+  return (
+    <Icon name='local-parking' color='#663300' underlayColor='#003366' onPress={() => {
+      this.props.cameraFace('back');
+      Actions.camera();
+    }}
+    />
+  );
+}
     render() {
       return (
-        <View style={styles.container} > 
+        <View style={styles.container} >
         <Header
         backgroundColor='#003366'
         leftComponent={this.menuIcon()}
         centerComponent={{ text: '', style: { color: '#fff' } }}
-        rightComponent={{ icon: 'dots-three-vertical', color: '#fff' }}
+        rightComponent={this.rightIcon()}
         />
         <MovieList />
         </View>

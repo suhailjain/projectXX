@@ -31,6 +31,15 @@ class StoreList extends Component {
 <Icon name='navigate-before' color='#663300' underlayColor='#003366' onPress={() => Actions.pop()} />
   );
 }
+rightIcon() {
+  return (
+    <Icon name='local-parking' color='#663300' underlayColor='#003366' onPress={() => {
+      this.props.cameraFace('back');
+      Actions.camera();
+    }}
+    />
+  );
+}
   render() {
     return (
       <View>
@@ -38,7 +47,7 @@ class StoreList extends Component {
       backgroundColor='#003366'
       leftComponent={this.menuIcon()}
       centerComponent={{ text: '', style: { color: '#fff' } }}
-      rightComponent={{ icon: 'local-parking', color: '#663300' }}
+      rightComponent={this.rightIcon()}
       />
       <FlatList
         data={this.state.storelist}

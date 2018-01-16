@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   drawerContainer: {
     marginRight: width * 0.4,
     marginLeft: 0,
-    marginTop: 0
+    height: height * 1,
   }
 });
 

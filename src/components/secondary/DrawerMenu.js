@@ -18,7 +18,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     backgroundColor: '#003366',
-    marginBottom: 0,
   },
   container: {
     flex: 1,
@@ -86,6 +85,7 @@ const DrawerMenu = (props) => {
         title='Feedback'
         onPress={() => {
         if (loginCheck()) {
+        props.drawerState(true);
         Actions.feedback();
         } else {
         Alert.alert('login is must');
@@ -98,6 +98,7 @@ const DrawerMenu = (props) => {
         title='Surveys'
         onPress={() => {
           if (loginCheck()) {
+          props.drawerState(true);
           Actions.feedback();
         } else {
           Alert.alert('login is must');

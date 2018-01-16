@@ -29,6 +29,15 @@ class Gallery extends Component {
     <Icon name='navigate-before' color='#663300' underlayColor='#003366' onPress={() => Actions.pop()} />
   );
 }
+  rightIcon() {
+    return (
+      <Icon name='add-a-photo' color='#663300' underlayColor='#003366' onPress={() => {
+        this.props.cameraFace('front');
+        Actions.camera();
+      }}
+      />
+    );
+}
 cameraIcon() {
   return (
   <Icon name='add-a-photo' color='#663300' onPress={() => {
@@ -45,7 +54,7 @@ cameraIcon() {
       backgroundColor='#003366'
       leftComponent={this.menuIcon()}
       centerComponent={{ text: '', style: { color: '#fff' } }}
-      rightComponent={{ icon: 'add-a-photo', color: '#fff' }}
+      rightComponent={this.rightIcon()}
       />
       <ImageList />
       </View>

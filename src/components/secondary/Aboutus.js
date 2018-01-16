@@ -18,6 +18,14 @@ class Aboutus extends Component {
   <Icon name='navigate-before' color='#663300' underlayColor='#003366' onPress={() => Actions.pop()} />
   );
 }
+rightIcon() {
+  return (
+    <Icon name='help' color='#663300' underlayColor='#003366' onPress={() => {
+
+    }}
+    />
+  );
+}
   render() {
     return (
       <View style={styles.container}>
@@ -25,7 +33,7 @@ class Aboutus extends Component {
       backgroundColor='#003366'
       leftComponent={this.menuIcon()}
       centerComponent={{ text: '', style: { color: '#fff' } }}
-      rightComponent={{ icon: 'dots-three-vertical', color: '#fff' }}
+      rightComponent={this.rightIcon()}
       />
         <Text>about us</Text>
       </View>
