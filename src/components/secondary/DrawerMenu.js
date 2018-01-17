@@ -3,7 +3,8 @@ import {
   StyleSheet,
   Text,
   View,
-  Alert
+  Alert,
+  Dimensions
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
@@ -12,12 +13,14 @@ import fbAccess from '../FirebaseConfig';
 import * as actions from '../../actions';
 
 //drawer close icon is here not in drawerModal.js
+const { width, height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   containerOuter: {
     flex: 1,
     justifyContent: 'center',
     backgroundColor: '#003366',
+    height: height * 1,
   },
   container: {
     flex: 1,

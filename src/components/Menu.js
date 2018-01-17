@@ -41,14 +41,14 @@ class Menu extends Component {
     rounded={true}
     outline={true}
     title='Shopping' onPress={() => {
-    this.props.purpose('shopping');
+    this.props.purpose(true);
       Actions.storelist();
     }}
     />
 
     <Button title='Food' onPress={() => {
-    this.props.purpose('food');
-      Actions.storelist();
+    this.props.purpose(false);
+      Actions.foodlist();
     }}
     />
 
@@ -59,11 +59,6 @@ class Menu extends Component {
 
     {this.renderCinepolis()}
 
-    <Button title='Park Assist' onPress={() => {
-      this.props.cameraFace('back');
-      Actions.camera();
-    }}
-    />
     </View>
   );
 }

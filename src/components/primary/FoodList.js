@@ -8,7 +8,7 @@ import Store from './Store';
 import * as actions from '../../actions';
 
 let url = 0;
-class StoreList extends Component {
+class FoodList extends Component {
 
   constructor() {
     super();
@@ -18,11 +18,7 @@ class StoreList extends Component {
     console.log(this.props.purpose);
     console.log(this.props.foodurl);
     console.log(this.props.storeurl);
-    if (this.props.purpose) {
-      url = this.props.storeurl;
-    } else {
       url = this.props.foodurl;
-    }
   }
   componentDidMount() {
     console.log(url);
@@ -69,10 +65,8 @@ rightIcon() {
 
 const mapStateToProps = state => {
   return {
-    storeurl: state.storeDB,
-    purpose: state.purpose,
     foodurl: state.foodDB
   };
 };
 
-export default connect(mapStateToProps, actions)(StoreList);
+export default connect(mapStateToProps, actions)(FoodList);

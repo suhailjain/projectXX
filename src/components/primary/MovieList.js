@@ -38,6 +38,7 @@ class MovieList extends Component {
         data={this.state.movielist}
         renderItem={({ item }) => <MovieItem movie={item} />}
         keyExtractor={item => item.id}
+        contentContainerStyle={{ marginBottom: 20 }}
       />
       <Modal
       isVisible={this.props.visible}

@@ -28,9 +28,9 @@ class DrawerModal extends Component {
 
 const styles = StyleSheet.create({
   drawerContainer: {
+    height: height * 1,
     marginRight: width * 0.4,
     marginLeft: 0,
-    height: height * 1,
   }
 });
 

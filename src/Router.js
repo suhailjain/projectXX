@@ -14,6 +14,7 @@ import StoreList from './components/primary/StoreList';
 import Cinepolis from './components/primary/Cinepolis';
 import ParkAssist from './components/ParkAssist';
 import EventList from './components//primary/EventList';
+import FoodList from './components/primary/FoodList';
 
 class RouterComponent extends Component {
   render() {
@@ -30,6 +31,7 @@ class RouterComponent extends Component {
         <Scene key="camera" component={CameraComponent} />
         <Scene key="display" component={DisplayImage} />
         <Scene key="storelist" component={StoreList} />
+        <Scene key="foodlist" component={FoodList} />
         <Scene key="cinepolis" component={Cinepolis} />
         <Scene key="park" component={ParkAssist} />
         <Scene key='events' component={EventList} />
