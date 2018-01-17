@@ -15,14 +15,7 @@ class StoreList extends Component {
     this.state = { storelist: [] };
 }
   componentWillMount() {
-    console.log(this.props.purpose);
-    console.log(this.props.foodurl);
-    console.log(this.props.storeurl);
-    if (this.props.purpose) {
       url = this.props.storeurl;
-    } else {
-      url = this.props.foodurl;
-    }
   }
   componentDidMount() {
     console.log(url);
@@ -70,8 +63,6 @@ rightIcon() {
 const mapStateToProps = state => {
   return {
     storeurl: state.storeDB,
-    purpose: state.purpose,
-    foodurl: state.foodDB
   };
 };
 
