@@ -55,7 +55,8 @@ class ImageItem extends Component {
       <TouchableOpacity onPress={() => {
         this.props.currentImage(this.props.pic.url);
         this.props.currentImageVisible(true);
-       }}>
+       }}
+      >
       <Image
         style={styles.image}
         source={{ uri: this.props.pic.url }}
@@ -64,18 +65,23 @@ class ImageItem extends Component {
       <Text>
       {this.props.pic.title}
       </Text>
-      <View style={{ flexDirection: 'row' }}>
-      <Button title='like' onPress={() => likeHandle(this.props.dbref, this.props.pic.id, this.props.pic.likes)} />
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
       <Button
-      raised
+      transparent={true}
+      textStyle={{ color: '#003366' }}
+      title='hype it up!'
+      onPress={() => likeHandle(this.props.dbref, this.props.pic.id, this.props.pic.likes)} />
+      <Button
+      transparent={true}
+      textStyle={{ color: '#003366' }}
       title={this.props.pic.likes}
       />
       </View>
-      <Text style={{ color: '#003366' }}>---------------------</Text>
       <Divider style={{ backgroundColor: '#003366', marginRight: width / 5, marginLeft: width / 5 }} />
       <Modal
       onBackdropPress={() => this.props.currentImageVisible(false)}
-      isVisible={this.props.visible} >
+      isVisible={this.props.visible}
+      >
       <Image
         style={{ width: width * 0.90,
         height: height * 0.85,
