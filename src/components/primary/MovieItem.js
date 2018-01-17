@@ -1,13 +1,28 @@
 import React, { Component } from 'react';
-import { View, FlatList, ScrollView, List, Image, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { Card, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
+import Modal from 'react-native-modal';
+import ShowTime from './ShowTime';
 import * as actions from '../../actions';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#bab9bf'
+  },
+  row: {
+
+  },
+  days: {
+
+  }
+});
 
 class MovieItem extends Component {
   render() {
-    console.log(this.props.movie.url);
     return (
+      <View>
       <Card
         title={this.props.movie.title}
         image={{ uri: this.props.movie.url }}
@@ -25,8 +40,25 @@ class MovieItem extends Component {
           }}
         />
       </Card>
+      <Modal
+      isVisible={this.props.visible}
+      style={styles.drawerContainer}
+      animationIn={'slideInLeft'}
+      animationOut={'slideOutLeft'}
+      onBackdropPress={() => this.props.currentMovieVisible(false)}
+      >
+      <ShowTime id={this.props.movie.id} />
+      </Modal>
+      </View>
     );
   }
 }
 
-export default connect(null, actions)(MovieItem);
+const mapStateToProps = state => {
+  return {
+    visible: state.movieVisible,
+    movieSelected: state.movieSelected
+  };
+};
+
+export default connect(mapStateToProps, actions)(MovieItem);

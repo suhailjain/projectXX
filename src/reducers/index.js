@@ -13,6 +13,7 @@ import CameraReducer from './CameraReducer';
 import MovieReducer from './MovieReducer';
 import MovieShowReducer from './MovieShowReducer';
 import EventUrlReducer from './EventUrlReducer';
+import DayReducer from './DayReducer';
 
 export default combineReducers({
 
@@ -29,6 +30,7 @@ export default combineReducers({
   cameraFace: CameraReducer,
   movieVisible: MovieShowReducer,
   movieSelected: MovieReducer,
-  eventURL: EventUrlReducer
-  
+  eventURL: EventUrlReducer,
+  day: DayReducer
+
 });

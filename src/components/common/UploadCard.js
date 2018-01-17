@@ -9,6 +9,7 @@ import fbAccess from '../FirebaseConfig';
 
 const storage = fbAccess.storage();
 const db = fbAccess.database();
+const user = fbAccess.auth().currentUser;
 const Blob = RNFetchBlob.polyfill.Blob;
 const fs = RNFetchBlob.fs;
 window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
@@ -61,7 +62,10 @@ const uploadImage = (uri, location, dbref, title, mime = 'application/octet-stre
         })
         .then(() => db.ref(dbref).child(key).set({ url: url, likes: 0, id: key, approved: 'N', title: title })) /* push new record */
         .then(() => {
-          db.ref(`/IndexKeys/${dbhouse}`).update({ index: key + 1 });
+          db.ref(`/IndexKeys/${dbhouse}`).update({ index: key + 1 })
+          .then(() => {
+            db.ref(`userSpecificPosts/users/${user}`).child().set({ id: key + 1, location: this.props.dbref });
+          });
         }) /* increment the index */
         .then(() => Actions.gallery())
         .then(() => Alert.alert('your selfie is uploaded and is awaiting authority approval.'));

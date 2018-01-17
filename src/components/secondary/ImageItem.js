@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   image: {
+    borderRadius: 20,
     width: width * 0.8,
     height: height * 0.25,
     justifyContent: 'center'
@@ -65,19 +66,22 @@ class ImageItem extends Component {
       <Text>
       {this.props.pic.title}
       </Text>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
       <Button
-      transparent={true}
-      textStyle={{ color: '#003366' }}
+      small
+      rounded
+      backgroundColor='#663300'
+      textStyle={{ color: '#ffffff', size: 8 }}
       title='hype it up!'
       onPress={() => likeHandle(this.props.dbref, this.props.pic.id, this.props.pic.likes)} />
       <Button
-      transparent={true}
-      textStyle={{ color: '#003366' }}
+      small
+      rounded
+      backgroundColor='#663300'
+      textStyle={{ color: '#ffffff' }}
       title={this.props.pic.likes}
       />
       </View>
-      <Divider style={{ backgroundColor: '#003366', marginRight: width / 5, marginLeft: width / 5 }} />
       <Modal
       onBackdropPress={() => this.props.currentImageVisible(false)}
       isVisible={this.props.visible}

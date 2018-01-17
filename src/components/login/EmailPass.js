@@ -70,6 +70,7 @@ class EmailPass extends Component {
           <Button
           style={styles.submit}
           title='logOut'
+          backgroundColor='#003366'
           onPress={() => this.logout()}
           />
         );

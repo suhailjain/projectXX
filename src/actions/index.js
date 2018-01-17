@@ -96,3 +96,10 @@ export const eventUrl = (url) => {
     payload: url
   };
 };
+
+export const daySelector = (day) => {
+  return {
+    type: 'day',
+    payload: day
+  };
+};

@@ -1,63 +1,103 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
+import axios from 'axios';
 import * as actions from '../../actions';
-import fbAccess from '../FirebaseConfig';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#bab9bf'
+  },
+  row: {
+
+  },
+  days: {
+
+  },
+  time: {
+
+  }
+});
 
 class ShowTime extends Component {
   constructor() {
     super();
-    this.state = { monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: [],
-      saturday: [],
-      sunday: [] };
+    this.state = { showtime: [] };
   }
   componentWillMount() {
-    let mon = [];
-    let tue = [];
-    let wed = [];
-    let thu = [];
-    let fri = [];
-    let sat = [];
-    let sun = [];
-    const db = fbAccess.database();
-  db.ref(`cinepolis/slot/${this.props.movie.id}/monday`).on('child_added', (snapshot) => {
-  mon.unshift(snapshot.val());
-  this.setState({ monday: mon });
-  });
-  db.ref(`cinepolis/slot/${this.props.movie.id}/tuesday`).on('child_added', (snapshot) => {
-  tue.unshift(snapshot.val());
-  this.setState({ tuesday: tue });
-  });
-  db.ref(`cinepolis/slot/${this.props.movie.id}/wednesday`).on('child_added', (snapshot) => {
-  wed.unshift(snapshot.val());
-  this.setState({ wednesday: wed });
-  });
-  db.ref(`cinepolis/slot/${this.props.movie.id}/thursday`).on('child_added', (snapshot) => {
-  thu.unshift(snapshot.val());
-  this.setState({ thursday: thu });
-  });
-  db.ref(`cinepolis/slot/${this.props.movie.id}/friday`).on('child_added', (snapshot) => {
-  fri.unshift(snapshot.val());
-  this.setState({ friday: fri });
-  });
-  db.ref(`cinepolis/slot/${this.props.movie.id}/saturday`).on('child_added', (snapshot) => {
-  sat.unshift(snapshot.val());
-  this.setState({ saturday: sat });
-  });
-  db.ref(`cinepolis/slot/${this.props.movie.id}/sunday`).on('child_added', (snapshot) => {
-  sun.unshift(snapshot.val());
-  this.setState({ sunday: sun });
-  });
+    axios.get(`https://unityone-65a80.firebaseio.com/cinepolis/slot/${this.props.id}.json`).then(response => {
+      this.setState({
+        showtime: response.data
+      });
+      console.log(response.data);
+    });
   }
-  render() {
-    console.log(this.state);
+
+  timings(day) {
+    if (this.props.day === day) {
     return (
-      <View>
-      <Text>{this.props.movie.name}</Text>
+      <View style={styles.time}>
+      <Text>{day}</Text>
+      </View>
+    );
+  } else {
+    return;
+  }
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+      <Button
+      title='Monday'
+      onPress={() => this.props.daySelector('mon')}
+      style={styles.days}
+      />
+      {this.timings('mon')}
+
+      <Button
+      title='Tuesday'
+      onPress={() => this.props.daySelector('tue')}
+      style={styles.days}
+      />
+      {this.timings('tue')}
+
+      <Button
+      title='Wednesday'
+      onPress={() => this.props.daySelector('wed')}
+      style={styles.days}
+      />
+      {this.timings('wed')}
+
+      <Button
+      title='Thursday'
+      onPress={() => this.props.daySelector('thu')}
+      style={styles.days}
+      />
+      {this.timings('thu')}
+
+      <Button
+      title='Friday'
+      onPress={() => this.props.daySelector('fri')}
+      style={styles.days}
+      />
+      {this.timings('fri')}
+
+      <Button
+      title='Saturday'
+      onPress={() => this.props.daySelector('sat')}
+      style={styles.days}
+      />
+      {this.timings('sat')}
+
+      <Button
+      title='Sunday'
+      onPress={() => this.props.daySelector('sun')}
+      style={styles.days}
+      />
+      {this.timings('sun')}
       </View>
     );
   }
@@ -65,7 +105,8 @@ class ShowTime extends Component {
 
 const mapStateToProps = state => {
   return {
-    movie: state.movieSelected
+    movie: state.movieSelected,
+    day: state.day
   };
 };
 

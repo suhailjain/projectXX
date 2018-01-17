@@ -40,15 +40,6 @@ class MovieList extends Component {
         keyExtractor={item => item.id}
         contentContainerStyle={{ marginBottom: 20 }}
       />
-      <Modal
-      isVisible={this.props.visible}
-      style={styles.drawerContainer}
-      animationIn={'slideInLeft'}
-      animationOut={'slideOutLeft'}
-      onBackdropPress={() => this.props.currentMovieVisible(false)}
-      >
-      <ShowTime />
-      </Modal>
       </ScrollView>
     );
   }
