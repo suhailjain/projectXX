@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
-  View
+  View,
+  Alert
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
@@ -11,6 +12,7 @@ import { Icon } from 'react-native-elements';
 
 class CameraComponent extends Component {
   onBarCodeRead(e) {
+    Alert.alert(e.data);
     console.log(
         "Barcode Found!",
         "Type: " + e.type + "\nData: " + e.data
