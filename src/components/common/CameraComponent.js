@@ -9,10 +9,12 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import Camera from 'react-native-camera';
 import { Icon } from 'react-native-elements';
+import * as actions from '../../actions';
 
 class CameraComponent extends Component {
   onBarCodeRead(e) {
     Alert.alert(e.data);
+    this.props.parking(e.data);
     console.log(
         "Barcode Found!",
         "Type: " + e.type + "\nData: " + e.data
@@ -34,10 +36,12 @@ class CameraComponent extends Component {
           ref={(cam) => {
             this.camera = cam;
           }}
+          captureMode={Camera.constants.CaptureMode.still}
           onBarCodeRead={this.onBarCodeRead.bind(this)}
           style={styles.preview}
           type={this.props.type}
           aspect={Camera.constants.Aspect.fill}
+          captureAudio={false}
         >
         <View style={styles.innerContainer}>
 
@@ -95,4 +99,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(CameraComponent);
+export default connect(mapStateToProps, actions)(CameraComponent);

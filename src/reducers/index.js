@@ -14,6 +14,7 @@ import MovieReducer from './MovieReducer';
 import MovieShowReducer from './MovieShowReducer';
 import EventUrlReducer from './EventUrlReducer';
 import DayReducer from './DayReducer';
+import ParkingReducer from './ParkingReducer';
 
 export default combineReducers({
 
@@ -31,6 +32,7 @@ export default combineReducers({
   movieVisible: MovieShowReducer,
   movieSelected: MovieReducer,
   eventURL: EventUrlReducer,
-  day: DayReducer
+  day: DayReducer,
+  park: ParkingReducer
 
 });

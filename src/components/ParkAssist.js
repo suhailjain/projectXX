@@ -7,21 +7,22 @@ import {
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
-import Button from './common/Button';
 
 class ParkAssist extends Component {
   render() {
+      this.props.cameraFace('back');
     return (
       <View>
-      <Button onPress={() => {
-        this.props.cameraFace('back');
-        Actions.camera();
-      }}>
-      save your parking
-      </Button>
+      <Text>{this.props.park}</Text>
       </View>
     );
   }
 }
 
-export default connect(null, actions)(ParkAssist);
+const mapStateToProps = (state) => {
+  return {
+    park: state.park
+  };
+};
+
+export default connect(mapStateToProps, actions)(ParkAssist);

@@ -3,8 +3,8 @@ import { View, Platform, Alert, ActivityIndicator } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import RNFetchBlob from 'react-native-fetch-blob';
 import axios from 'axios';
+import { Header, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
-import Button from './Button';
 import fbAccess from '../FirebaseConfig';
 
 const storage = fbAccess.storage();
@@ -78,20 +78,34 @@ const uploadImage = (uri, location, dbref, title, mime = 'application/octet-stre
 };
 
 class UploadCard extends Component {
+  leftIcon() {
+    return (
+    <Icon
+    name='delete'
+    color='#663300' underlayColor='#003366'
+    onPress={() => Actions.pop()}
+    />
+  );
+  }
+  rightIcon() {
+    return (
+    <Icon
+    name='done'
+    color='#663300' underlayColor='#003366'
+    onPress={() => uploadImage(this.props.uri, this.props.locate, this.props.dbref, this.props.title)}
+    />
+  );
+  }
   render() {
     const { container, upload, retry } = styles;
     return (
       <View>
-        <View style={container}>
-          <Button onPress={() => uploadImage(this.props.uri, this.props.locate, this.props.dbref, this.props.title)} style={upload} >
-            upload
-          </Button>
-        </View>
-        <View>
-          <Button onPress={() => Actions.camera()} style={retry} >
-            Retry
-          </Button>
-        </View>
+      <Header
+      backgroundColor='#003366'
+      leftComponent={this.leftIcon()}
+      centerComponent={{ text: '', style: { color: '#fff' } }}
+      rightComponent={this.rightIcon()}
+      />
       </View>
     );
   }

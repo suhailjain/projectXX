@@ -31,23 +31,14 @@ class Gallery extends Component {
 }
   rightIcon() {
     return (
-      <Icon name='add-a-photo' color='#663300' underlayColor='#003366' onPress={() => {
-        this.props.cameraFace('front');
-        Actions.camera();
-      }}
+      <Icon
+      name='add-a-photo' color='#663300' underlayColor='#003366'
+      onPress={() => clickMe()}
       />
     );
 }
-cameraIcon() {
-  return (
-  <Icon name='add-a-photo' color='#663300' onPress={() => {
-    this.props.cameraFace('front');
-    clickMe();
-  }}
-  />
-);
-}
   render() {
+    this.props.cameraFace('front');
     return (
       <View style={styles.container}>
       <Header

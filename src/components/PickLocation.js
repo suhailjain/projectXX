@@ -22,7 +22,6 @@ class PickLocation extends Component {
   render() {
     return (
         <View style={styles.outerContainer}>
-        <StatusBar barStyle = "dark-content" hidden = {false}/>
         <Header
         backgroundColor='#003366'
         centerComponent={{ text: 'Unity One', style: { color: '#fff' } }}

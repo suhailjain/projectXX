@@ -21,7 +21,6 @@ const styles = StyleSheet.create({
   },
   containerOuter: {
     flex: 1,
-    justifyContent: 'center',
     backgroundColor: '#003366',
     height: height * 1,
   },
@@ -54,7 +53,7 @@ const DrawerMenu = (props) => {
     type='font-awesome'
     underlayColor='#003366'
     color='#663300'
-    iconStyle={{ marginTop: 30, marginRight: 20 }}
+    iconStyle={{ marginTop: 30 }}
     onPress={() => props.drawerState(true)}
     />
     <View style={styles.container}>
@@ -71,7 +70,6 @@ const DrawerMenu = (props) => {
     <View style={styles.row}>
       <Icon name='home' iconStyle={{ marginLeft: 5, color: '#ffffff' }} />
       <Button
-      large
       backgroundColor='#003366'
         title='Home'
         onPress={() => {
@@ -84,7 +82,6 @@ const DrawerMenu = (props) => {
     <View style={styles.row}>
       <Icon name='movie' iconStyle={{ marginLeft: 5, color: '#ffffff' }} />
       <Button
-      large
       backgroundColor='#003366'
         title='Unity Clip'
         onPress={() => {
@@ -97,7 +94,6 @@ const DrawerMenu = (props) => {
     <View style={styles.row}>
       <Icon name='collections' iconStyle={{ marginLeft: 5, color: '#ffffff' }} />
       <Button
-      large
       backgroundColor='#003366'
         title='Unity Selfie'
         onPress={() => {
@@ -110,7 +106,6 @@ const DrawerMenu = (props) => {
     <View style={styles.row}>
     <Icon name='feedback' iconStyle={{ marginLeft: 5, color: '#ffffff' }} />
       <Button
-      large
       backgroundColor='#003366'
         title='Feedback'
         onPress={() => {
@@ -127,7 +122,6 @@ const DrawerMenu = (props) => {
       <View style={styles.row}>
       <Icon name='group' iconStyle={{ marginLeft: 5, color: '#ffffff' }} />
       <Button
-      large
       backgroundColor='#003366'
         title='Connect'
         onPress={() => {
@@ -140,7 +134,6 @@ const DrawerMenu = (props) => {
       <View style={styles.row}>
       <Icon name='info' iconStyle={{ marginLeft: 5, color: '#ffffff' }} />
       <Button
-      large
       backgroundColor='#003366'
         title='About'
         onPress={() => {

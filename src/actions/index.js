@@ -103,3 +103,10 @@ export const daySelector = (day) => {
     payload: day
   };
 };
+
+export const parking = (park) => {
+  return {
+    type: 'park',
+    payload: park
+  };
+};

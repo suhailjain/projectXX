@@ -6,6 +6,7 @@ import { Header, Icon } from 'react-native-elements';
 import * as actions from '../actions';
 import Menu from './Menu';
 import DrawerModal from './common/DrawerModal';
+import ParkAssist from './ParkAssist';
 
 const styles = StyleSheet.create({
   container: {
@@ -19,6 +20,13 @@ class Lobby extends Component {
     super();
     const { width, height } = Dimensions.get('window');
   }
+  checkForParking() {
+    if (this.props.park === 'not_found') {
+      Actions.camera();
+    } else {
+      Actions.park();
+    }
+  }
   menuIcon() {
     return (
     <Icon name='menu' color='#663300' underlayColor='#003366' onPress={() => this.props.drawerState(false)} />
@@ -27,13 +35,14 @@ class Lobby extends Component {
   rightIcon() {
     return (
       <Icon name='local-parking' color='#663300' underlayColor='#003366' onPress={() => {
-        this.props.cameraFace('back');
         Actions.camera();
+        this.checkForParking();
       }}
       />
     );
   }
   render() {
+    this.props.cameraFace('back');
     return (
         <View style={styles.container}>
         <Header
@@ -52,7 +61,8 @@ class Lobby extends Component {
 const mapStateToProps = state => {
   return {
     locate: state.currentLocation,
-    toggle: state.drawerState
+    toggle: state.drawerState,
+    park: state.park
   };
 };
 

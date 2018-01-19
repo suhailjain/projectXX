@@ -44,7 +44,7 @@
 	<string>Nice smile, there!</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>
-    Your message to user when the photo library is accessed for the first time
+    Grant Access
   </string>
 	<key>NSAppTransportSecurity</key>
 	<dict>

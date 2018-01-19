@@ -71,9 +71,10 @@ class ImageItem extends Component {
       small
       rounded
       backgroundColor='#663300'
-      textStyle={{ color: '#ffffff', size: 8 }}
+      textStyle={{ color: '#ffffff' }}
       title='hype it up!'
-      onPress={() => likeHandle(this.props.dbref, this.props.pic.id, this.props.pic.likes)} />
+      onPress={() => likeHandle(this.props.dbref, this.props.pic.id, this.props.pic.likes)}
+      />
       <Button
       small
       rounded
