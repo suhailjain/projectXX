@@ -46,6 +46,10 @@
 	<string>
     Grant Access
   </string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+<string>$(PRODUCT_NAME) needs to save photos</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Grant Access</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSExceptionDomains</key>
