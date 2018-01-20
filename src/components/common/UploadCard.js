@@ -9,19 +9,19 @@ import fbAccess from '../FirebaseConfig';
 
 const storage = fbAccess.storage();
 const db = fbAccess.database();
-const user = fbAccess.auth().currentUser;
 const Blob = RNFetchBlob.polyfill.Blob;
 const fs = RNFetchBlob.fs;
 window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
 window.Blob = Blob;
 
-const uploadImage = (uri, location, dbref, title, mime = 'application/octet-stream') => {
+const uploadImage = (uri, location, dbref, title, user, mime = 'application/octet-stream') => {
   return new Promise((resolve, reject) => {
     const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
     const sessionId = new Date().getTime();
     let uploadBlob = null;
     const imageRef = storage.ref(location).child(`${sessionId}`);
     console.log('start of upload');
+    console.log(user);
     fs.readFile(uploadUri, 'base64')
       .then((data) => {
         return Blob.build(data, { type: `${mime};BASE64` });
@@ -60,14 +60,17 @@ const uploadImage = (uri, location, dbref, title, mime = 'application/octet-stre
               key = 0;
           }
         })
-        .then(() => db.ref(dbref).child(key).set({ url: url, likes: 0, id: key, approved: 'N', title: title })) /* push new record */
+        .then(() => db.ref(dbref).child(key).set({ url: url, likes: 0, id: key, approved: 'N', title: title, user: `${user}` })) /* push new record */
         .then(() => {
           db.ref(`/IndexKeys/${dbhouse}`).update({ index: key + 1 })
           .then(() => {
-            db.ref(`userSpecificPosts/users/${user}`).child().set({ id: key + 1, location: this.props.dbref });
+            //db.ref(`userSpecificPosts/users/${user}`).child().set({ id: key + 1, location: this.props.dbref });
           });
         }) /* increment the index */
-        .then(() => Actions.gallery())
+        .then(() => {
+          Actions.pop();
+          Actions.pop();
+        })
         .then(() => Alert.alert('your selfie is uploaded and is awaiting authority approval.'));
         })
         .catch((error) => {
@@ -88,11 +91,12 @@ class UploadCard extends Component {
   );
   }
   rightIcon() {
+    console.log(this.props.user);
     return (
     <Icon
     name='done'
     color='#663300' underlayColor='#003366'
-    onPress={() => uploadImage(this.props.uri, this.props.locate, this.props.dbref, this.props.title)}
+    onPress={() => uploadImage(this.props.uri, this.props.locate, this.props.dbref, this.props.title, this.props.user)}
     />
   );
   }
@@ -145,6 +149,7 @@ const mapStateToProps = state => {
   return {
     locate: state.currentLocation,
     dbref: state.dbRef,
+    user: state.user
   };
 };
 

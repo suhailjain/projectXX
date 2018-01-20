@@ -110,3 +110,24 @@ export const parking = (park) => {
     payload: park
   };
 };
+
+export const gallerydata = (data) => {
+  return {
+    type: 'gallery',
+    payload: data
+  };
+};
+
+export const userPics = (posts) => {
+  return {
+    type: 'user_posts',
+    payload: posts
+  };
+};
+
+export const currentUser = (user) => {
+  return {
+    type: 'user',
+    payload: user
+  };
+};

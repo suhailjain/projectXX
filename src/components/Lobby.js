@@ -6,7 +6,7 @@ import { Header, Icon } from 'react-native-elements';
 import * as actions from '../actions';
 import Menu from './Menu';
 import DrawerModal from './common/DrawerModal';
-import ParkAssist from './ParkAssist';
+import fbAccess from './FirebaseConfig';
 
 const styles = StyleSheet.create({
   container: {
@@ -15,11 +15,56 @@ const styles = StyleSheet.create({
   },
 });
 
+const getGalleryData = () => {
+  const fbdb = fbAccess.database();
+  let pics = [];
+  // dbref = '/posts' || '/jPosts' || 'sPosts'
+  fbdb.ref(this.props.dbref).orderByChild('likes')
+  .on('child_added', (snapshot) => {
+    //reversing the like order and check for approved
+    if (snapshot.val().approved === 'Y') {
+    pics.unshift(snapshot.val());
+    this.setState({
+      datalist: pics
+    });
+    this.props.gallerydata(pics);
+  }
+});
+}
+
 class Lobby extends Component {
   constructor() {
     super();
     const { width, height } = Dimensions.get('window');
+    this.state = { user: '' };
   }
+  componentWillMount() {
+    this.getGallery();
+  }
+
+  getGallery() {
+    const fbdb = fbAccess.database();
+    console.log(this.props.curruser);
+    let pics = [];
+    let userPics = [];
+    // dbref = '/posts' || '/jPosts' || 'sPosts'
+    fbdb.ref(this.props.dbref).orderByChild('likes')
+    .on('child_added', (snapshot) => {
+      //reversing the like order and check for approved
+      if (this.props.curruser !== 'none') {
+      if (snapshot.val().user === this.props.curruser) {
+        console.log('equal');
+        userPics.unshift(snapshot.val());
+        this.props.userPics(userPics);
+      }
+    }
+      if (snapshot.val().approved === 'Y') {
+        pics.unshift(snapshot.val());
+        this.props.gallerydata(pics);
+    }
+  });
+  }
+
   checkForParking() {
     if (this.props.park === 'not_found') {
       Actions.camera();
@@ -62,7 +107,9 @@ const mapStateToProps = state => {
   return {
     locate: state.currentLocation,
     toggle: state.drawerState,
-    park: state.park
+    park: state.park,
+    dbref: state.dbRef,
+    curruser: state.user
   };
 };
 

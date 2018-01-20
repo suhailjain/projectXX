@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Header, Icon, Button } from 'react-native-elements';
 import EmailPass from '../login/EmailPass';
 import * as actions from '../../actions';
+import UserProfile from '../common/UserProfile';
 
 const styles = StyleSheet.create({
   container: {
@@ -38,6 +39,7 @@ rightIcon() {
       rightComponent={this.rightIcon()}
       />
         <EmailPass />
+        <UserProfile />
       </View>
     );
   }

@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  Text,
   View,
   Alert,
-  Dimensions
+  Dimensions,
+  Image,
+  TouchableOpacity
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { Icon, Button, Avatar } from 'react-native-elements';
+import { Icon, Button, Avatar, Divider } from 'react-native-elements';
 import fbAccess from '../FirebaseConfig';
 import * as actions from '../../actions';
 
@@ -22,12 +23,11 @@ const styles = StyleSheet.create({
   containerOuter: {
     flex: 1,
     backgroundColor: '#003366',
-    height: height * 1,
   },
   container: {
-    flex: 1,
+    flex: 0.8,
     justifyContent: 'center',
-    alignItems: 'center',
+    marginLeft: 10,
     backgroundColor: '#003366',
   },
   welcome: {
@@ -48,25 +48,28 @@ const loginCheck = () => {
 const DrawerMenu = (props) => {
   return (
     <View style={styles.containerOuter}>
+    <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', marginTop: 30, marginRight: 10 }}>
     <Icon
     name='navicon'
     type='font-awesome'
     underlayColor='#003366'
     color='#663300'
-    iconStyle={{ marginTop: 30 }}
     onPress={() => props.drawerState(true)}
     />
+    </View>
     <View style={styles.container}>
-    <Avatar
-      large
-      rounded
-      source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/unityone-65a80.appspot.com/o/backgrounds%2FFood.jpg?alt=media&token=cfac46b1-cc0d-4b2a-a4bf-4295f78bb861' }}
-      onPress={() => {
+    <View style={{ alignItems: 'center', marginBottom: 60 }}>
+    <TouchableOpacity
+    onPress={() => {
         props.drawerState(true);
         Actions.locationPicker();
-      }}
+    }}>
+    <Image
+      style={{ width: 120, height: 150 }}
+      source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/unityone-65a80.appspot.com/o/backgrounds%2FFood.jpg?alt=media&token=cfac46b1-cc0d-4b2a-a4bf-4295f78bb861' }}
     />
-
+    </TouchableOpacity>
+    </View>
     <View style={styles.row}>
       <Icon name='home' iconStyle={{ marginLeft: 5, color: '#ffffff' }} />
       <Button
@@ -77,8 +80,9 @@ const DrawerMenu = (props) => {
         Actions.lobby();
         }}
       />
-    </View>
 
+    </View>
+<Divider style={{ backgroundColor: '#663300' }} />
     <View style={styles.row}>
       <Icon name='movie' iconStyle={{ marginLeft: 5, color: '#ffffff' }} />
       <Button

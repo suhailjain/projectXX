@@ -2,39 +2,18 @@ import React, { Component } from 'react';
 import { View, FlatList, ScrollView, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import ImageItem from './ImageItem';
-import fbAccess from '../FirebaseConfig';
 //there is no data writing back to firebase here
 class ImageList extends Component {
-  constructor() {
-    super();
-    this.state = { datalist: [], isLoading: true };
-  }
-  componentWillMount() {
-    const fbdb = fbAccess.database();
-    let pics = [];
-    // dbref = '/posts' || '/jPosts' || 'sPosts'
-    fbdb.ref(this.props.dbref).orderByChild('likes')
-    .on('child_added', (snapshot) => {
-      //reversing the like order and check for approved
-      if (snapshot.val().approved === 'Y') {
-      pics.unshift(snapshot.val());
-      this.setState({
-        datalist: pics
-      });
-    }
-  });
-    this.setState({ isLoading: false });
-  }
   render() {
+    console.log(this.props.gallery);
     return (
       <ScrollView
       contentContainerStyle={{ flex: 1, marginBottom: 20 }}
       showsHorizontalScrollIndicator={false}
       showsVerticalScrollIndicator={false}
       >
-      <ActivityIndicator animating={this.state.isLoading} size='large' />
       <FlatList
-        data={this.state.datalist}
+        data={this.props.gallery}
         contentContainerStyle={{ justifyContent: 'center' }}
         renderItem={({ item }) => <ImageItem pic={item} />}
         contentContainerStyle={{ marginBottom: 20 }}
@@ -48,7 +27,8 @@ class ImageList extends Component {
 const mapStateToProps = (state) => {
   return {
     url: state.postsDB,
-    dbref: state.dbRef
+    dbref: state.dbRef,
+    gallery: state.gallery
   };
 };
 

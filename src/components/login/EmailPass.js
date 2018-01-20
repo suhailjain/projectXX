@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 });
-
 class EmailPass extends Component {
   constructor() {
     super();
@@ -34,7 +33,8 @@ class EmailPass extends Component {
   }
   isUserSignedIn = () => {
     const user = fbAccess.auth().currentUser;
-    if (user === null) {
+    if (user === null || user === '' || user === 'none') {
+      this.props.currentUser('none');
       return (
         <View>
         <View>
@@ -78,6 +78,7 @@ class EmailPass extends Component {
   }
   logout = () => {
     fbAccess.auth().signOut().then(() => Alert.alert('loggedOut successfuly'));
+    this.props.currentUser('none');
     Actions.pop();
   }
   handleEmail = (text) => {
@@ -87,13 +88,14 @@ class EmailPass extends Component {
     this.setState({ password: text });
   }
   login = (email, pass) => {
-    firebase.auth().signInWithEmailAndPassword(email, pass)
+    fbAccess.auth().signInWithEmailAndPassword(email, pass)
     .then(() => Alert.alert('you have loggedin successfuly'))
     .then(() => {
+      this.props.currentUser(fbAccess.auth().currentUser.uid);
       Actions.pop();
     })
     .catch(() => {
-      firebase.auth().createUserWithEmailAndPassword(email, pass)
+      fbAccess.auth().createUserWithEmailAndPassword(email, pass)
       .then(() => Alert.alert('you have signedup successfuly!'))
       .then(() => {
         // message of signing up

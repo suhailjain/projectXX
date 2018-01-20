@@ -15,6 +15,9 @@ import MovieShowReducer from './MovieShowReducer';
 import EventUrlReducer from './EventUrlReducer';
 import DayReducer from './DayReducer';
 import ParkingReducer from './ParkingReducer';
+import GalleryReducer from './GalleryReducer';
+import UserReducer from './UserReducer';
+import UserPostsReducer from './UserPostsReducer';
 
 export default combineReducers({
 
@@ -33,6 +36,9 @@ export default combineReducers({
   movieSelected: MovieReducer,
   eventURL: EventUrlReducer,
   day: DayReducer,
-  park: ParkingReducer
+  park: ParkingReducer,
+  gallery: GalleryReducer,
+  user: UserReducer,
+  userposts: UserPostsReducer
 
 });
