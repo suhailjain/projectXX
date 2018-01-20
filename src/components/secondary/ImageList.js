@@ -28,7 +28,6 @@ const mapStateToProps = (state) => {
   return {
     url: state.postsDB,
     dbref: state.dbRef,
-    gallery: state.gallery
   };
 };
 

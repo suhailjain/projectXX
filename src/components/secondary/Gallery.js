@@ -47,7 +47,7 @@ class Gallery extends Component {
       centerComponent={{ text: '', style: { color: '#fff' } }}
       rightComponent={this.rightIcon()}
       />
-      <ImageList />
+      <ImageList gallery={this.props.gallery} />
       </View>
     );
   }
@@ -55,7 +55,8 @@ class Gallery extends Component {
 
 const mapStateToProps = state => {
   return {
-    locate: state.currentLocation
+    locate: state.currentLocation,
+    gallery: state.gallery
   };
 };
 
