@@ -32,7 +32,7 @@ class EmailPass extends Component {
     this.state = { email: '', password: '', error: '', loggedIn: '' };
   }
   isUserSignedIn = () => {
-    const user = fbAccess.auth().currentUser;
+    const user = this.props.curruser;
     if (user === null || user === '' || user === 'none') {
       this.props.currentUser('none');
       return (
@@ -115,4 +115,10 @@ class EmailPass extends Component {
   }
 }
 
-export default connect(null, actions)(EmailPass);
+const mapStateToProps = state => {
+  return {
+    curruser: state.user
+  };
+};
+
+export default connect(mapStateToProps, actions)(EmailPass);
