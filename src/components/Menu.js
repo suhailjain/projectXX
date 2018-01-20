@@ -8,9 +8,24 @@ import fbAcess from './FirebaseConfig';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.8,
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    marginLeft: 7,
+    marginTop: 7,
+    marginRight: 7,
+    marginBottom: 7,
+    borderRadius: 2,
+    borderWidth: 1,
+    borderColor: '#d0d0d0',
+    shadowOffset: { width: 1, height: 1 },
+    shadowRadius: 3,
+    backgroundColor: '#ffffff',
+  },
+  text: {
+    color: '#003366',
+    fontSize: 24,
+    fontWeight: 'bold'
   },
 });
 let urlBackground = [];
@@ -27,7 +42,10 @@ class Menu extends Component {
   renderCinepolis() {
     if (this.props.location === 'Rohini') {
       return (
-        <Button title='Cinepolis' onPress={() => {
+        <Button
+        transparent={true}
+        textStyle={styles.text}
+        title='Cinepolis' onPress={() => {
           Actions.cinepolis();
         }}
         />
@@ -38,21 +56,27 @@ class Menu extends Component {
   return (
     <View style={styles.container}>
     <Button
-    rounded={true}
-    outline={true}
+    transparent={true}
+    textStyle={styles.text}
     title='Shopping' onPress={() => {
     this.props.purpose(true);
       Actions.storelist();
     }}
     />
 
-    <Button title='Food' onPress={() => {
+    <Button
+    transparent={true}
+    textStyle={styles.text}
+    title='Food' onPress={() => {
     this.props.purpose(false);
       Actions.foodlist();
     }}
     />
 
-    <Button title='Events' onPress={() => {
+    <Button
+    transparent={true}
+    textStyle={styles.text}
+    title='Events' onPress={() => {
       Actions.events();
     }}
     />

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { Button } from 'react-native-elements';
 import firebase from 'firebase';
+import UserProfile from '../common/UserProfile';
 import * as actions from '../../actions';
 import fbAccess from '../FirebaseConfig';
 
@@ -67,12 +68,15 @@ class EmailPass extends Component {
       );
     } else {
         return (
+          <View>
           <Button
           style={styles.submit}
           title='logOut'
           backgroundColor='#003366'
           onPress={() => this.logout()}
           />
+          <UserProfile />
+          </View>
         );
     }
   }

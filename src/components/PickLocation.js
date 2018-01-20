@@ -1,31 +1,54 @@
 import React, { Component } from 'react';
-import { View, StatusBar, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import { Button, Header, Divider } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import * as actions from '../actions';
 
 const styles = StyleSheet.create({
-  outerContainer: {
+  base: {
     flex: 1,
+  },
+  outerContainer: {
+    backgroundColor: '#ededed',
+    flex: 1,
+    justifyContent: 'center',
   },
   container: {
     flex: 1,
+    borderRadius: 2,
+    borderWidth: 1,
+    borderColor: '#d0d0d0',
     justifyContent: 'center',
-    backgroundColor: '#f2f2f2'
+    backgroundColor: '#ffffff',
+    marginLeft: 7,
+    marginTop: 7,
+    marginRight: 7,
+    marginBottom: 7,
   },
 });
 
 const { width, height } = Dimensions.get('window');
 
 class PickLocation extends Component {
+  title() {
+    return (
+      <Text style={{ color: '#ffffff', fontSize: 19, fontWeight: 'bold' }}>
+        Unity One
+      </Text>
+    );
+  }
   render() {
     return (
-        <View style={styles.outerContainer}>
+        <View style={styles.base}>
         <Header
+        statusBarProps={{ barStyle: 'light-content' }}
         backgroundColor='#003366'
-        centerComponent={{ text: 'Unity One', style: { color: '#fff' } }}
+        centerComponent={this.title()}
         />
+        <View
+        style={styles.outerContainer}
+        >
         <View style={styles.container}>
         <Button
         large
@@ -74,6 +97,7 @@ class PickLocation extends Component {
           Actions.lobby();
         }}
         />
+        </View>
         </View>
         </View>
     );

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import fbAccess from '../FirebaseConfig';
 import * as actions from '../../actions';
+import UserPicture from '../secondary/UserPicture';
 
 class UserProfile extends Component {
   componentWillMount() {
@@ -10,10 +11,8 @@ class UserProfile extends Component {
     const fbdb = fbAccess.database();
     console.log(this.props.curruser);
     let userPics = [];
-    // dbref = '/posts' || '/jPosts' || 'sPosts'
     fbdb.ref(this.props.dbref).orderByChild('likes')
     .on('child_added', (snapshot) => {
-      //reversing the like order and check for approved
       if (this.props.curruser !== 'none') {
       if (snapshot.val().user === this.props.curruser) {
         console.log('equal');
@@ -21,13 +20,27 @@ class UserProfile extends Component {
         this.props.userPics(userPics);
       }
     }
-    console.log(userPics);
   });
   }
   render() {
+    console.log(this.props.userpics);
     return (
       <View>
       <Text>Images uploaded by you</Text>
+      <ScrollView
+      contentContainerStyle={{ flex: 1, marginBottom: 20 }}
+      showsHorizontalScrollIndicator={false}
+      showsVerticalScrollIndicator={false}
+      >
+      <FlatList
+        data={this.props.userpics}
+        horizontal={true}
+        contentContainerStyle={{ flexDirection: 'row' }}
+        renderItem={({ item }) => <UserPicture pic={item} />}
+        contentContainerStyle={{ marginBottom: 20 }}
+        keyExtractor={item => item.id}
+      />
+      </ScrollView>
       </View>
     );
   }
