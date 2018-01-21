@@ -39,20 +39,36 @@ const likeHandle = (url, id, likes) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    flex: 1,
+    marginTop: 8,
+    marginLeft: 8,
+    marginRight: 8,
+    borderWidth: 1,
+    borderColor: '#d0d0d0',
+    backgroundColor: '#ffffff'
   },
   image: {
-    borderRadius: 20,
+    borderRadius: 5,
     width: width * 0.8,
-    height: height * 0.25,
-    justifyContent: 'center'
+    height: height * 0.24,
+    justifyContent: 'center',
   },
+  imageCont: {
+    marginTop: 5,
+    borderWidth: 1,
+    borderColor: '#d0d0d0',
+    paddingLeft: 3,
+    paddingRight: 3,
+    paddingTop: 3,
+    paddingBottom: 3,
+    backgroundColor: '#ffffff'
+  }
 });
 
 class ImageItem extends Component {
   render() {
     return (
       <View style={styles.container}>
+      <View style={styles.imageCont}>
       <TouchableOpacity onPress={() => {
         this.props.currentImage(this.props.pic.url);
         this.props.currentImageVisible(true);
@@ -63,6 +79,7 @@ class ImageItem extends Component {
         source={{ uri: this.props.pic.url }}
       />
       </TouchableOpacity>
+      </View>
       <Text>
       {this.props.pic.title}
       </Text>

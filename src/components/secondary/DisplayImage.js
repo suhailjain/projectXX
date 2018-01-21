@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
-import { Image, Text, View, CameraRoll, FlatList } from 'react-native';
+import { View, CameraRoll, FlatList, StyleSheet } from 'react-native';
 import ConfirmUploadView from './ConfirmUploadView';
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#ededed'
+  }
+});
 class DisplayImage extends Component {
   state = {
     photo: []
@@ -19,13 +25,14 @@ class DisplayImage extends Component {
       });
   }
   render() {
-    console.log(this.state.photo);
     return (
+      <View style={styles.container} >
       <FlatList
         data={this.state.photo}
         renderItem={({ item }) => <ConfirmUploadView pic={item} />}
         extraData={this.state}
       />
+      </View>
     );
   }
 }

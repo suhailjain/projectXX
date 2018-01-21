@@ -4,12 +4,28 @@ import { Header } from 'react-native-elements';
 import UploadCard from '../common/UploadCard';
 
 const styles = StyleSheet.create({
+  imageCont: {
+    marginTop: 10,
+    paddingTop: 3,
+    paddingLeft: 3,
+    paddingRight: 3,
+    paddingBottom: 3,
+    borderWidth: 2,
+    borderColor: '#d0d0d0'
+  },
   container: {
     flex: 1,
   },
   innerContainer: {
-    justifyContent: 'center',
-    alignItems: 'center'
+    flex: 1,
+    borderWidth: 1,
+    borderColor: '#d0d0d0',
+    alignItems: 'center',
+    backgroundColor: '#ffffff',
+    marginTop: 7,
+    marginLeft: 7,
+    marginRight: 7,
+    marginBottom: 7
   },
   image: {},
   upload: {},
@@ -28,21 +44,28 @@ class ConfirmUploadView extends Component {
   render() {
     return (
       <View style={styles.container}>
-      <UploadCard uri={this.props.pic.node.image.uri} title={this.state.title} />
-      <View style={styles.innerContainer} >
-      <Image
-        style={{ width: 300,
-        height: 300 }}
-        source={{ uri: this.props.pic.node.image.uri }}
-      />
-      <TextInput
-           underlineColorAndroid="transparent"
-           placeholder="what makes unity special ?"
-           placeholderTextColor="#9a73ef"
-           autoCapitalize="none"
-           onChangeText={this.title}
-      />
-      </View>
+        <UploadCard uri={this.props.pic.node.image.uri} title={this.state.title} />
+        <View style={styles.innerContainer} >
+
+          <View style={styles.imageCont}>
+            <Image
+            style={{ width: 300,
+              height: 300 }}
+              source={{ uri: this.props.pic.node.image.uri }}
+            />
+          </View>
+
+          <View style={styles.input}>
+          <TextInput
+            underlineColorAndroid="transparent"
+            placeholder="what makes unity special ?"
+            placeholderTextColor="#9a73ef"
+            autoCapitalize="none"
+            onChangeText={this.title}
+          />
+          </View>
+
+        </View>
       </View>
     );
   }
