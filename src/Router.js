@@ -29,7 +29,7 @@ class RouterComponent extends Component {
         <Scene key="movie" component={Movie} />
         <Scene key="connect" component={SocialConnect} />
         <Scene key="camera" component={CameraComponent} />
-        <Scene key="display" component={DisplayImage} initial />
+        <Scene key="display" component={DisplayImage} />
         <Scene key="storelist" component={StoreList} />
         <Scene key="foodlist" component={FoodList} />
         <Scene key="cinepolis" component={Cinepolis} />

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Image, Text, View, TextInput, StyleSheet } from 'react-native';
+import { Image, Text, View, TextInput, StyleSheet, Dimensions } from 'react-native';
 import { Header } from 'react-native-elements';
 import UploadCard from '../common/UploadCard';
 
+const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
   imageCont: {
     marginTop: 10,
@@ -18,6 +19,7 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     flex: 1,
+    height: (height * 1),
     borderWidth: 1,
     borderColor: '#d0d0d0',
     alignItems: 'center',

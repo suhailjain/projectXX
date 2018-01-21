@@ -7,13 +7,28 @@ import * as actions from '../../actions';
 import fbAccess from '../FirebaseConfig';
 
 const styles = StyleSheet.create({
+  picker: {
+    marginTop: 100,
+    backgroundColor: '#336600'
+  },
   container: {
     flex: 1,
-    backgroundColor: '#f2f2f2'
+    backgroundColor: '#ededed'
+  },
+  question: {
+    marginTop: 10,
+    fontSize: 18,
+    marginLeft: 7
   },
   innerContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    flex: 1,
+    borderWidth: 1,
+    borderColor: '#d0d0d0',
+    marginTop: 7,
+    marginLeft: 7,
+    marginRight: 7,
+    marginBottom: 7,
+    backgroundColor: '#ffffff',
   }
 });
 
@@ -23,7 +38,7 @@ const submit = (service, comment) => {
     fbAccess.database().ref(`/feedback/service/${service}`).child(`${user}`)
     .set(comment)
     .then(() => {
-    Alert.alert('appreciate your efforts to make us better');
+    Alert.alert('We appreciate your efforts to make us better');
   })
     .then(() => Actions.pop());
 };
@@ -62,8 +77,21 @@ rightIcon() {
       centerComponent={{ text: '', style: { color: '#fff' } }}
       rightComponent={this.rightIcon()}
       />
-      <Text>What is it about</Text>
-      <Picker selectedValue={this.state.service} onValueChange={this.update}>
+      <View style={styles.innerContainer}>
+      <Text style={styles.question}>What is it about</Text>
+      <View
+        style={{
+          height: 1,
+          width: "100%",
+          marginLeft: 7,
+          marginRight: 7,
+          marginTop: 3,
+          backgroundColor: "#ededed",
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+      />
+      <Picker sytle={styles.picker} selectedValue={this.state.service} onValueChange={this.update}>
          <Picker.Item label="Washroom" value="Washroom" />
          <Picker.Item label="Parking" value="Parking" />
          <Picker.Item label="Lift" value="Lift" />
@@ -81,6 +109,7 @@ rightIcon() {
       <Button
       title='send it across' onPress={() => submit(this.state.service, this.state.comment)}
       />
+      </View>
       </View>
     );
   }
