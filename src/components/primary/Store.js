@@ -19,12 +19,17 @@ class Store extends Component {
   render() {
   return (
     <View style={styles.container}>
+    <View style={styles.buttonCont}>
     <Button
+    style={styles.button}
+    transparent={true}
+    textStyle={styles.text}
     title={this.props.store.brand}
     onPress={() => {
       this.viewModal();
     }}
     />
+    </View>
     <Modal
     backdropOpacity={0.8}
     onBackdropPress={() => this.setState({ modalVisible: !this.state.modalVisible })}
@@ -46,6 +51,16 @@ class Store extends Component {
 }
 
 const styles = StyleSheet.create({
+  buttonCont: {
+    flex: 1,
+    backgroundColor: '#ffffff'
+  },
+  button: {
+    backgroundColor: '#ffffff' 
+  },
+  text: {
+    color: '#003366'
+  },
   modalContainer: {
     width: width * 0.9,
     height: height * 0.6,
@@ -64,7 +79,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#f2f2f2',
+    borderWidth: 1,
+    borderColor: '#d0d0d0'
   },
 });
 

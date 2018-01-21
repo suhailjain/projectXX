@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList, View, StyleSheet } from 'react-native';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
@@ -8,6 +8,19 @@ import Store from './Store';
 import * as actions from '../../actions';
 
 let url = 0;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#ededed'
+  },
+  innerContainer: {
+    flex: 1,
+    marginLeft: 7,
+    marginRight: 7,
+    marginTop: 7,
+    marginBottom: 7,
+  }
+});
 class FoodList extends Component {
 
   constructor() {
@@ -15,19 +28,14 @@ class FoodList extends Component {
     this.state = { storelist: [] };
 }
   componentWillMount() {
-    console.log(this.props.purpose);
-    console.log(this.props.foodurl);
-    console.log(this.props.storeurl);
-      url = this.props.foodurl;
+      axios.get(this.props.foodurl).then(response => {
+        this.setState({
+          storelist: response.data
+        });
+      });
   }
   componentDidMount() {
-    console.log(url);
-    axios.get(url).then(response => {
-      this.setState({
-        storelist: response.data
-      });
-      console.log(response.data);
-    });
+
   }
   menuIcon() {
     return (
@@ -43,21 +51,36 @@ rightIcon() {
     />
   );
 }
-  render() {
-    console.log(this.props.purpose);
+renderSeparator() {
     return (
-      <View>
+      <View
+        style={{
+          height: 3,
+          width: "100%",
+          backgroundColor: "#ededed",
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+      />
+    );
+  }
+  render() {
+    return (
+      <View style={styles.container}>
       <Header
       backgroundColor='#003366'
       leftComponent={this.menuIcon()}
       centerComponent={{ text: '', style: { color: '#fff' } }}
       rightComponent={this.rightIcon()}
       />
+      <View style={styles.innerContainer}>
       <FlatList
+        ItemSeparatorComponent={this.renderSeparator}
         data={this.state.storelist}
         renderItem={({ item }) => <Store store={item} />}
         keyExtractor={item => item.brand}
       />
+      </View>
       </View>
     );
   }
