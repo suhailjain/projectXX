@@ -1,11 +1,22 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, FlatList, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, FlatList, StyleSheet, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import fbAccess from '../FirebaseConfig';
 import * as actions from '../../actions';
 import UserPicture from '../secondary/UserPicture';
 
+const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
+  container: {
+    height: height - 7,
+    marginTop: 7,
+    marginLeft: 7,
+    marginRight: 7,
+    marginBottom: 7,
+    borderColor: '#d0d0d0',
+    borderWidth: 1,
+    backgroundColor: '#ffffff'
+  },
   heading: {
     fontSize: 17,
     paddingTop: 10,
@@ -46,8 +57,19 @@ class UserProfile extends Component {
   render() {
     console.log(this.props.userpics);
     return (
-      <View>
-      <Text>Images uploaded by you</Text>
+      <View style={styles.container}>
+      <View style={{ alignItems: 'center', marginTop: 7 }}>
+      <Text style={{ fontSize: 16 }}>Images uploaded by you</Text>
+      <View
+        style={{
+          height: 2,
+          width: '70%',
+          backgroundColor: "#000000",
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+      />
+      </View>
       <ScrollView
       contentContainerStyle={{ marginBottom: 20 }}
       showsHorizontalScrollIndicator={false}

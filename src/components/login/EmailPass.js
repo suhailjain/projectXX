@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, Alert, StyleSheet, Dimensions } from 'react-native';
+import { View, TextInput, Alert, StyleSheet, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { Button } from 'react-native-elements';
-import firebase from 'firebase';
 import UserProfile from '../common/UserProfile';
 import * as actions from '../../actions';
 import fbAccess from '../FirebaseConfig';
@@ -11,6 +10,16 @@ import fbAccess from '../FirebaseConfig';
 const { width, height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
+  logout: {
+    backgroundColor: '#ffffff',
+    paddingBottom: 5,
+    paddingTop: 5,
+    marginRight: 7,
+    marginLeft: 7,
+    marginTop: 7,
+    borderColor: '#d0d0d0',
+    borderWidth: 1
+  },
 });
 let user = '';
 class EmailPass extends Component {
@@ -31,7 +40,7 @@ class EmailPass extends Component {
              placeholderTextColor="#003366"
              autoCapitalize="none"
              onChangeText={this.handleEmail}
-           />
+            />
 
             <TextInput
              style={styles.password}
@@ -53,11 +62,14 @@ class EmailPass extends Component {
     } else {
         return (
           <View>
+              <View style={styles.logout}>
               <Button
-                  title='logOut'
-                  backgroundColor='#003366'
+                  title='Log out'
+                  textStyle={{ color: '#003366' }}
+                  backgroundColor='#ffffff'
                   onPress={() => this.logout()}
               />
+              </View>
               <UserProfile />
           </View>
         );
