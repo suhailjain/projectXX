@@ -44,7 +44,6 @@ class Lobby extends Component {
 
   getGallery() {
     const fbdb = fbAccess.database();
-    console.log(this.props.curruser);
     let pics = [];
     let userPics = [];
     // dbref = '/posts' || '/jPosts' || 'sPosts'

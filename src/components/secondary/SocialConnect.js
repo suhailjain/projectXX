@@ -10,7 +10,7 @@ import UserProfile from '../common/UserProfile';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f2f2f2'
+    backgroundColor: '#ededed'
   },
 });
 
@@ -39,7 +39,6 @@ rightIcon() {
       rightComponent={this.rightIcon()}
       />
         <EmailPass />
-        <UserProfile />
       </View>
     );
   }

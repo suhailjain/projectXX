@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, FlatList } from 'react-native';
+import { View, Text, ScrollView, FlatList, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import fbAccess from '../FirebaseConfig';
 import * as actions from '../../actions';
 import UserPicture from '../secondary/UserPicture';
+
+const styles = StyleSheet.create({
+  heading: {
+    fontSize: 17,
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
+});
 
 class UserProfile extends Component {
   componentWillMount() {
@@ -22,23 +30,37 @@ class UserProfile extends Component {
     }
   });
   }
+  renderSeparator() {
+      return (
+        <View
+          style={{
+            height: 50,
+            width: 4,
+            backgroundColor: "#ededed",
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
+        />
+      );
+    }
   render() {
     console.log(this.props.userpics);
     return (
       <View>
       <Text>Images uploaded by you</Text>
       <ScrollView
-      contentContainerStyle={{ flex: 1, marginBottom: 20 }}
+      contentContainerStyle={{ marginBottom: 20 }}
       showsHorizontalScrollIndicator={false}
       showsVerticalScrollIndicator={false}
       >
       <FlatList
         data={this.props.userpics}
         horizontal={true}
-        contentContainerStyle={{ flexDirection: 'row' }}
         renderItem={({ item }) => <UserPicture pic={item} />}
-        contentContainerStyle={{ marginBottom: 20 }}
         keyExtractor={item => item.id}
+        ItemSeparatorComponent={this.renderSeparator}
+        contentContainerStyle={{
+      }}
       />
       </ScrollView>
       </View>

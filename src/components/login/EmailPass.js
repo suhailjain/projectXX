@@ -11,78 +11,60 @@ import fbAccess from '../FirebaseConfig';
 const { width, height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: width * 1,
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  email: {
-    width: width * 0.85,
-  },
-  password: {
-    marginTop: 10,
-  },
-  submit: {
-    marginTop: 10,
-  },
 });
+let user = '';
 class EmailPass extends Component {
   constructor() {
     super();
     this.state = { email: '', password: '', error: '', loggedIn: '' };
   }
+  componentWillMount() {
+    user = fbAccess.auth().currentUser.uid;
+  }
   isUserSignedIn = () => {
-    const user = this.props.curruser;
-    if (user === null || user === '' || user === 'none') {
-      this.props.currentUser('none');
+    if (!((user !== null) && (user.uid !== '') && (user.uid !== 'none'))) {
       return (
         <View>
-        <View>
-        <TextInput
-          style={styles.email}
+            <TextInput
              underlineColorAndroid="transparent"
              placeholder="Email"
              placeholderTextColor="#003366"
              autoCapitalize="none"
              onChangeText={this.handleEmail}
-        />
-        </View>
-        <View>
-        <TextInput
-          style={styles.password}
+           />
+
+            <TextInput
+             style={styles.password}
              underlineColorAndroid="transparent"
              placeholder="Password"
              placeholderTextColor="#003366"
              autoCapitalize="none"
              onChangeText={this.handlePassword}
-        />
-        <Button
-        style={styles.submit}
-        title='SignUp/Login'
-        backgroundColor='#003366'
-        onPress={() => this.login(this.state.email, this.state.password)}
-        />
-        </View>
+            />
+
+         <Button
+          style={styles.submit}
+          title='SignUp/Login'
+          backgroundColor='#003366'
+          onPress={() => this.login(this.state.email, this.state.password)}
+         />
         </View>
       );
     } else {
         return (
           <View>
-          <Button
-          style={styles.submit}
-          title='logOut'
-          backgroundColor='#003366'
-          onPress={() => this.logout()}
-          />
-          <UserProfile />
+              <Button
+                  title='logOut'
+                  backgroundColor='#003366'
+                  onPress={() => this.logout()}
+              />
+              <UserProfile />
           </View>
         );
     }
   }
   logout = () => {
     fbAccess.auth().signOut().then(() => Alert.alert('loggedOut successfuly'));
-    this.props.currentUser('none');
     Actions.pop();
   }
   handleEmail = (text) => {

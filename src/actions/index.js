@@ -124,10 +124,3 @@ export const userPics = (posts) => {
     payload: posts
   };
 };
-
-export const currentUser = (user) => {
-  return {
-    type: 'user',
-    payload: user
-  };
-};

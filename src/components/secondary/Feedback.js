@@ -33,9 +33,10 @@ const styles = StyleSheet.create({
 });
 
 const submit = (service, comment) => {
-    console.log('submit');
     const user = fbAccess.auth().currentUser.uid;
-    fbAccess.database().ref(`/feedback/service/${service}`).child(`${user}`)
+    const url = `${feedRef}/service/${service}`;
+    console.log(url);
+    fbAccess.database().ref(url).child(`${user}`)
     .set(comment)
     .then(() => {
     Alert.alert('We appreciate your efforts to make us better');
@@ -43,10 +44,32 @@ const submit = (service, comment) => {
     .then(() => Actions.pop());
 };
 
+let feedRef = '';
+
 class Feedback extends Component {
   constructor() {
     super();
     this.state = { service: 'Washroom', comment: '' };
+  }
+  componentWillMount() {
+    switch (this.props.location) {
+      case 'Rohini': {
+        feedRef = 'feedback';
+        break;
+      }
+      case 'Shahadra': {
+        feedRef = 'sfeedback';
+        break;
+      }
+      case 'Janakpuri': {
+        feedRef = 'jfeedback';
+        break;
+      }
+      default: {
+        feedRef = 'feedback';
+        break;
+      }
+    }
   }
   update = (selected) => {
       this.setState({ service: selected });
@@ -115,4 +138,10 @@ rightIcon() {
   }
 }
 
-export default connect(null, actions)(Feedback);
+const mapStateToProps = state => {
+  return {
+    location: state.currentLocation
+  };
+};
+
+export default connect(mapStateToProps, actions)(Feedback);

@@ -38,10 +38,11 @@ const styles = StyleSheet.create({
 });
 
 const loginCheck = () => {
-  if (fbAccess.auth().currentUser === null) {
-  return false;
+  console.log(fbAccess.auth().currentUser.uid);
+  if (fbAccess.auth().currentUser !== null && (fbAccess.auth().currentUser.uid !== 'none')) {
+  return true;
   } else {
-    return true;
+    return false;
   }
 };
 
