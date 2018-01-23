@@ -71,7 +71,7 @@ class UserProfile extends Component {
       />
       </View>
       <ScrollView
-      contentContainerStyle={{ marginBottom: 20 }}
+      contentContainerStyle={{ marginBottom: 20, marginTop: 70 }}
       showsHorizontalScrollIndicator={false}
       showsVerticalScrollIndicator={false}
       >

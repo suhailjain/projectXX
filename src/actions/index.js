@@ -124,3 +124,10 @@ export const userPics = (posts) => {
     payload: posts
   };
 };
+
+export const userSelects = (id) => {
+  return {
+    type: 'user_self',
+    payload: id
+  };
+};

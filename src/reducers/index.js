@@ -17,6 +17,7 @@ import DayReducer from './DayReducer';
 import ParkingReducer from './ParkingReducer';
 import GalleryReducer from './GalleryReducer';
 import UserPostsReducer from './UserPostsReducer';
+import UserSelectedImageReducer from './UserSelectedImageReducer';
 
 export default combineReducers({
 
@@ -37,6 +38,7 @@ export default combineReducers({
   day: DayReducer,
   park: ParkingReducer,
   gallery: GalleryReducer,
-  userposts: UserPostsReducer
+  userposts: UserPostsReducer,
+  carousel: UserSelectedImageReducer
 
 });
