@@ -33,18 +33,6 @@ class UserPicture extends Component {
       return styles.smallImage;
     }
   }
-  showDetails() {
-    if (this.props.selected === this.props.pic.id) {
-      return (
-        <View style={{ marginTop: 15 }}>
-        <Text>{this.props.pic.approved}</Text>
-        <Text>{this.props.pic.likes}</Text>
-        </View>
-      );
-    } else {
-      return;
-    }
-  }
   render() {
     return (
       <View>
@@ -60,9 +48,6 @@ class UserPicture extends Component {
         source={{ uri: this.props.pic.url }}
         />
       </TouchableOpacity>
-      </View>
-      <View>
-      {this.showDetails()}
       </View>
       </View>
     );

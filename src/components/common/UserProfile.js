@@ -40,6 +40,15 @@ class UserProfile extends Component {
     }
   });
   }
+  resolveApproval() {
+    if (this.props.approvalStat === 'Y') {
+      return 'Hollllaah, its approved';
+    } else if (this.props.approvalStat === 'N') {
+      return 'pending...';
+    } else if (this.props.approvalStat === '') {
+      return 'select an image to get its approval status';
+    }
+  }
   renderSeparator() {
       return (
         <View
@@ -73,7 +82,7 @@ class UserProfile extends Component {
           </View>
 
           <ScrollView
-          contentContainerStyle={{ marginLeft: 15, marginRight: 15, marginBottom: 20, marginTop: 70 }}
+          contentContainerStyle={{ marginLeft: 15, marginRight: 15, marginBottom: 10, marginTop: 70 }}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           >
@@ -89,7 +98,10 @@ class UserProfile extends Component {
           </ScrollView>
 
       </View>
-      <View style={{ backgroundColor: '#336600' }} />
+      <View style={styles.container}>
+      <Text>{this.resolveApproval()}</Text>
+      <Text>{this.props.likesCount}</Text>
+      </View>
       </View>
     );
   }
