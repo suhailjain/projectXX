@@ -6,36 +6,64 @@ import * as actions from '../../actions';
 
 const styles = StyleSheet.create({
   smallImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 25
-  },
-  largeImage: {
     width: 100,
     height: 100,
-    borderRadius: 50
+    borderRadius: 50,
+    borderWidth: 1,
+    borderColor: '#000000'
+  },
+  largeImage: {
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    borderWidth: 2,
+    borderColor: '#000000'
   }
 });
 class UserPicture extends Component {
+  constructor() {
+    super();
+  }
 
   selectStyle() {
+    console.log(this.props.selected);
     if (this.props.selected === this.props.pic.id) {
       return styles.largeImage;
     } else {
       return styles.smallImage;
     }
   }
+  showDetails() {
+    if (this.props.selected === this.props.pic.id) {
+      return (
+        <View style={{ marginTop: 15 }}>
+        <Text>{this.props.pic.approved}</Text>
+        <Text>{this.props.pic.likes}</Text>
+        </View>
+      );
+    } else {
+      return;
+    }
+  }
   render() {
-    console.log(this.props.selected);
-    console.log(this.props.pic.id);
     return (
       <View>
-      <TouchableOpacity onPress={() => this.props.userSelects(this.props.pic.id)}>
+      <View style={{ alignItems: 'center' }}>
+      <TouchableOpacity
+      onPress={() => {
+        this.props.userSelects(this.props.pic.id);
+        this.props.approval(this.props.pic.approved);
+        this.props.likes(this.props.pic.likes);
+    }}>
         <Image
         style={this.selectStyle()}
         source={{ uri: this.props.pic.url }}
         />
       </TouchableOpacity>
+      </View>
+      <View>
+      {this.showDetails()}
+      </View>
       </View>
     );
   }

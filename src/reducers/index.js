@@ -18,6 +18,8 @@ import ParkingReducer from './ParkingReducer';
 import GalleryReducer from './GalleryReducer';
 import UserPostsReducer from './UserPostsReducer';
 import UserSelectedImageReducer from './UserSelectedImageReducer';
+import ApprovalReducer from './ApprovalReducer';
+import LikeReducer from './LikeReducer';
 
 export default combineReducers({
 
@@ -39,6 +41,8 @@ export default combineReducers({
   park: ParkingReducer,
   gallery: GalleryReducer,
   userposts: UserPostsReducer,
-  carousel: UserSelectedImageReducer
+  carousel: UserSelectedImageReducer,
+  approvalstatus: ApprovalReducer,
+  likecount: LikeReducer
 
 });

@@ -125,9 +125,23 @@ export const userPics = (posts) => {
   };
 };
 
-export const userSelects = (id) => {
+export const userSelects = (pic) => {
   return {
     type: 'user_self',
-    payload: id
+    payload: pic
+  };
+};
+
+export const approval = (status) => {
+  return {
+    type: 'approval',
+    payload: status
+  };
+};
+
+export const likes = (count) => {
+  return {
+    type: 'likes',
+    payload: count
   };
 };

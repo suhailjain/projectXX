@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { Header, Icon } from 'react-native-elements';
+import { Actions } from 'react-native-router-flux';
 import MovieList from './MovieList';
 import * as actions from '../../actions';
 
@@ -15,8 +16,8 @@ const styles = StyleSheet.create({
 class Cinepolis extends Component {
   menuIcon() {
     return (
-    <Icon name='menu' color='#663300' onPress={() => this.props.drawerState(false)} />
-  );
+      <Icon name='navigate-before' color='#663300' underlayColor='#003366' onPress={() => Actions.pop()} />
+    );
 }
 rightIcon() {
   return (

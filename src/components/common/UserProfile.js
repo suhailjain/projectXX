@@ -8,7 +8,6 @@ import UserPicture from '../secondary/UserPicture';
 const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
-    height: height - 7,
     marginTop: 7,
     marginLeft: 7,
     marginRight: 7,
@@ -45,9 +44,9 @@ class UserProfile extends Component {
       return (
         <View
           style={{
-            height: 50,
+            height: 120,
             width: 4,
-            backgroundColor: "#ededed",
+            backgroundColor: "#ffffff",
             justifyContent: 'center',
             alignItems: 'center'
           }}
@@ -55,36 +54,42 @@ class UserProfile extends Component {
       );
     }
   render() {
-    console.log(this.props.userpics);
+    console.log(this.props.approvalStat);
+    console.log(this.props.likesCount);
     return (
-      <View style={styles.container}>
-      <View style={{ alignItems: 'center', marginTop: 7 }}>
-      <Text style={{ fontSize: 16 }}>Images uploaded by you</Text>
-      <View
-        style={{
-          height: 2,
-          width: '70%',
-          backgroundColor: "#000000",
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}
-      />
+      <View>
+        <View style={styles.container}>
+          <View style={{ alignItems: 'center', marginTop: 7 }}>
+              <Text style={{ fontSize: 16 }}>Images uploaded by you</Text>
+                <View
+                  style={{
+                  height: 1,
+                  width: '70%',
+                  backgroundColor: "#000000",
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
+                />
+          </View>
+
+          <ScrollView
+          contentContainerStyle={{ marginLeft: 15, marginRight: 15, marginBottom: 20, marginTop: 70 }}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          >
+          <FlatList
+          data={this.props.userpics}
+          horizontal={true}
+          renderItem={({ item }) => <UserPicture pic={item} />}
+          keyExtractor={item => item.id}
+          ItemSeparatorComponent={this.renderSeparator}
+          contentContainerStyle={{ alignItems: 'center'
+          }}
+          />
+          </ScrollView>
+
       </View>
-      <ScrollView
-      contentContainerStyle={{ marginBottom: 20, marginTop: 70 }}
-      showsHorizontalScrollIndicator={false}
-      showsVerticalScrollIndicator={false}
-      >
-      <FlatList
-        data={this.props.userpics}
-        horizontal={true}
-        renderItem={({ item }) => <UserPicture pic={item} />}
-        keyExtractor={item => item.id}
-        ItemSeparatorComponent={this.renderSeparator}
-        contentContainerStyle={{
-      }}
-      />
-      </ScrollView>
+      <View style={{ backgroundColor: '#336600' }} />
       </View>
     );
   }
@@ -94,7 +99,10 @@ const mapStateToProps = state => {
   return {
     userpics: state.userposts,
     curruser: state.user,
-    dbref: state.dbRef
+    dbref: state.dbRef,
+    selected: state.carousel,
+    approvalStat: state.approvalstatus,
+    likesCount: state.likecount
   };
 };
 

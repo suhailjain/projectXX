@@ -28,7 +28,7 @@ class EmailPass extends Component {
     this.state = { email: '', password: '', error: '', loggedIn: '' };
   }
   componentWillMount() {
-    user = fbAccess.auth().currentUser.uid;
+    user = fbAccess.auth().currentUser;
   }
   isUserSignedIn = () => {
     if (!((user !== null) && (user.uid !== '') && (user.uid !== 'none'))) {
