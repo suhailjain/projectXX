@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, ScrollView, FlatList, StyleSheet, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
+import { Button } from 'react-native-elements';
 import fbAccess from '../FirebaseConfig';
 import * as actions from '../../actions';
 import UserPicture from '../secondary/UserPicture';
@@ -21,6 +22,9 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
   },
+  request: {
+    
+  }
 });
 
 class UserProfile extends Component {
@@ -101,6 +105,11 @@ class UserProfile extends Component {
       <View style={styles.container}>
       <Text>{this.resolveApproval()}</Text>
       <Text>{this.props.likesCount}</Text>
+      <Button
+      title='request a faster approval process'
+      onPress={() => console.log('submit')}
+      style={styles.request}
+      />
       </View>
       </View>
     );

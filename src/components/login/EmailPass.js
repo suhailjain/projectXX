@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TextInput, Alert, StyleSheet, Dimensions } from 'react-native';
+import { View, TextInput, Alert, StyleSheet, Dimensions, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { Button } from 'react-native-elements';
@@ -20,12 +20,15 @@ const styles = StyleSheet.create({
     borderColor: '#d0d0d0',
     borderWidth: 1
   },
+  activityIndicator: {
+
+  }
 });
 let user = '';
 class EmailPass extends Component {
   constructor() {
     super();
-    this.state = { email: '', password: '', error: '', loggedIn: '' };
+    this.state = { email: '', password: '', error: '', loggedIn: '', loading: false };
   }
   componentWillMount() {
     user = fbAccess.auth().currentUser;
@@ -76,7 +79,11 @@ class EmailPass extends Component {
     }
   }
   logout = () => {
-    fbAccess.auth().signOut().then(() => Alert.alert('loggedOut successfuly'));
+    this.setState({ loading: !this.state.loading });
+    fbAccess.auth().signOut().then(() => {
+      this.setState({ loading: !this.state.loading });
+      Alert.alert('loggedOut successfuly');
+    });
     Actions.pop();
   }
   handleEmail = (text) => {
@@ -86,8 +93,12 @@ class EmailPass extends Component {
     this.setState({ password: text });
   }
   login = (email, pass) => {
+    this.setState({ loading: !this.state.loading });
     fbAccess.auth().signInWithEmailAndPassword(email, pass)
-    .then(() => Alert.alert('you have loggedin successfuly'))
+    .then(() => {
+      this.setState({ loading: !this.state.loading });
+      Alert.alert('you have loggedin successfuly');
+    })
     .then(() => {
       this.props.currentUser(fbAccess.auth().currentUser.uid);
       Actions.pop();
@@ -108,6 +119,12 @@ class EmailPass extends Component {
     return (
       <View style={styles.container}>
       {this.isUserSignedIn()}
+      <ActivityIndicator
+               animating={this.state.loading}
+               color='#bc2b78'
+               size='large'
+               style={styles.activityIndicator}
+      />
       </View>
     );
   }

@@ -2,14 +2,16 @@ import React, { Component } from 'react';
 import { Text, View, StyleSheet, TextInput, Alert, Picker } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { Header, Icon, Button } from 'react-native-elements';
+import { Header, Icon, Button, Rating } from 'react-native-elements';
 import * as actions from '../../actions';
 import fbAccess from '../FirebaseConfig';
 
 const styles = StyleSheet.create({
+  rate: {
+    marginTop: 15
+  },
   picker: {
-    marginTop: 100,
-    backgroundColor: '#336600'
+    marginTop: 60,
   },
   container: {
     flex: 1,
@@ -33,6 +35,10 @@ const styles = StyleSheet.create({
 });
 
 const submit = (service, comment) => {
+  if (comment === '') {
+    Alert.alert('even a single adjective would be enough, please.');
+    return;
+  }
     const user = fbAccess.auth().currentUser.uid;
     const url = `${feedRef}/service/${service}`;
     console.log(url);
@@ -45,11 +51,11 @@ const submit = (service, comment) => {
 };
 
 let feedRef = '';
-
+let detail = false;
 class Feedback extends Component {
   constructor() {
     super();
-    this.state = { service: 'Washroom', comment: '' };
+    this.state = { service: 'Washroom', comment: '', feedtype: '' };
   }
   componentWillMount() {
     switch (this.props.location) {
@@ -91,6 +97,45 @@ rightIcon() {
     />
   );
 }
+feedmethod() {
+  if (this.state.feedtype === 'written') {
+  return (
+    <View>
+    <TextInput
+       multiline={true}
+       placeholder="Elaborate a bit to help us understand better."
+       placeholderTextColor="#9a73ef"
+       autoCapitalize="none"
+       onChangeText={this.comment}
+    />
+    <Button
+    title='send it across' onPress={() => submit(this.state.service, this.state.comment)}
+    />
+    </View>
+  );
+} else if (this.state.feedtype === 'rating') {
+  return (
+    <View>
+    <Rating
+      type="rocket"
+      ratingCount={10}
+      fractions={2}
+      startingValue={4.5}
+      imageSize={15}
+      onFinishRating={this.ratingCompleted}
+      showRating
+      style={{}}
+    />
+    <Button
+    title='send it across' onPress={() => submit(this.state.service, this.state.comment)}
+    />
+    </View>
+  );
+}
+}
+ratingCompleted(rating) {
+  console.log(rating);
+}
   render() {
     return (
       <View style={styles.container}>
@@ -101,7 +146,7 @@ rightIcon() {
       rightComponent={this.rightIcon()}
       />
       <View style={styles.innerContainer}>
-      <Text style={styles.question}>What is it about</Text>
+      <Text style={styles.question}>We would love to hear it from you, about</Text>
       <View
         style={{
           height: 1,
@@ -121,17 +166,26 @@ rightIcon() {
          <Picker.Item label="Store" value="Store" />
          <Picker.Item label="Suggestion" value="Suggestion" />
       </Picker>
-      <Text>anddd...</Text>
-      <TextInput
-         multiline={true}
-         placeholder="Elaborate a bit to help us understand your concern.."
-         placeholderTextColor="#9a73ef"
-         autoCapitalize="none"
-         onChangeText={this.comment}
-      />
       <Button
-      title='send it across' onPress={() => submit(this.state.service, this.state.comment)}
+      textStyle={{ color: '#000000' }}
+      transparent
+      onPress={() => {
+        this.setState({ feedtype: 'written' });
+      }}
+      title='i will write about the service selected'
+      style={styles.write}
       />
+      {this.feedmethod()}
+      <Button
+      textStyle={{ color: '#000000' }}
+      transparent
+      onPress={() => {
+        this.setState({ feedtype: 'rating' });
+      }}
+      title='i think i did rather rate it on 10'
+      style={styles.rate}
+      />
+
       </View>
       </View>
     );

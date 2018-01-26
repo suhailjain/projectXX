@@ -1,14 +1,27 @@
-/*  <View styles={styles.row}>
-  <Button
-  icon={{ name: 'note' }}
-  backgroundColor='#003366'
-    title='Surveys'
-    onPress={() => {
-      if (loginCheck()) {
-      props.drawerState(true);
-      Actions.feedback();
-    } else {
-      Alert.alert('login is must');
-    }
-  }}
-  /> */
+/*<Button
+transparent
+textStyle={styles.text}
+title='Shopping' onPress={() => {
+this.props.purpose(true);
+  Actions.storelist();
+}}
+/>
+
+<Button
+transparent
+textStyle={styles.text}
+title='Food' onPress={() => {
+this.props.purpose(false);
+  Actions.foodlist();
+}}
+/>
+
+<Button
+transparent
+textStyle={styles.text}
+title='Events' onPress={() => {
+  Actions.events();
+}}
+/>
+
+{this.renderCinepolis()}*/
