@@ -7,6 +7,7 @@ import * as actions from '../actions';
 import Menu from './Menu';
 import DrawerModal from './common/DrawerModal';
 import fbAccess from './FirebaseConfig';
+import Spinner from './common/Spinner';
 
 const styles = StyleSheet.create({
   container: {
@@ -36,9 +37,10 @@ class Lobby extends Component {
   constructor() {
     super();
     const { width, height } = Dimensions.get('window');
-    this.state = { user: '' };
+    this.state = { user: '', loading: true };
   }
   componentWillMount() {
+    this.setState({ loading: !this.state.loading });
     this.getGallery();
   }
 
@@ -97,6 +99,7 @@ class Lobby extends Component {
         />
         <Menu location={this.props.locate} />
         <DrawerModal visible={this.props.toggle} />
+        <Spinner loading={this.state.loading} />
         </View>
     );
   }

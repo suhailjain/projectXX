@@ -20,6 +20,7 @@ import UserPostsReducer from './UserPostsReducer';
 import UserSelectedImageReducer from './UserSelectedImageReducer';
 import ApprovalReducer from './ApprovalReducer';
 import LikeReducer from './LikeReducer';
+import LoadingReducer from './LoadingReducer';
 
 export default combineReducers({
 
@@ -43,6 +44,7 @@ export default combineReducers({
   userposts: UserPostsReducer,
   carousel: UserSelectedImageReducer,
   approvalstatus: ApprovalReducer,
-  likecount: LikeReducer
+  likecount: LikeReducer,
+  loading: LoadingReducer
 
 });

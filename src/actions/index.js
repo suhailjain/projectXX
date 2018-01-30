@@ -145,3 +145,10 @@ export const likes = (count) => {
     payload: count
   };
 };
+
+export const loading = (mode) => {
+  return {
+    type: 'loading',
+    payload: mode
+  };
+};

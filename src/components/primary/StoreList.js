@@ -6,6 +6,7 @@ import { Actions } from 'react-native-router-flux';
 import { Header, Icon } from 'react-native-elements';
 import Store from './Store';
 import * as actions from '../../actions';
+import Spinner from '../common/Spinner';
 
 let url = 0;
 
@@ -27,18 +28,19 @@ class StoreList extends Component {
 
   constructor() {
     super();
-    this.state = { storelist: [] };
+    this.state = { storelist: [], loading: false };
 }
   componentWillMount() {
+    this.props.loading(false);
       url = this.props.storeurl;
   }
   componentDidMount() {
     console.log(url);
+    this.setState({ loading: this.props.loading });
     axios.get(url).then(response => {
       this.setState({
         storelist: response.data
       });
-      console.log(response.data);
     });
   }
   menuIcon() {
@@ -93,6 +95,7 @@ renderSeparator() {
 const mapStateToProps = state => {
   return {
     storeurl: state.storeDB,
+    loading: state.loading
   };
 };
 

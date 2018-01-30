@@ -54,23 +54,26 @@ const DrawerMenu = (props) => {
     name='navicon'
     type='font-awesome'
     underlayColor='#003366'
-    color='#663300'
+    color='#ffffff'
     onPress={() => props.drawerState(true)}
     />
     </View>
-    <View style={styles.container}>
-    <View style={{ alignItems: 'center', marginBottom: 60 }}>
+
+    <View style={{ alignItems: 'center', marginTop: 60 }}>
     <TouchableOpacity
     onPress={() => {
         props.drawerState(true);
         Actions.locationPicker();
-    }}>
+    }}
+    >
     <Image
-      style={{ width: 120, height: 150 }}
+      style={{ width: 150, height: 150, borderRadius: 75 }}
       source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/unityone-65a80.appspot.com/o/backgrounds%2FFood.jpg?alt=media&token=cfac46b1-cc0d-4b2a-a4bf-4295f78bb861' }}
     />
     </TouchableOpacity>
     </View>
+
+    <View style={styles.container}>
     <View style={styles.row}>
       <Icon name='home' iconStyle={{ marginLeft: 5, color: '#ffffff' }} />
       <Button
@@ -81,9 +84,15 @@ const DrawerMenu = (props) => {
         Actions.lobby();
         }}
       />
-
     </View>
-<Divider style={{ backgroundColor: '#663300' }} />
+    <View
+      style={{
+        height: 1,
+        backgroundColor: "#ffffff",
+        marginRight: 10
+      }}
+    />
+
     <View style={styles.row}>
       <Icon name='movie' iconStyle={{ marginLeft: 5, color: '#ffffff' }} />
       <Button
@@ -95,6 +104,13 @@ const DrawerMenu = (props) => {
         }}
       />
     </View>
+    <View
+      style={{
+        height: 1,
+        backgroundColor: "#ffffff",
+        marginRight: 10
+      }}
+    />
 
     <View style={styles.row}>
       <Icon name='collections' iconStyle={{ marginLeft: 5, color: '#ffffff' }} />
@@ -107,6 +123,13 @@ const DrawerMenu = (props) => {
       }}
       />
     </View>
+    <View
+      style={{
+        height: 1,
+        backgroundColor: "#ffffff",
+        marginRight: 10
+      }}
+    />
 
     <View style={styles.row}>
     <Icon name='feedback' iconStyle={{ marginLeft: 5, color: '#ffffff' }} />
@@ -123,6 +146,13 @@ const DrawerMenu = (props) => {
         }}
       />
     </View>
+    <View
+      style={{
+        height: 1,
+        backgroundColor: "#ffffff",
+        marginRight: 10
+      }}
+    />
 
       <View style={styles.row}>
       <Icon name='group' iconStyle={{ marginLeft: 5, color: '#ffffff' }} />
@@ -135,6 +165,13 @@ const DrawerMenu = (props) => {
       }}
       />
       </View>
+      <View
+        style={{
+          height: 1,
+          backgroundColor: "#ffffff",
+          marginRight: 10
+        }}
+      />
 
       <View style={styles.row}>
       <Icon name='info' iconStyle={{ marginLeft: 5, color: '#ffffff' }} />

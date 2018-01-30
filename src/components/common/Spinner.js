@@ -1,11 +1,21 @@
 import React from 'react';
 import { View, ActivityIndicator } from 'react-native';
+import Modal from 'react-native-modal';
 
-const Spinner = ({ size }) => {
+const Spinner = (props) => {
+  console.log(props.loading);
   return (
+    <Modal
+    isVisible={props.loading}
+    >
     <View style={styles.spinnerStyle}>
-      <ActivityIndicator size={size || 'large'} />
+      <ActivityIndicator
+      animating={true}
+      size='large'
+      />
     </View>
+    </Modal>
+
   );
 };
 

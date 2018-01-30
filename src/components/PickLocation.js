@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Button, Header, Divider } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import * as actions from '../actions';
+import Spinner from './common/Spinner';
 
 const styles = StyleSheet.create({
   base: {
@@ -33,7 +34,7 @@ const { width, height } = Dimensions.get('window');
 class PickLocation extends Component {
   title() {
     return (
-      <Text style={{ color: '#ffffff', fontSize: 19, fontWeight: 'bold' }}>
+      <Text style={{ color: '#ffffff', fontSize: 42, fontWeight: 'bold' }}>
         Unity One
       </Text>
     );
@@ -45,6 +46,7 @@ class PickLocation extends Component {
         statusBarProps={{ barStyle: 'light-content' }}
         backgroundColor='#003366'
         centerComponent={this.title()}
+        outerContainerStyles={{ flex: 0.4, justifyContent: 'center' }}
         />
         <View
         style={styles.outerContainer}
