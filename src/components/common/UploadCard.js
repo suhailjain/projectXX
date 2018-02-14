@@ -64,6 +64,7 @@ const uploadImage = (uri, location, dbref, title, user, mime = 'application/octe
         .then(() => {
           db.ref(`/IndexKeys/${dbhouse}`).update({ index: key + 1 })
           .then(() => {
+            this.setState({ loading: !this.state.loading });
             //db.ref(`userSpecificPosts/users/${user}`).child().set({ id: key + 1, location: this.props.dbref });
           });
         }) /* increment the index */
@@ -81,12 +82,18 @@ const uploadImage = (uri, location, dbref, title, user, mime = 'application/octe
 };
 
 class UploadCard extends Component {
+
+  constructor() {
+    super();
+    this.state = { loading: false, loggedIn: true };
+  }
+
   leftIcon() {
     return (
     <Icon
     name='delete'
     color='#663300' underlayColor='#003366'
-    onPress={() => Actions.pop()}
+    onPress={() => Actions.gallery()}
     />
   );
   }
@@ -96,10 +103,29 @@ class UploadCard extends Component {
     <Icon
     name='done'
     color='#663300' underlayColor='#003366'
-    onPress={() => uploadImage(this.props.uri, this.props.locate, this.props.dbref, this.props.title, this.props.user)}
+    onPress={() => {
+      this.setState({ loading: !this.state.loading });
+      uploadImage(this.props.uri, this.props.locate, this.props.dbref, this.props.title, fbAccess.auth().currentUser.uid);
+    }}
     />
   );
   }
+
+  loader() {
+    if (this.state.loading) {
+    return (
+      <ActivityIndicator
+             animating={this.state.loading}
+             color='#bc2b78'
+             size='large'
+             style={styles.activityIndicator}
+      />
+    );
+  } else {
+    return;
+  }
+  }
+
   render() {
     const { container, upload, retry } = styles;
     return (
@@ -110,6 +136,7 @@ class UploadCard extends Component {
       centerComponent={{ text: '', style: { color: '#fff' } }}
       rightComponent={this.rightIcon()}
       />
+      {this.loader()}
       </View>
     );
   }
@@ -148,8 +175,7 @@ const styles = {
 const mapStateToProps = state => {
   return {
     locate: state.currentLocation,
-    dbref: state.dbRef,
-    user: state.user
+    dbref: state.dbRef
   };
 };
 

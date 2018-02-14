@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, Text, View, TextInput, StyleSheet, Dimensions } from 'react-native';
+import { Image, Text, View, TextInput, StyleSheet, Dimensions, ActivityIndicator } from 'react-native';
 import { Header } from 'react-native-elements';
 import UploadCard from '../common/UploadCard';
 

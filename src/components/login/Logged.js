@@ -59,7 +59,6 @@ class Logged extends Component {
   }
 
   newState() {
-    console.log(this.state.loggedIn);
     if (!this.state.loggedIn) {
       Actions.notlogged();
     } else {
