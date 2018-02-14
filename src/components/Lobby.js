@@ -54,7 +54,6 @@ class Lobby extends Component {
       //reversing the like order and check for approved
       if (this.props.curruser !== 'none') {
       if (snapshot.val().user === this.props.curruser) {
-        console.log('equal');
         userPics.unshift(snapshot.val());
         this.props.userPics(userPics);
       }

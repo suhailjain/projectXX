@@ -4,6 +4,14 @@ import { connect } from 'react-redux';
 import ImageItem from './ImageItem';
 //there is no data writing back to firebase here
 class ImageList extends Component {
+  constructor() {
+    super();
+    this.state = { isFetching: false };
+  }
+  onRefresh() {
+    this.setState({ isFetching: true });
+    console.log('hi');
+  }
   renderSeparator() {
       return (
         <View
@@ -26,6 +34,8 @@ class ImageList extends Component {
       showsVerticalScrollIndicator={false}
       >
       <FlatList
+        refreshing={this.state.isFetching}
+        onRefresh={() => this.onRefresh()}
         data={this.props.gallery}
         ItemSeparatorComponent={this.renderSeparator}
         renderItem={({ item }) => <ImageItem pic={item} />}

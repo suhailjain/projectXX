@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, Image, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import { Button } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
@@ -14,17 +14,13 @@ const styles = StyleSheet.create({
     marginRight: 4
   },
   tiles: {
-    width: width - 20,
+    width: width - 17,
     height: (height - 120) / 4
   },
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     marginLeft: 7,
     marginTop: 7,
     marginRight: 7,
-    marginBottom: 7,
     borderRadius: 2,
     borderWidth: 1,
     borderColor: '#d0d0d0',
@@ -54,10 +50,9 @@ class Menu extends Component {
   }
   renderCinepolis() {
     if (this.props.location === 'Rohini') {
-      console.log('cine');
       return (
         <View>
-        <TouchableOpacity style={styles.opacity} onPress={() => Actions.cinepolis()}>
+        <TouchableOpacity style={styles.container} onPress={() => Actions.cinepolis()}>
         <Image
         source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/unityone-65a80.appspot.com/o/backgrounds%2Fcinepolisback.jpg?alt=media&token=a5e7c4c5-36db-4cdd-bdef-0f341317728f' }}
         style={styles.tiles}
@@ -72,9 +67,14 @@ class Menu extends Component {
   }
   render() {
   return (
-    <View style={styles.container}>
+    <ScrollView
+    contentContainerStyle={{ flex: 1, marginBottom: 30 }}
+    showsHorizontalScrollIndicator={false}
+    showsVerticalScrollIndicator={false}
+    >
+    <View style={{}}>
 
-    <TouchableOpacity style={styles.opacity} onPress={() => Actions.storelist()}>
+    <TouchableOpacity style={styles.container} onPress={() => Actions.storelist()}>
     <Image
     source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/unityone-65a80.appspot.com/o/backgrounds%2Fshop.jpg?alt=media&token=cb50abfd-1bd6-4acb-9c87-d224ecf277d9' }}
     style={styles.tiles}
@@ -84,7 +84,7 @@ class Menu extends Component {
     </View>
     </TouchableOpacity>
 
-    <TouchableOpacity style={styles.opacity} onPress={() => Actions.foodlist()}>
+    <TouchableOpacity style={styles.container} onPress={() => Actions.foodlist()}>
     <Image
     source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/unityone-65a80.appspot.com/o/backgrounds%2FFood.jpg?alt=media&token=cfac46b1-cc0d-4b2a-a4bf-4295f78bb861' }}
     style={styles.tiles}
@@ -94,7 +94,7 @@ class Menu extends Component {
     </View>
     </TouchableOpacity>
 
-    <TouchableOpacity style={styles.opacity} onPress={() => Actions.events()}>
+    <TouchableOpacity style={styles.container} onPress={() => Actions.events()}>
     <Image
     source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/unityone-65a80.appspot.com/o/backgrounds%2FEvents.jpg?alt=media&token=19f5ffac-1cf3-42b9-bdef-b14b16aba758' }}
     style={styles.tiles}
@@ -105,6 +105,7 @@ class Menu extends Component {
     </TouchableOpacity>
     {this.renderCinepolis()}
     </View>
+    </ScrollView>
   );
 }
 }

@@ -3,7 +3,6 @@ import { View, ActivityIndicator } from 'react-native';
 import Modal from 'react-native-modal';
 
 const Spinner = (props) => {
-  console.log(props.loading);
   return (
     <Modal
     isVisible={props.loading}

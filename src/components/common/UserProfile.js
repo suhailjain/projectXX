@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   request: {
-    
+
   }
 });
 
@@ -31,7 +31,6 @@ class UserProfile extends Component {
   componentWillMount() {
     //get user specific images
     const fbdb = fbAccess.database();
-    console.log(this.props.curruser);
     let userPics = [];
     fbdb.ref(this.props.dbref).orderByChild('likes')
     .on('child_added', (snapshot) => {

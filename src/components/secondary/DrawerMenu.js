@@ -38,7 +38,6 @@ const styles = StyleSheet.create({
 });
 
 const loginCheck = () => {
-  console.log(fbAccess.auth().currentUser.uid);
   if (fbAccess.auth().currentUser !== null && (fbAccess.auth().currentUser.uid !== 'none')) {
   return true;
   } else {

@@ -26,7 +26,6 @@ class UserPicture extends Component {
   }
 
   selectStyle() {
-    console.log(this.props.selected);
     if (this.props.selected === this.props.pic.id) {
       return styles.largeImage;
     } else {

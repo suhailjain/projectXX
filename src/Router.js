@@ -15,6 +15,8 @@ import Cinepolis from './components/primary/Cinepolis';
 import ParkAssist from './components/ParkAssist';
 import EventList from './components//primary/EventList';
 import FoodList from './components/primary/FoodList';
+import Logged from './components/login/Logged';
+import NotLogged from './components/login/NotLogged';
 
 class RouterComponent extends Component {
   render() {
@@ -35,6 +37,8 @@ class RouterComponent extends Component {
         <Scene key="cinepolis" component={Cinepolis} />
         <Scene key="park" component={ParkAssist} />
         <Scene key='events' component={EventList} />
+        <Scene key='logged' component={Logged} />
+        <Scene key='notlogged' component={NotLogged} />
       </Router>
           );
   }
