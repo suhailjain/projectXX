@@ -66,6 +66,18 @@ class Logged extends Component {
       return;
     }
   }
+
+  menuIcon() {
+    return (
+      <Icon
+      name='navigate-before'
+      color='#663300'
+      underlayColor='#003366'
+      onPress={() => Actions.lobby()}
+      />
+    );
+  }
+
   rightIcon() {
     return (
       <Icon
@@ -81,6 +93,7 @@ class Logged extends Component {
       <View>
         <Header
           backgroundColor='#003366'
+          leftComponent={this.menuIcon()}
           centerComponent={{ text: '', style: { color: '#fff' } }}
           rightComponent={this.rightIcon()}
         />
