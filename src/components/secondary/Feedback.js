@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TextInput, Alert, Picker } from 'react-native';
+import { Text, View, StyleSheet, TextInput, Alert, Picker, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { Header, Icon, Button, Rating } from 'react-native-elements';
@@ -31,31 +31,18 @@ const styles = StyleSheet.create({
     marginRight: 7,
     marginBottom: 7,
     backgroundColor: '#ffffff',
+  },
+  activityIndicator: {
+    flex: 1
   }
 });
-
-const submit = (service, comment) => {
-  if (comment === '') {
-    Alert.alert('even a single adjective would be enough, please.');
-    return;
-  }
-    const user = fbAccess.auth().currentUser.uid;
-    const url = `${feedRef}/service/${service}`;
-    console.log(url);
-    fbAccess.database().ref(url).child(`${user}`)
-    .set(comment)
-    .then(() => {
-    Alert.alert('We appreciate your efforts to make us better');
-  })
-    .then(() => Actions.pop());
-};
 
 let feedRef = '';
 let detail = false;
 class Feedback extends Component {
   constructor() {
     super();
-    this.state = { service: 'Washroom', comment: '', feedtype: '' };
+    this.state = { service: 'Washroom', comment: '', feedtype: '', rating: -1, loading: false };
   }
   componentWillMount() {
     switch (this.props.location) {
@@ -76,6 +63,20 @@ class Feedback extends Component {
         break;
       }
     }
+  }
+ submit(service, comment, type, rating) {
+    if (comment === '' && type === 'written') {
+      Alert.alert('even a single adjective would be enough, please.');
+      return;
+    }
+    this.setState({ loading: true });
+    const user = fbAccess.auth().currentUser.uid;
+    const url = `${feedRef}/service/${service}`;
+  fbAccess.database().ref(url).push({ uid: `${user}`, review: `${comment}`, rating: `${rating}` })
+  .then(() => {
+    this.setState({ loading: false });
+    Actions.pop();
+  });
   }
   update = (selected) => {
       this.setState({ service: selected });
@@ -109,7 +110,7 @@ feedmethod() {
        onChangeText={this.comment}
     />
     <Button
-    title='send it across' onPress={() => submit(this.state.service, this.state.comment)}
+    title='send it across' onPress={() => this.submit(this.state.service, this.state.comment, this.state.feedtype, this.state.rating)}
     />
     </View>
   );
@@ -127,14 +128,14 @@ feedmethod() {
       style={{}}
     />
     <Button
-    title='send it across' onPress={() => submit(this.state.service, this.state.comment)}
+    title='send it across' onPress={() => this.submit(this.state.service, this.state.comment, this.state.feedtype, this.state.rating)}
     />
     </View>
   );
 }
 }
-ratingCompleted(rating) {
-  console.log(rating);
+ratingCompleted(rate) {
+  this.setState({ rating: rate });
 }
   render() {
     return (
@@ -184,6 +185,12 @@ ratingCompleted(rating) {
       }}
       title='i think i did rather rate it on 10'
       style={styles.rate}
+      />
+      <ActivityIndicator
+               animating={this.state.loading}
+               color='#bc2b78'
+               size='large'
+               style={styles.activityIndicator}
       />
 
       </View>

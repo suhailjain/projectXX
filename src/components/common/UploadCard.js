@@ -165,10 +165,7 @@ const styles = {
     flexDirection: 'row'
   },
   activityIndicator: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: 80
+      flex: 1
    }
 };
 
