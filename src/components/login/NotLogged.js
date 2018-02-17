@@ -121,7 +121,7 @@ class NotLogged extends Component {
   }
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: '#ededed' }}>
       <Header
       backgroundColor='#003366'
       leftComponent={this.menuIcon()}

@@ -29,6 +29,7 @@ class DisplayImage extends Component {
       <View style={styles.container} >
       <FlatList
         data={this.state.photo}
+        keyExtractor={item => item.id}
         renderItem={({ item }) => <ConfirmUploadView pic={item} />}
         extraData={this.state}
       />

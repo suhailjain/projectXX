@@ -26,7 +26,7 @@ const clickMe = () => {
 class Gallery extends Component {
   menuIcon() {
     return (
-    <Icon name='navigate-before' color='#663300' underlayColor='#003366' onPress={() => Actions.pop()} />
+    <Icon name='navigate-before' color='#663300' underlayColor='#003366' onPress={() => Actions.lobby()} />
   );
 }
   rightIcon() {

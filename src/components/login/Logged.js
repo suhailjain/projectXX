@@ -52,7 +52,7 @@ class Logged extends Component {
   }
 
   componentWillMount() {
-    
+
   }
 
   logout = () => {
@@ -87,7 +87,7 @@ class Logged extends Component {
   }
   render() {
     return (
-      <View>
+      <View style={{ backgroundColor: '#ededed' }}>
         <Header
           backgroundColor='#003366'
           leftComponent={this.menuIcon()}

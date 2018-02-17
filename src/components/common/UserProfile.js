@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, ScrollView, FlatList, StyleSheet, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import { Button } from 'react-native-elements';
-import fbAccess from '../FirebaseConfig';
+import { Actions } from 'react-native-router-flux';
 import * as actions from '../../actions';
 import UserPicture from '../secondary/UserPicture';
 
@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
     marginTop: 7,
     marginLeft: 7,
     marginRight: 7,
+    alignItems: 'center',
     marginBottom: 7,
     borderColor: '#d0d0d0',
     borderWidth: 1,
@@ -28,21 +29,6 @@ const styles = StyleSheet.create({
 });
 
 class UserProfile extends Component {
-  componentWillMount() {
-    //get user specific images
-  /*  const fbdb = fbAccess.database();
-    let userPics = [];
-    fbdb.ref(this.props.dbref).orderByChild('likes')
-    .on('child_added', (snapshot) => {
-      if (fbAccess.auth().currentUser != null) {
-      if (snapshot.val().user === fbAccess.auth().currentUser.uid) {
-        console.log('equal');
-        userPics.unshift(snapshot.val());
-        this.props.userPics(userPics);
-      }
-    }
-  });*/
-  }
   resolveApproval() {
     if (this.props.approvalStat === 'Y') {
       return 'congratulations, its approved with likes :';
@@ -52,62 +38,85 @@ class UserProfile extends Component {
       return 'select an image to get its approval status';
     }
   }
-  renderSeparator() {
+    userHasPictures() {
+      console.log(this.props.userpics);
+      if (this.props.userpics === '') {
+        return (
+          <View style={styles.container}>
+            <Text>we would love to see you here!</Text>
+            <Text>add you first unity selfie here</Text>
+            <Button
+            title='Cool'
+            transparent
+            textStyle={{ color: '#003366' }}
+            onPress={() => Actions.camera()}
+            />
+          </View>
+        );
+      } else {
       return (
-        <View
-          style={{
-            height: 120,
-            width: 4,
-            backgroundColor: "#ffffff",
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}
+        <View>
+          <View style={styles.container}>
+            <View style={{ alignItems: 'center', marginTop: 7 }}>
+                <Text style={{ fontSize: 16 }}>Images uploaded by you</Text>
+                  <View
+                    style={{
+                    height: 1,
+                    width: '70%',
+                    backgroundColor: '#000000',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  }}
+                  />
+            </View>
+
+            <ScrollView
+            contentContainerStyle={{ marginLeft: 15, marginRight: 15, marginBottom: 10, marginTop: 70 }}
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            >
+            <FlatList
+            data={this.props.userpics}
+            horizontal={true}
+            renderItem={({ item }) => <UserPicture pic={item} />}
+            keyExtractor={item => item.id}
+            ItemSeparatorComponent={this.renderSeparator}
+            contentContainerStyle={{ alignItems: 'center'
+            }}
+            />
+            </ScrollView>
+
+        </View>
+        <View style={styles.container}>
+        <Text>{this.resolveApproval()}</Text>
+        <Text>{this.props.likesCount}</Text>
+        <Button
+        title='request a faster approval process'
+        onPress={() => console.log('submit')}
+        style={styles.request}
         />
+        </View>
+        </View>
       );
     }
+    }
+    renderSeparator() {
+        return (
+          <View
+            style={{
+              height: 120,
+              width: 4,
+              backgroundColor: '#ffffff',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}
+          />
+        );
+      }
   render() {
     return (
       <View>
-        <View style={styles.container}>
-          <View style={{ alignItems: 'center', marginTop: 7 }}>
-              <Text style={{ fontSize: 16 }}>Images uploaded by you</Text>
-                <View
-                  style={{
-                  height: 1,
-                  width: '70%',
-                  backgroundColor: "#000000",
-                  justifyContent: 'center',
-                  alignItems: 'center'
-                }}
-                />
-          </View>
-
-          <ScrollView
-          contentContainerStyle={{ marginLeft: 15, marginRight: 15, marginBottom: 10, marginTop: 70 }}
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          >
-          <FlatList
-          data={this.props.userpics}
-          horizontal={true}
-          renderItem={({ item }) => <UserPicture pic={item} />}
-          keyExtractor={item => item.id}
-          ItemSeparatorComponent={this.renderSeparator}
-          contentContainerStyle={{ alignItems: 'center'
-          }}
-          />
-          </ScrollView>
-
-      </View>
-      <View style={styles.container}>
-      <Text>{this.resolveApproval()}</Text>
-      <Text>{this.props.likesCount}</Text>
-      <Button
-      title='request a faster approval process'
-      onPress={() => console.log('submit')}
-      style={styles.request}
-      />
-      </View>
+      {this.userHasPictures()}
       </View>
     );
   }
