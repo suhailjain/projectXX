@@ -16,23 +16,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const getGalleryData = () => {
-  const fbdb = fbAccess.database();
-  let pics = [];
-  // dbref = '/posts' || '/jPosts' || 'sPosts'
-  fbdb.ref(this.props.dbref).orderByChild('likes')
-  .on('child_added', (snapshot) => {
-    //reversing the like order and check for approved
-    if (snapshot.val().approved === 'Y') {
-    pics.unshift(snapshot.val());
-    this.setState({
-      datalist: pics
-    });
-    this.props.gallerydata(pics);
-  }
-});
-}
-
 class Lobby extends Component {
   constructor() {
     super();
@@ -49,11 +32,14 @@ class Lobby extends Component {
     let pics = [];
     let userPics = [];
     // dbref = '/posts' || '/jPosts' || 'sPosts'
+    if (fbAccess.auth().currentUser != null) {
+      console.log('fetching for user: ', fbAccess.auth().currentUser.uid);
+    }
     fbdb.ref(this.props.dbref).orderByChild('likes')
     .on('child_added', (snapshot) => {
       //reversing the like order and check for approved
-      if (this.props.curruser !== 'none') {
-      if (snapshot.val().user === this.props.curruser) {
+     if (fbAccess.auth().currentUser != null) {
+      if (snapshot.val().user === fbAccess.auth().currentUser.uid) {
         userPics.unshift(snapshot.val());
         this.props.userPics(userPics);
       }
@@ -87,7 +73,6 @@ class Lobby extends Component {
     );
   }
   render() {
-    this.props.cameraFace('back');
     return (
         <View style={styles.container}>
         <Header

@@ -1,9 +1,10 @@
 import { View, StyleSheet, TextInput, Alert, ActivityIndicator } from 'react-native';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Icon, Header, Button } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import fbAccess from '../FirebaseConfig';
-import Logged from './Logged';
+import * as actions from '../../actions';
 
 const styles = StyleSheet.create({
   submit: {
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
     flex: 1
   }
 });
-let status = false;
+
 class NotLogged extends Component {
 
   constructor() {
@@ -58,31 +59,40 @@ class NotLogged extends Component {
     this.setState({ password: text });
   }
 
-  newState() {
-    console.log(this.state.loggedIn);
-    if (this.state.loggedIn) {
-      Actions.logged();
-    } else {
-      return;
-    }
-  }
+  refreshUserPicList(dbref) {
+    return new Promise((resolve) => {
+        let userPics = [];
+        const fbdb = fbAccess.database();
+          console.log('refreshing for user:  ', fbAccess.auth().currentUser.uid);
+        fbdb.ref(dbref).orderByChild('likes')
+        .on('child_added', (snapshot) => {
+          //reversing the like order and check for approved
+          if (fbAccess.auth().currentUser != null) {
+          if (snapshot.val().user === fbAccess.auth().currentUser.uid) {
+            userPics.unshift(snapshot.val());
+          }
+        }
+        });
+        this.props.userPics(userPics);
+         resolve();
+});
+}
 
   login = (email, pass) => {
     this.setState({ loading: !this.state.loading });
     fbAccess.auth().signInWithEmailAndPassword(email, pass)
     .then(() => {
+      this.refreshUserPicList(this.props.dbref).then(() => Actions.logged());
       this.setState({ loading: !this.state.loading, loggedIn: true });
-      status = true;
-      //Actions.logged();
-      //Alert.alert('you have loggedin successfuly');
     })
     .catch(() => {
-      console.log('hi');
       fbAccess.auth().createUserWithEmailAndPassword(email, pass)
       .then(() => {
-        status = false;
+        this.setState({ loading: !this.state.loading, loggedIn: true });
+        this.refreshUserPicList(this.props.dbref).then(() => Actions.logged());
     })
     .catch(() => {
+      this.setState({ loading: !this.state.loading });
         Alert.alert('something went wrong');
       });
     });
@@ -94,7 +104,7 @@ class NotLogged extends Component {
       name='navigate-before'
       color='#663300'
       underlayColor='#003366'
-      onPress={() => Actions.pop()}
+      onPress={() => Actions.lobby()}
       />
     );
   }
@@ -170,11 +180,16 @@ class NotLogged extends Component {
                 size='large'
                 style={styles.activityIndicator}
        />
-       {this.newState()}
       </View>
       </View>
     );
   }
 }
 
-export default NotLogged;
+const mapStateToProps = state => {
+  return {
+    dbref: state.dbRef,
+  };
+};
+
+export default connect(mapStateToProps, actions)(NotLogged);

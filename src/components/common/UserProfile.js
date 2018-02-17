@@ -30,22 +30,22 @@ const styles = StyleSheet.create({
 class UserProfile extends Component {
   componentWillMount() {
     //get user specific images
-    const fbdb = fbAccess.database();
+  /*  const fbdb = fbAccess.database();
     let userPics = [];
     fbdb.ref(this.props.dbref).orderByChild('likes')
     .on('child_added', (snapshot) => {
-      if (this.props.curruser !== 'none') {
-      if (snapshot.val().user === this.props.curruser) {
+      if (fbAccess.auth().currentUser != null) {
+      if (snapshot.val().user === fbAccess.auth().currentUser.uid) {
         console.log('equal');
         userPics.unshift(snapshot.val());
         this.props.userPics(userPics);
       }
     }
-  });
+  });*/
   }
   resolveApproval() {
     if (this.props.approvalStat === 'Y') {
-      return 'Hollllaah, its approved';
+      return 'congratulations, its approved with likes :';
     } else if (this.props.approvalStat === 'N') {
       return 'pending...';
     } else if (this.props.approvalStat === '') {
@@ -66,8 +66,6 @@ class UserProfile extends Component {
       );
     }
   render() {
-    console.log(this.props.approvalStat);
-    console.log(this.props.likesCount);
     return (
       <View>
         <View style={styles.container}>

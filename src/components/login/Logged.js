@@ -51,19 +51,17 @@ class Logged extends Component {
     this.state = { loading: false, loggedIn: true };
   }
 
+  componentWillMount() {
+    
+  }
+
   logout = () => {
+    console.log('logging out of user: ', fbAccess.auth().currentUser.uid);
     this.setState({ loading: !this.state.loading });
     fbAccess.auth().signOut().then(() => {
       this.setState({ loading: !this.state.loading, loggedIn: !this.state.loggedIn });
-    });
-  }
-
-  newState() {
-    if (!this.state.loggedIn) {
       Actions.notlogged();
-    } else {
-      return;
-    }
+    });
   }
 
   menuIcon() {
@@ -111,7 +109,6 @@ class Logged extends Component {
                    size='large'
                    style={styles.activityIndicator}
           />
-          {this.newState()}
       </View>
     );
   }

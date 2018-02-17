@@ -119,6 +119,7 @@ export const gallerydata = (data) => {
 };
 
 export const userPics = (posts) => {
+  console.log(posts);
   return {
     type: 'user_posts',
     payload: posts

@@ -21,7 +21,7 @@ const uploadImage = (uri, location, dbref, title, user, mime = 'application/octe
     let uploadBlob = null;
     const imageRef = storage.ref(location).child(`${sessionId}`);
     console.log('start of upload');
-    console.log(user);
+    console.log('uploading for user', user);
     fs.readFile(uploadUri, 'base64')
       .then((data) => {
         return Blob.build(data, { type: `${mime};BASE64` });
@@ -98,7 +98,6 @@ class UploadCard extends Component {
   );
   }
   rightIcon() {
-    console.log(this.props.user);
     return (
     <Icon
     name='done'
