@@ -15,12 +15,12 @@ const styles = StyleSheet.create({
 class Aboutus extends Component {
   menuIcon() {
     return (
-  <Icon name='navigate-before' color='#663300' underlayColor='#003366' onPress={() => Actions.pop()} />
+  <Icon name='navigate-before' color='#ededed' underlayColor='#003366' onPress={() => Actions.pop()} />
   );
 }
 rightIcon() {
   return (
-    <Icon name='help' color='#663300' underlayColor='#003366' onPress={() => {
+    <Icon name='help' color='#ededed' underlayColor='#003366' onPress={() => {
 
     }}
     />

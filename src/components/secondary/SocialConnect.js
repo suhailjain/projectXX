@@ -36,8 +36,8 @@ class SocialConnect extends Component {
     return (
       <Icon
       name='navigate-before'
-      color='#663300'
-      underlayColor='#003366'
+      color='#ededed'
+      underlayColor='#ededed'
       onPress={() => Actions.pop()}
       />
     );
@@ -46,7 +46,7 @@ class SocialConnect extends Component {
   rightIcon() {
     return (
       <Icon
-      name='local-parking' color='#663300' underlayColor='#003366' onPress={() => {
+      name='local-parking' color='#ededed' underlayColor='#003366' onPress={() => {
         this.props.cameraFace('back');
         Actions.camera();
       }}

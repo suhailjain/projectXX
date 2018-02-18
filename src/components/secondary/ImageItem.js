@@ -104,6 +104,7 @@ class ImageItem extends Component {
       onBackdropPress={() => this.props.currentImageVisible(false)}
       isVisible={this.props.visible}
       >
+
       <Image
         style={{ width: width * 0.90,
         height: height * 0.85,

@@ -69,7 +69,7 @@ class Logged extends Component {
       <Icon
       name='navigate-before'
       color='#663300'
-      underlayColor='#003366'
+      underlayColor='#ededed'
       onPress={() => Actions.lobby()}
       />
     );
@@ -78,7 +78,7 @@ class Logged extends Component {
   rightIcon() {
     return (
       <Icon
-      name='local-parking' color='#663300' underlayColor='#003366' onPress={() => {
+      name='local-parking' color='#663300' underlayColor='#ededed' onPress={() => {
         this.props.cameraFace('back');
         Actions.camera();
       }}

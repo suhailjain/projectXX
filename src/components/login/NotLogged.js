@@ -103,7 +103,7 @@ class NotLogged extends Component {
       <Icon
       name='navigate-before'
       color='#663300'
-      underlayColor='#003366'
+      underlayColor='#ededed'
       onPress={() => Actions.lobby()}
       />
     );
@@ -112,7 +112,7 @@ class NotLogged extends Component {
   rightIcon() {
     return (
       <Icon
-      name='local-parking' color='#663300' underlayColor='#003366' onPress={() => {
+      name='local-parking' color='#ededed' underlayColor='#003366' onPress={() => {
         this.props.cameraFace('back');
         Actions.camera();
       }}

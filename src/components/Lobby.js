@@ -60,12 +60,12 @@ class Lobby extends Component {
   }
   menuIcon() {
     return (
-    <Icon name='menu' color='#663300' underlayColor='#003366' onPress={() => this.props.drawerState(false)} />
+    <Icon name='menu' color='#ededed' underlayColor='#ededed' onPress={() => this.props.drawerState(false)} />
   );
   }
   rightIcon() {
     return (
-      <Icon name='local-parking' color='#663300' underlayColor='#003366' onPress={() => {
+      <Icon name='local-parking' color='#ededed' underlayColor='#003366' onPress={() => {
         Actions.camera();
         this.checkForParking();
       }}

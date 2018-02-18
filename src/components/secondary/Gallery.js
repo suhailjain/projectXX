@@ -26,13 +26,13 @@ const clickMe = () => {
 class Gallery extends Component {
   menuIcon() {
     return (
-    <Icon name='navigate-before' color='#663300' underlayColor='#003366' onPress={() => Actions.lobby()} />
+    <Icon name='navigate-before' color='#ededed' underlayColor='#003366' onPress={() => Actions.lobby()} />
   );
 }
   rightIcon() {
     return (
       <Icon
-      name='add-a-photo' color='#663300' underlayColor='#003366'
+      name='add-a-photo' color='#ededed' underlayColor='#003366'
       onPress={() => clickMe()}
       />
     );

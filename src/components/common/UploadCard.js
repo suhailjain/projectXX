@@ -92,7 +92,7 @@ class UploadCard extends Component {
     return (
     <Icon
     name='delete'
-    color='#663300' underlayColor='#003366'
+    color='#663300' underlayColor='#ededed'
     onPress={() => Actions.gallery()}
     />
   );
@@ -101,7 +101,7 @@ class UploadCard extends Component {
     return (
     <Icon
     name='done'
-    color='#663300' underlayColor='#003366'
+    color='#663300' underlayColor='#ededed'
     onPress={() => {
       this.setState({ loading: !this.state.loading });
       uploadImage(this.props.uri, this.props.locate, this.props.dbref, this.props.title, fbAccess.auth().currentUser.uid);
