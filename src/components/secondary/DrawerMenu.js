@@ -67,7 +67,7 @@ const DrawerMenu = (props) => {
     >
     <Image
       style={{ width: 150, height: 150, borderRadius: 75 }}
-      source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/unityone-65a80.appspot.com/o/backgrounds%2FFood.jpg?alt=media&token=cfac46b1-cc0d-4b2a-a4bf-4295f78bb861' }}
+      source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/unityone-65a80.appspot.com/o/backgrounds%2Funityone-rohini-logo.jpg?alt=media&token=9f3ac95d-64c3-436f-b46b-e937fbb2e5ee' }}
     />
     </TouchableOpacity>
     </View>
