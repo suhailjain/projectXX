@@ -96,7 +96,7 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 26
     buildToolsVersion '26.0.2'
 
     defaultConfig {
@@ -139,6 +139,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-fbsdk')
     compile('com.crashlytics.sdk.android:crashlytics:2.9.0@aar') {
         transitive = true
     }
@@ -148,7 +149,7 @@ dependencies {
     compile project(':react-native-vector-icons')
     compile project(':react-native-camera')
     compile fileTree(dir: "libs", include: ["*.jar"])
-    compile "com.android.support:appcompat-v7:23.0.1"
+    compile "com.android.support:appcompat-v7:26.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules
     compile 'com.google.firebase:firebase-perf:11.8.0'
 }
