@@ -19,3 +19,4 @@ end
 
 pod 'Firebase/Core'
 pod 'Firebase/Performance'
+pod 'Firebase/Auth'

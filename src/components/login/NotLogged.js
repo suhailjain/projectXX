@@ -6,6 +6,13 @@ import { Actions } from 'react-native-router-flux';
 import fbAccess from '../FirebaseConfig';
 import * as actions from '../../actions';
 
+const FBSDK = require('react-native-fbsdk');
+
+const {
+LoginButton,
+AccessToken
+} = FBSDK;
+
 const styles = StyleSheet.create({
   submit: {
     paddingTop: 20
@@ -129,6 +136,25 @@ class NotLogged extends Component {
       rightComponent={this.rightIcon()}
       />
         <View style={styles.loginContainer}>
+        <LoginButton
+          publishPermissions={['publish_actions']}
+          onLoginFinished={
+            (error, result) => {
+              if (error) {
+                Alert.alert('login has error: ' + result.error);
+              } else if (result.isCancelled) {
+                Alert.alert("login is cancelled.");
+              } else {
+                AccessToken.getCurrentAccessToken().then(
+                  (data) => {
+                    Alert.alert(data.accessToken.toString());
+                  }
+                )
+              }
+            }
+          }
+          onLogoutFinished={() => Alert.alert('logout.')}
+        />
           <View style={styles.email}>
           <TextInput
            underlineColorAndroid="transparent"

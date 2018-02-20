@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, FlatList, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, ScrollView, FlatList, StyleSheet, Dimensions, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { Button } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
@@ -28,7 +28,43 @@ const styles = StyleSheet.create({
   }
 });
 
+const FBSDK = require('react-native-fbsdk');
+
+const {
+  ShareDialog,
+} = FBSDK;
+
+const shareLinkContenty = {
+  contentType: 'link',
+  contentUrl: 'https://facebook.com',
+  contentDescription: 'Wow, check out this great site!',
+};
+
 class UserProfile extends Component {
+  constructor() {
+    super();
+    this.state = { shareLinkContent: shareLinkContenty };
+  }
+  shareLinkWithShareDialog() {
+  const tmp = this;
+  ShareDialog.canShow(this.state.shareLinkContent).then((canShow) => {
+      if (canShow) {
+        return ShareDialog.show(tmp.state.shareLinkContent);
+      }
+    }
+  ).then((result) => {
+      if (result.isCancelled) {
+        Alert.alert('Share cancelled');
+      } else {
+        Alert.alert('Share success with postId: '
+          + result.postId);
+      }
+    },
+    (error) => {
+      Alert.alert('Share fail with error: ' + error);
+    }
+  );
+ }
   resolveApproval() {
     if (this.props.approvalStat === 'Y') {
       return 'congratulations, its approved with likes :';
@@ -94,6 +130,10 @@ class UserProfile extends Component {
         title='request a faster approval process'
         onPress={() => console.log('submit')}
         style={styles.request}
+        />
+        <Button
+        title='share'
+        onPress={() => this.shareLinkWithShareDialog()}
         />
         </View>
         </View>

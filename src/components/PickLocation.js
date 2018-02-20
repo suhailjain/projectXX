@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Alert } from 'react-native';
 import { connect } from 'react-redux';
-import { Button, Header, Divider } from 'react-native-elements';
+import { Button, Header, Divider, SocialIcon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import * as actions from '../actions';
-import Spinner from './common/Spinner';
 
 const styles = StyleSheet.create({
   base: {
@@ -39,6 +38,7 @@ class PickLocation extends Component {
       </Text>
     );
   }
+
   render() {
     return (
         <View style={styles.base}>
@@ -54,7 +54,7 @@ class PickLocation extends Component {
         <View style={styles.container}>
         <Button
         large
-        transparent={true}
+        transparent
         textStyle={{ color: '#663300' }}
         title='Rohini' onPress={() => {
           this.props.selectLocation('Rohini');
@@ -70,7 +70,7 @@ class PickLocation extends Component {
         <Divider style={{ backgroundColor: '#003366', marginRight: width / 5, marginLeft: width / 5 }} />
         <Button
         large
-        transparent={true}
+        transparent
         textStyle={{ color: '#663300' }}
         title='Janakpuri' onPress={() => {
           this.props.selectLocation('Janakpuri');
@@ -86,7 +86,7 @@ class PickLocation extends Component {
         <Divider style={{ backgroundColor: '#003366', marginRight: width / 5, marginLeft: width / 5 }} />
         <Button
         large
-        transparent={true}
+        transparent
         textStyle={{ color: '#663300' }}
         title='Shahadra' onPress={() => {
           this.props.selectLocation('Shahadra');
