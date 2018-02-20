@@ -21,21 +21,34 @@ class EventList extends Component {
   }
   backIcon() {
     return (
-<Icon name='navigate-before' color='#663300' underlayColor='#003366' onPress={() => Actions.pop()} />
+<Icon name='navigate-before' color='#ededed' underlayColor='#ededed' onPress={() => Actions.pop()} />
   );
 }
 rightIcon() {
   return (
-    <Icon name='local-parking' color='#663300' underlayColor='#003366' onPress={() => {
+    <Icon name='local-parking' color='#ededed' underlayColor='#ededed' onPress={() => {
       this.props.cameraFace('back');
       Actions.camera();
     }}
     />
   );
 }
+renderSeparator() {
+    return (
+      <View
+        style={{
+          height: 3,
+          width: "100%",
+          backgroundColor: "#ededed",
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+      />
+    );
+  }
   render() {
     return (
-      <View>
+      <View style={{ flex: 1, backgroundColor: '#ededed' }}>
       <Header
       backgroundColor='#003366'
       leftComponent={this.backIcon()}
@@ -46,6 +59,7 @@ rightIcon() {
         data={this.state.events}
         renderItem={({ item }) => <Event event={item} />}
         keyExtractor={item => item.title}
+        ItemSeparatorComponent={this.renderSeparator}
       />
       </View>
     );

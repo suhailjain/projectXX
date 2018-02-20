@@ -76,7 +76,7 @@ class UserProfile extends Component {
   }
     userHasPictures() {
       console.log(this.props.userpics);
-      if (this.props.userpics === '') {
+      if (this.props.userpics === '' || this.props.userpics.size === 0) {
         return (
           <View style={styles.container}>
             <Text>we would love to see you here!</Text>
@@ -127,12 +127,16 @@ class UserProfile extends Component {
         <Text>{this.resolveApproval()}</Text>
         <Text>{this.props.likesCount}</Text>
         <Button
+        transparent
+        textStyle={{ color: '#003366' }}
         title='request a faster approval process'
         onPress={() => console.log('submit')}
         style={styles.request}
         />
         <Button
         title='share'
+        transparent
+        textStyle={{ color: '#003366' }}
         onPress={() => this.shareLinkWithShareDialog()}
         />
         </View>

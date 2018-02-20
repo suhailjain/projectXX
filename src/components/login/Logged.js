@@ -68,7 +68,7 @@ class Logged extends Component {
     return (
       <Icon
       name='navigate-before'
-      color='#663300'
+      color='#ededed'
       underlayColor='#ededed'
       onPress={() => Actions.lobby()}
       />
@@ -78,7 +78,7 @@ class Logged extends Component {
   rightIcon() {
     return (
       <Icon
-      name='local-parking' color='#663300' underlayColor='#ededed' onPress={() => {
+      name='local-parking' color='#ededed' underlayColor='#ededed' onPress={() => {
         this.props.cameraFace('back');
         Actions.camera();
       }}
@@ -87,7 +87,7 @@ class Logged extends Component {
   }
   render() {
     return (
-      <View style={{ backgroundColor: '#ededed' }}>
+      <View style={{ flex: 1, backgroundColor: '#ededed' }}>
         <Header
           backgroundColor='#003366'
           leftComponent={this.menuIcon()}

@@ -21,10 +21,6 @@ const styles = StyleSheet.create({
   }
 });
 class UserPicture extends Component {
-  constructor() {
-    super();
-  }
-
   selectStyle() {
     if (this.props.selected === this.props.pic.id) {
       return styles.largeImage;

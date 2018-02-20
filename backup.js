@@ -1,27 +1,18 @@
-/*<Button
-transparent
-textStyle={styles.text}
-title='Shopping' onPress={() => {
-this.props.purpose(true);
-  Actions.storelist();
-}}
+<View style={styles.row}>
+  <Icon name='home' iconStyle={{ marginLeft: 5, color: '#ffffff' }} />
+  <Button
+  backgroundColor='#003366'
+    title='Home'
+    onPress={() => {
+    props.drawerState(true);
+    Actions.lobby();
+    }}
+  />
+</View>
+<View
+  style={{
+    height: 1,
+    backgroundColor: "#ffffff",
+    marginRight: 10
+  }}
 />
-
-<Button
-transparent
-textStyle={styles.text}
-title='Food' onPress={() => {
-this.props.purpose(false);
-  Actions.foodlist();
-}}
-/>
-
-<Button
-transparent
-textStyle={styles.text}
-title='Events' onPress={() => {
-  Actions.events();
-}}
-/>
-
-{this.renderCinepolis()}*/
