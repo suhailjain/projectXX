@@ -6,7 +6,7 @@ import com.facebook.react.ReactApplication;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
-import com.lwansbrough.RCTCamera.RCTCameraPackage;
+import org.reactnative.camera.RNCameraPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -39,7 +39,7 @@ public class MainApplication extends Application implements ReactApplication {
             new FBSDKPackage(mCallbackManager),
             new RNFetchBlobPackage(),
             new VectorIconsPackage(),
-            new RCTCameraPackage()
+            new RNCameraPackage()
       );
     }
 
