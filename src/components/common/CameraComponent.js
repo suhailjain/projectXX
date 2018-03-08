@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import Camera from 'react-native-camera';
+import { RNCamera } from 'react-native-camera';
 import { Icon } from 'react-native-elements';
 import * as actions from '../../actions';
 
@@ -21,26 +21,28 @@ class CameraComponent extends Component {
     );
   }
 
-  takePicture() {
-    console.log('hi');
-    //options.location = ...
-    this.camera.capture()
-      .then(() => Actions.display())
-      .catch(err => console.error(err));
-  }
+  takePicture = async () => {
+    console.log('in camera capture');
+   try {
+     const data = await this.camera.takePictureAsync();
+     console.log('Path to image: ', data.uri);
+   } catch (err) {
+     // console.log('err: ', err);
+     console.error('error at camera: ', err);
+   }
+ };
 
   render() {
     return (
       <View style={styles.container}>
-        <Camera
+        <RNCamera
           ref={(cam) => {
             this.camera = cam;
           }}
-          captureMode={Camera.constants.CaptureMode.still}
+          captureMode={RNCamera.constants.CaptureMode.still}
           onBarCodeRead={this.onBarCodeRead.bind(this)}
           style={styles.preview}
           type={this.props.type}
-          aspect={Camera.constants.Aspect.fill}
           captureAudio={false}
         >
         <View style={styles.innerContainer}>
@@ -57,7 +59,7 @@ class CameraComponent extends Component {
         raised
         name='camera'
         color='#003366'
-        onPress={() => this.takePicture()}
+        onPress={() => this.takePicture}
         />
         <Icon
         raised
@@ -67,7 +69,7 @@ class CameraComponent extends Component {
         />
 
         </View>
-        </Camera>
+        </RNCamera>
       </View>
     );
   }
