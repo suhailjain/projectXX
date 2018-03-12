@@ -22,7 +22,7 @@ class Cinepolis extends Component {
 rightIcon() {
   return (
     <Icon name='local-parking' color='#ededed' underlayColor='#003366' onPress={() => {
-      this.props.cameraFace('back');
+      this.props.cameraFace('RNCamera.Constants.Type.back');
       Actions.camera();
     }}
     />

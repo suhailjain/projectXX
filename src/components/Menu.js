@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, Image, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
-import { Button } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import * as actions from '../actions';
 import fbAcess from './FirebaseConfig';

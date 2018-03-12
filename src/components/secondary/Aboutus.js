@@ -10,6 +10,16 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f2f2f2'
   },
+  heading: {
+    fontSize: 20,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  para: {
+    marginTop: 20,
+    fontSize: 14,
+    alignItems: 'center',
+  }
 });
 
 class Aboutus extends Component {
@@ -35,7 +45,10 @@ rightIcon() {
       centerComponent={{ text: '', style: { color: '#fff' } }}
       rightComponent={this.rightIcon()}
       />
-        <Text>about us</Text>
+        <Text style={styles.heading}>Unity One</Text>
+        <Text style={styles.para}>We at unity one are trying to build a bridge between services we
+        have to offer and the experience which our users enjoy at our three premier
+        locations Rohini, Janakpuri and Shahdra.</Text>
       </View>
     );
   }

@@ -53,6 +53,7 @@ class Lobby extends Component {
 
   checkForParking() {
     if (this.props.park === 'not_found') {
+      this.props.cameraFace('RNCamera.Constants.Type.back');
       Actions.camera();
     } else {
       Actions.park();

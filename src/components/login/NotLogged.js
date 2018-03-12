@@ -1,4 +1,4 @@
-import { View, StyleSheet, TextInput, Alert, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, TextInput, Alert, ActivityIndicator, KeyboardAvoidingView } from 'react-native';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Icon, Header, Button } from 'react-native-elements';
@@ -15,12 +15,16 @@ AccessToken
 
 const styles = StyleSheet.create({
   submit: {
-    paddingTop: 20
+    paddingTop: 20,
+    alignItems: 'flex-end'
   },
   email: {
     marginLeft: 7,
     marginRight: 7,
     marginTop: 20
+  },
+  fb: {
+    alignItems: 'center'
   },
   pass: {
     marginTop: 10,
@@ -89,12 +93,14 @@ class NotLogged extends Component {
     this.setState({ loading: !this.state.loading });
     fbAccess.auth().signInWithEmailAndPassword(email, pass)
     .then(() => {
+      this.props.loginStatus('email');
       this.refreshUserPicList(this.props.dbref).then(() => Actions.logged());
       this.setState({ loading: !this.state.loading, loggedIn: true });
     })
     .catch(() => {
       fbAccess.auth().createUserWithEmailAndPassword(email, pass)
       .then(() => {
+        this.props.loginStatus('email');
         this.setState({ loading: !this.state.loading, loggedIn: true });
         this.refreshUserPicList(this.props.dbref).then(() => Actions.logged());
     })
@@ -120,7 +126,7 @@ class NotLogged extends Component {
     return (
       <Icon
       name='local-parking' color='#ededed' underlayColor='#ededed' onPress={() => {
-        this.props.cameraFace('back');
+        this.props.cameraFace('RNCamera.Constants.Type.back');
         Actions.camera();
       }}
       />
@@ -135,27 +141,33 @@ class NotLogged extends Component {
       centerComponent={{ text: '', style: { color: '#fff' } }}
       rightComponent={this.rightIcon()}
       />
-        <View style={styles.loginContainer}>
-        <LoginButton
-          publishPermissions={['publish_actions']}
-          onLoginFinished={
-            (error, result) => {
-              if (error) {
-                Alert.alert('login has error: ' + result.error);
-              } else if (result.isCancelled) {
-                Alert.alert("login is cancelled.");
-              } else {
-                AccessToken.getCurrentAccessToken().then(
+      <KeyboardAvoidingView
+      style={styles.loginContainer}
+      >
+          <View style={styles.email}>
+            <View style={styles.fb}>
+              <LoginButton
+              publishPermissions={['publish_actions']}
+              onLoginFinished={
+                (error, result) => {
+                  if (error) {
+                    Alert.alert('login has error: ' + result.error);
+                  } else if (result.isCancelled) {
+                    Alert.alert("login is cancelled.");
+                  } else {
+                    AccessToken.getCurrentAccessToken().then(
                   (data) => {
-                    Alert.alert(data.accessToken.toString());
-                  }
-                )
+                      this.props.loginStatus('facebook');
+                      console.log(data.accessToken.toString());
+                    }
+                  )
+                }
               }
             }
-          }
-          onLogoutFinished={() => Alert.alert('logout.')}
-        />
-          <View style={styles.email}>
+            onLogoutFinished={() => Alert.alert('logout.')}
+              />
+            </View>
+
           <TextInput
            underlineColorAndroid="transparent"
            placeholder="Email"
@@ -206,8 +218,10 @@ class NotLogged extends Component {
                 size='large'
                 style={styles.activityIndicator}
        />
+      <View style={{ backgroundColor: '#003366', marginBottom: 0, height: 30, width: 50 }} />
+      </KeyboardAvoidingView>
       </View>
-      </View>
+
     );
   }
 }

@@ -21,9 +21,12 @@ import UserSelectedImageReducer from './UserSelectedImageReducer';
 import ApprovalReducer from './ApprovalReducer';
 import LikeReducer from './LikeReducer';
 import LoadingReducer from './LoadingReducer';
+import CacheLocation from './CacheLocation';
+import LoginStatus from './LoginStatus';
 
 export default combineReducers({
 
+  cache: CacheLocation,
   currentLocation: LocationReducer,
   postsDB: PostsReducer,
   storeDB: StoreReducer,
@@ -45,6 +48,7 @@ export default combineReducers({
   carousel: UserSelectedImageReducer,
   approvalstatus: ApprovalReducer,
   likecount: LikeReducer,
-  loading: LoadingReducer
+  loading: LoadingReducer,
+  loginStatus: LoginStatus
 
 });

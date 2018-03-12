@@ -11,7 +11,7 @@ import { RNCamera } from 'react-native-camera';
 import { Icon } from 'react-native-elements';
 import * as actions from '../../actions';
 
-class CameraComponent extends Component {
+class FrontCameraComponent extends Component {
   onBarCodeRead(e) {
     Alert.alert(e.data);
     this.props.parking(e.data);
@@ -43,7 +43,7 @@ class CameraComponent extends Component {
           autofocus={RNCamera.Constants.AutoFocus.on}
           onBarCodeRead={this.onBarCodeRead.bind(this)}
           style={styles.preview}
-          type={RNCamera.Constants.Type.back}
+          type={RNCamera.Constants.Type.front}
           captureAudio={false}
           permissionDialogTitle={'Permission to use camera'}
           permissionDialogMessage={'We need your permission to use your camera phone'}
@@ -104,4 +104,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, actions)(CameraComponent);
+export default connect(mapStateToProps, actions)(FrontCameraComponent);

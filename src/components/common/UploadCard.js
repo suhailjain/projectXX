@@ -60,7 +60,7 @@ const uploadImage = (uri, location, dbref, title, user, mime = 'application/octe
               key = 0;
           }
         })
-        .then(() => db.ref(dbref).child(key).set({ url: url, likes: 0, id: key, approved: 'N', title: title, user: `${user}` })) /* push new record */
+        .then(() => db.ref(dbref).child(key).set({ url: url, likes: 0, id: key, approved: 'N', title: title, user: `${user}`, upsertedAt: `${sessionId}`  })) /* push new record */
         .then(() => {
           db.ref(`/IndexKeys/${dbhouse}`).update({ index: key + 1 })
           .then(() => {
@@ -69,8 +69,8 @@ const uploadImage = (uri, location, dbref, title, user, mime = 'application/octe
           });
         }) /* increment the index */
         .then(() => {
-          Actions.pop();
-          Actions.pop();
+          Actions.popTo('lobby');
+          //Actions.pop();
         })
         .then(() => Alert.alert('your selfie is uploaded and is awaiting authority approval.'));
         })

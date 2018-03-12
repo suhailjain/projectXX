@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TextInput, Alert, Picker, ActivityIndicator } from 'react-native';
+import { Text, View, StyleSheet, TextInput, Alert, Picker, ActivityIndicator, KeyboardAvoidingView } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { Header, Icon, Button, Rating } from 'react-native-elements';
@@ -92,7 +92,7 @@ class Feedback extends Component {
 rightIcon() {
   return (
     <Icon name='local-parking' color='#ededed' underlayColor='#003366' onPress={() => {
-      this.props.cameraFace('back');
+      this.props.cameraFace('RNCamera.Constants.Type.back');
       Actions.camera();
     }}
     />
@@ -139,7 +139,9 @@ ratingCompleted(rate) {
 }
   render() {
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView
+       style={styles.container}
+      >
       <Header
       backgroundColor='#003366'
       leftComponent={this.menuIcon()}
@@ -194,7 +196,7 @@ ratingCompleted(rate) {
       />
 
       </View>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }

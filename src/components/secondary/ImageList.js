@@ -2,15 +2,32 @@ import React, { Component } from 'react';
 import { View, FlatList, ScrollView, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import ImageItem from './ImageItem';
+import fbAccess from './../FirebaseConfig';
+import * as actions from './../../actions';
 //there is no data writing back to firebase here
 class ImageList extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = { isFetching: false };
   }
   onRefresh() {
+    console.log('refreshing');
     this.setState({ isFetching: true });
-    console.log('hi');
+
+    const fbdb = fbAccess.database();
+    let pics = [];
+    let userPics = [];
+    console.log(this.props.dbref);
+    fbdb.ref(this.props.dbref).orderByChild('likes')
+    .on('child_added', (snapshot) => {
+      if (snapshot.val().approved === 'Y') {
+        pics.unshift(snapshot.val());
+        this.props.gallerydata(pics);
+    }
+  });
+  this.setState({ isFetching: false });
+  console.log(pics);
+  return pics;
   }
   renderSeparator() {
       return (
@@ -26,7 +43,6 @@ class ImageList extends Component {
       );
     }
   render() {
-    console.log(this.props.gallery);
     return (
       <ScrollView
       contentContainerStyle={{ flex: 1, marginBottom: 20 }}
@@ -35,7 +51,9 @@ class ImageList extends Component {
       >
       <FlatList
         refreshing={this.state.isFetching}
-        onRefresh={() => this.onRefresh()}
+        onRefresh={() => {
+          this.onRefresh.bind();
+        }}
         data={this.props.gallery}
         ItemSeparatorComponent={this.renderSeparator}
         renderItem={({ item }) => <ImageItem pic={item} />}
@@ -51,7 +69,8 @@ const mapStateToProps = (state) => {
   return {
     url: state.postsDB,
     dbref: state.dbRef,
+    gallery: state.gallery
   };
 };
 
-export default connect(mapStateToProps)(ImageList);
+export default connect(mapStateToProps, actions)(ImageList);

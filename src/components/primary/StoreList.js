@@ -35,7 +35,6 @@ class StoreList extends Component {
       url = this.props.storeurl;
   }
   componentDidMount() {
-    console.log(url);
     this.setState({ loading: this.props.loading });
     axios.get(url).then(response => {
       this.setState({
@@ -51,7 +50,7 @@ class StoreList extends Component {
 rightIcon() {
   return (
     <Icon name='local-parking' color='#ededed' underlayColor='#003366' onPress={() => {
-      this.props.cameraFace('back');
+      this.props.cameraFace('RNCamera.Constants.Type.back');
       Actions.camera();
     }}
     />

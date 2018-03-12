@@ -5,6 +5,7 @@ import { Button } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import * as actions from '../../actions';
 import UserPicture from '../secondary/UserPicture';
+import fbAccess from './../FirebaseConfig';
 
 const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
@@ -43,8 +44,27 @@ const shareLinkContenty = {
 class UserProfile extends Component {
   constructor() {
     super();
-    this.state = { shareLinkContent: shareLinkContenty };
+    this.state = { shareLinkContent: shareLinkContenty, isFetching: false };
   }
+  onRefresh() {
+    console.log('refreshing');
+    const fbdb = fbAccess.database();
+    let userPics = [];
+    fbdb.ref(this.props.dbref).orderByChild('likes')
+    .on('child_added', (snapshot) => {
+      //reversing the like order and check for approved
+     if (fbAccess.auth().currentUser != null) {
+      if (snapshot.val().user === fbAccess.auth().currentUser.uid) {
+        userPics.unshift(snapshot.val());
+        this.props.userPics(userPics);
+      }
+    }
+  });
+  this.setState({ isFetching: false });
+  console.log(userPics);
+  return userPics;
+  }
+
   shareLinkWithShareDialog() {
   const tmp = this;
   ShareDialog.canShow(this.state.shareLinkContent).then((canShow) => {
@@ -65,6 +85,7 @@ class UserProfile extends Component {
     }
   );
  }
+
   resolveApproval() {
     if (this.props.approvalStat === 'Y') {
       return 'congratulations, its approved with likes :';
@@ -112,6 +133,10 @@ class UserProfile extends Component {
             showsVerticalScrollIndicator={false}
             >
             <FlatList
+            refreshing={this.state.isFetching}
+            onRefresh={() => {
+              this.onRefresh.bind();
+            }}
             data={this.props.userpics}
             horizontal={true}
             renderItem={({ item }) => <UserPicture pic={item} />}

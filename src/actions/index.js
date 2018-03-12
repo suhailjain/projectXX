@@ -55,7 +55,6 @@ export const drawerState = (toggle) => {
 };
 
 export const currentImage = (url) => {
-  console.log(url);
   return {
     type: 'current_image',
     payload: url
@@ -119,7 +118,6 @@ export const gallerydata = (data) => {
 };
 
 export const userPics = (posts) => {
-  console.log(posts);
   return {
     type: 'user_posts',
     payload: posts
@@ -151,5 +149,19 @@ export const loading = (mode) => {
   return {
     type: 'loading',
     payload: mode
+  };
+};
+
+export const cache = (location) => {
+  return {
+    type: 'cache',
+    payload: location
+  };
+};
+
+export const loginStatus = (status) => {
+  return {
+    type: 'login_status',
+    payload: status
   };
 };

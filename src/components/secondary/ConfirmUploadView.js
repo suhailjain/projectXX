@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Image, Text, View, TextInput, StyleSheet, Dimensions, ActivityIndicator } from 'react-native';
-import { Header } from 'react-native-elements';
+import { Image, Text, View, TextInput, StyleSheet, Dimensions, ActivityIndicator, KeyboardAvoidingView } from 'react-native';
+import { connect } from 'react-redux';
 import UploadCard from '../common/UploadCard';
 
 const { width, height } = Dimensions.get('window');
@@ -41,19 +41,22 @@ class ConfirmUploadView extends Component {
     this.state = { title: '' };
   }
   title = (text) => {
+    //pic.node.image.uri
     this.setState({ title: text });
   }
   render() {
     return (
-      <View style={styles.container}>
-        <UploadCard uri={this.props.pic.node.image.uri} title={this.state.title} />
+      <KeyboardAvoidingView
+       style={styles.container}
+      >
+        <UploadCard uri={this.props.cache} title={this.state.title} />
         <View style={styles.innerContainer} >
 
           <View style={styles.imageCont}>
             <Image
             style={{ width: 300,
               height: 300 }}
-              source={{ uri: this.props.pic.node.image.uri }}
+              source={{ uri: this.props.cache }}
             />
           </View>
 
@@ -68,9 +71,15 @@ class ConfirmUploadView extends Component {
           </View>
 
         </View>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }
 
-export default ConfirmUploadView;
+const mapStateToProps = state => {
+  return {
+    cache: state.cache
+  };
+};
+
+export default connect(mapStateToProps, null)(ConfirmUploadView);

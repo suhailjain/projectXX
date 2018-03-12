@@ -17,6 +17,8 @@ import EventList from './components//primary/EventList';
 import FoodList from './components/primary/FoodList';
 import Logged from './components/login/Logged';
 import NotLogged from './components/login/NotLogged';
+import ConfirmUploadView from './components/secondary/ConfirmUploadView';
+import FrontCameraComponent from './components/common/FrontCameraComponent';
 
 class RouterComponent extends Component {
   render() {
@@ -39,6 +41,8 @@ class RouterComponent extends Component {
         <Scene key='events' component={EventList} />
         <Scene key='logged' component={Logged} />
         <Scene key='notlogged' component={NotLogged} />
+        <Scene key="confirmUpload" component={ConfirmUploadView} />
+        <Scene key="frontCam" component={FrontCameraComponent} />
       </Router>
           );
   }
