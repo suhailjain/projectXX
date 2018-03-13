@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Dimensions, StyleSheet } from 'react-native';
+import { View, Dimensions, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { Header, Icon } from 'react-native-elements';
@@ -49,11 +49,10 @@ class Lobby extends Component {
         this.props.gallerydata(pics);
     }
   });
-  }
+}
 
   checkForParking() {
     if (this.props.park === 'not_found') {
-      this.props.cameraFace('RNCamera.Constants.Type.back');
       Actions.camera();
     } else {
       Actions.park();

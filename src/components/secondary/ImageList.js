@@ -8,9 +8,12 @@ import * as actions from './../../actions';
 class ImageList extends Component {
   constructor(props) {
     super(props);
-    this.state = { isFetching: false };
+    this.state = { isFetching: false, data: this.props.gallery };
   }
-  onRefresh() {
+  componentWillMount() {
+    console.log(this.state.data);
+  }
+  onRefresh = () => {
     console.log('refreshing');
     this.setState({ isFetching: true });
 
@@ -25,10 +28,9 @@ class ImageList extends Component {
         this.props.gallerydata(pics);
     }
   });
-  this.setState({ isFetching: false });
+  this.setState({ isFetching: false, data: pics });
   console.log(pics);
-  return pics;
-  }
+};
   renderSeparator() {
       return (
         <View
@@ -51,10 +53,8 @@ class ImageList extends Component {
       >
       <FlatList
         refreshing={this.state.isFetching}
-        onRefresh={() => {
-          this.onRefresh.bind();
-        }}
-        data={this.props.gallery}
+        onRefresh={this.onRefresh}
+        data={this.state.data}
         ItemSeparatorComponent={this.renderSeparator}
         renderItem={({ item }) => <ImageItem pic={item} />}
         contentContainerStyle={{ marginBottom: 20 }}
