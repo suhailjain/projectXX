@@ -97,7 +97,8 @@ class NotLogged extends Component {
       this.refreshUserPicList(this.props.dbref).then(() => Actions.logged());
       this.setState({ loading: !this.state.loading, loggedIn: true });
     })
-    .catch(() => {
+    .catch((error) => {
+      console.log(error);
       fbAccess.auth().createUserWithEmailAndPassword(email, pass)
       .then(() => {
         this.props.loginStatus('email');
@@ -108,6 +109,16 @@ class NotLogged extends Component {
       this.setState({ loading: !this.state.loading });
         Alert.alert('something went wrong');
       });
+    });
+  }
+
+  resetPass = (email) => {
+    /*fbAccess.auth.sendPasswordResetEmail(email).then(() => {
+        Alert.alert('you will soon recieve an email to reset you password.');*/
+        fbAccess.database().ref('/resetPassword').push(email: email)
+        .then(() => Alert.alert('you will soon recieve an email to reset you password.'))
+        .catch((error) => {
+        console.log(error);
     });
   }
 
@@ -205,7 +216,10 @@ class NotLogged extends Component {
             }}
           />
           </View>
-
+       <Button
+        title='forgot password'
+        onPress={() => this.resetPass(this.state.email)}
+       />
        <Button
         style={styles.submit}
         title='SignUp/Login'
