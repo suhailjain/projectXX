@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
     borderColor: '#000000'
   }
 });
+
 class UserPicture extends Component {
   selectStyle() {
     if (this.props.selected === this.props.pic.id) {

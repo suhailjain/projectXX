@@ -10,9 +10,9 @@ import * as actions from '../actions';
 
 class ParkAssist extends Component {
   render() {
-      this.props.cameraFace('back');
     return (
       <View>
+      <Text>you will find your car at</Text>
       <Text>{this.props.park}</Text>
       </View>
     );

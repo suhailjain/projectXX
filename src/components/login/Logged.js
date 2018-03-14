@@ -79,7 +79,6 @@ class Logged extends Component {
     return (
       <Icon
       name='local-parking' color='#ededed' underlayColor='#ededed' onPress={() => {
-        this.props.cameraFace('RNCamera.Constants.Type.back');
         Actions.camera();
       }}
       />

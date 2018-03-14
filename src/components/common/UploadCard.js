@@ -69,7 +69,7 @@ const uploadImage = (uri, location, dbref, title, user, mime = 'application/octe
           });
         }) /* increment the index */
         .then(() => {
-          Actions.popTo('lobby');
+          Actions.popTo('gallery');
           //Actions.pop();
         })
         .then(() => Alert.alert('your selfie is uploaded and is awaiting authority approval.'));

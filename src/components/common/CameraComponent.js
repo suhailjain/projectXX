@@ -13,12 +13,14 @@ import * as actions from '../../actions';
 
 class CameraComponent extends Component {
   onBarCodeRead(e) {
-    Alert.alert(e.data);
+    Actions.pop();
+    Alert.alert('we have saved your parking for you');
     this.props.parking(e.data);
     console.log(
         "Barcode Found!",
         "Type: " + e.type + "\nData: " + e.data
     );
+
   }
 
   async takePicture() {

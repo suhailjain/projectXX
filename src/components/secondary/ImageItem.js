@@ -61,6 +61,9 @@ const styles = StyleSheet.create({
     paddingTop: 3,
     paddingBottom: 3,
     backgroundColor: '#ffffff'
+  },
+  likes: {
+    fontSize: 16
   }
 });
 
@@ -92,13 +95,9 @@ class ImageItem extends Component {
       title='hype it up!'
       onPress={() => likeHandle(this.props.dbref, this.props.pic.id, this.props.pic.likes)}
       />
-      <Button
-      small
-      rounded
-      backgroundColor='#663300'
-      textStyle={{ color: '#ffffff' }}
-      title={this.props.pic.likes}
-      />
+      <Text style={styles.likes}>
+      {this.props.pic.likes}
+      </Text>
       </View>
       <Modal
       onBackdropPress={() => this.props.currentImageVisible(false)}

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, FlatList, ScrollView, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
+import { Button } from 'react-native-elements';
 import ImageItem from './ImageItem';
 import fbAccess from './../FirebaseConfig';
 import * as actions from './../../actions';
@@ -11,7 +12,6 @@ class ImageList extends Component {
     this.state = { isFetching: false, data: this.props.gallery };
   }
   componentWillMount() {
-    console.log(this.state.data);
   }
   onRefresh = () => {
     console.log('refreshing');
@@ -19,17 +19,27 @@ class ImageList extends Component {
 
     const fbdb = fbAccess.database();
     let pics = [];
-    let userPics = [];
-    console.log(this.props.dbref);
     fbdb.ref(this.props.dbref).orderByChild('likes')
     .on('child_added', (snapshot) => {
       if (snapshot.val().approved === 'Y') {
         pics.unshift(snapshot.val());
-        this.props.gallerydata(pics);
     }
   });
   this.setState({ isFetching: false, data: pics });
-  console.log(pics);
+};
+sortByDate = () => {
+  console.log('sorting now ');
+  this.setState({ isFetching: true });
+
+  const fbdb = fbAccess.database();
+  let pics = [];
+  fbdb.ref(this.props.dbref).orderByChild('upsertedAt')
+  .on('child_added', (snapshot) => {
+    if (snapshot.val().approved === 'Y') {
+      pics.unshift(snapshot.val());
+  }
+});
+this.setState({ isFetching: false, data: pics });
 };
   renderSeparator() {
       return (
@@ -51,6 +61,14 @@ class ImageList extends Component {
       showsHorizontalScrollIndicator={false}
       showsVerticalScrollIndicator={false}
       >
+      <Button
+      title='most recent first'
+      onPress={this.sortByDate}
+      />
+      <Button
+      title='most liked first'
+      onPress={this.onRefresh}
+      />
       <FlatList
         refreshing={this.state.isFetching}
         onRefresh={this.onRefresh}

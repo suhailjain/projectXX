@@ -42,12 +42,13 @@ const shareLinkContenty = {
 };
 
 class UserProfile extends Component {
-  constructor() {
-    super();
-    this.state = { shareLinkContent: shareLinkContenty, isFetching: false };
+  constructor(props) {
+    super(props);
+    this.state = { shareLinkContent: shareLinkContenty, isFetching: false, data: this.props.userpics };
   }
-  onRefresh() {
+  onRefresh = () => {
     console.log('refreshing');
+      this.setState({ isFetching: true });
     const fbdb = fbAccess.database();
     let userPics = [];
     fbdb.ref(this.props.dbref).orderByChild('likes')
@@ -56,14 +57,30 @@ class UserProfile extends Component {
      if (fbAccess.auth().currentUser != null) {
       if (snapshot.val().user === fbAccess.auth().currentUser.uid) {
         userPics.unshift(snapshot.val());
-        this.props.userPics(userPics);
       }
     }
   });
-  this.setState({ isFetching: false });
+  this.setState({ isFetching: false, data: userPics });
   console.log(userPics);
-  return userPics;
+};
+
+showApprovedOnes = () => {
+  console.log('refreshing');
+    this.setState({ isFetching: true });
+  const fbdb = fbAccess.database();
+  let userPics = [];
+  fbdb.ref(this.props.dbref).orderByChild('likes')
+  .on('child_added', (snapshot) => {
+    //reversing the like order and check for approved
+   if (fbAccess.auth().currentUser != null) {
+    if (snapshot.val().user === fbAccess.auth().currentUser.uid && snapshot.val().approved === 'Y') {
+      userPics.unshift(snapshot.val());
+    }
   }
+});
+this.setState({ isFetching: false, data: userPics });
+console.log(userPics);
+};
 
   shareLinkWithShareDialog() {
   const tmp = this;
@@ -128,17 +145,15 @@ class UserProfile extends Component {
             </View>
 
             <ScrollView
-            contentContainerStyle={{ marginLeft: 15, marginRight: 15, marginBottom: 10, marginTop: 70 }}
+            contentContainerStyle={{ marginLeft: 15, marginRight: 15, marginBottom: 20, marginTop: 40 }}
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
             >
             <FlatList
             refreshing={this.state.isFetching}
-            onRefresh={() => {
-              this.onRefresh.bind();
-            }}
-            data={this.props.userpics}
-            horizontal={true}
+            onRefresh={this.onRefresh}
+            data={this.state.data}
+            horizontal
             renderItem={({ item }) => <UserPicture pic={item} />}
             keyExtractor={item => item.id}
             ItemSeparatorComponent={this.renderSeparator}
@@ -149,6 +164,14 @@ class UserProfile extends Component {
 
         </View>
         <View style={styles.container}>
+        <Button
+        title='my approved ones'
+        onPress={this.showApprovedOnes}
+        />
+        <Button
+        title='all my uploades'
+        onPress={this.onRefresh}
+        />
         <Text>{this.resolveApproval()}</Text>
         <Text>{this.props.likesCount}</Text>
         <Button

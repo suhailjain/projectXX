@@ -69,10 +69,11 @@ class Feedback extends Component {
       Alert.alert('even a single adjective would be enough, please.');
       return;
     }
+    const sessionId = new Date().getTime();
     this.setState({ loading: true });
     const user = fbAccess.auth().currentUser.uid;
     const url = `${feedRef}/service/${service}`;
-  fbAccess.database().ref(url).push({ uid: `${user}`, review: `${comment}`, rating: `${rating}` })
+  fbAccess.database().ref(url).push({ uid: `${user}`, review: `${comment}`, rating: `${rating}`, upsertTime: `${sessionId}` })
   .then(() => {
     this.setState({ loading: false });
     Actions.pop();

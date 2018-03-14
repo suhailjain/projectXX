@@ -56,7 +56,8 @@ class PickLocation extends Component {
         large
         transparent
         textStyle={{ color: '#663300' }}
-        title='Rohini' onPress={() => {
+        title='Rohini'
+        onPress={() => {
           this.props.selectLocation('Rohini');
           this.props.postUrl('https://unityone-65a80.firebaseio.com/posts.json');
           this.props.likeUrl('https://unityone-65a80.firebaseio.com/posts');
