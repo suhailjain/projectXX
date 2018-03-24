@@ -50,9 +50,10 @@ sortByDate = () => {
       });
       this.setState({ isFetching: false, data: pics });
 };
-add(pic) {
+async add(pic) {
   console.log('adding up', pic.id);
- this.setState({ data: [...this.state.data, ...pic] });
+  await this.setState({ data: [...this.state.data, ...[pic]] });
+  return;
 }
 async loadMoreData() {
   console.log('loading more');
