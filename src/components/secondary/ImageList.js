@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
-import { View, FlatList, ScrollView, ActivityIndicator } from 'react-native';
+import { View, FlatList, ScrollView, ActivityIndicator, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { Button } from 'react-native-elements';
 import ImageItem from './ImageItem';
 import fbAccess from './../FirebaseConfig';
 import * as actions from './../../actions';
 //there is no data writing back to firebase here
+
 class ImageList extends Component {
+
+  static statInd;
+   static newpics = [];
+
   constructor(props) {
     super(props);
-    this.state = { isFetching: false, data: this.props.gallery };
+      this.state = { isFetching: false, data: this.props.gallery };
+
+      ImageList.statInd = this.props.gallery[0].id - 3;
   }
   componentWillMount() {
   }
@@ -27,20 +34,62 @@ class ImageList extends Component {
   });
   this.setState({ isFetching: false, data: pics });
 };
-sortByDate = () => {
-  console.log('sorting now ');
-  this.setState({ isFetching: true });
 
-  const fbdb = fbAccess.database();
-  let pics = [];
-  fbdb.ref(this.props.dbref).orderByChild('upsertedAt')
-  .on('child_added', (snapshot) => {
-    if (snapshot.val().approved === 'Y') {
-      pics.unshift(snapshot.val());
-  }
-});
-this.setState({ isFetching: false, data: pics });
+
+sortByDate = () => {
+      console.log('sorting now ');
+      this.setState({ isFetching: true });
+
+      const fbdb = fbAccess.database();
+      let pics = [];
+      fbdb.ref(this.props.dbref).orderByChild('upsertedAt')
+      .on('child_added', (snapshot) => {
+        if (snapshot.val().approved === 'Y') {
+          pics.unshift(snapshot.val());
+        }
+      });
+      this.setState({ isFetching: false, data: pics });
 };
+add(pic) {
+  console.log('adding up', pic.id);
+ this.setState({ data: [...this.state.data, ...pic] });
+}
+async loadMoreData() {
+  console.log('loading more');
+  if (ImageList.statInd < 0) {
+    console.log('no more data to load');
+    return;
+  }
+  console.log(ImageList.statInd);
+await fbAccess.database().ref(this.props.dbref)
+    .orderByKey()
+    .endAt(String(ImageList.statInd))
+    .limitToLast(3)
+    .on('child_added', (snapshot) => {
+      if (snapshot.val().approved === 'Y') {
+        this.add(snapshot.val());
+       //ImageList.newpics.unshift(snapshot.val());
+       console.log('new node: ', snapshot.val().id);
+      }
+    });
+
+   ImageList.statInd -= await 3;
+}
+
+renderFooter() {
+  console.log('rendering footer');
+return (
+  <View
+    style={{
+      paddingVertical: 20,
+      borderTopWidth: 1,
+      borderColor: "#CED0CE"
+    }}
+  >
+  <Text>end</Text>
+  </View>
+);
+}
   renderSeparator() {
       return (
         <View
@@ -54,12 +103,13 @@ this.setState({ isFetching: false, data: pics });
         />
       );
     }
+
+
   render() {
+    console.log('rendering now: ', this.state.data);
     return (
       <ScrollView
       contentContainerStyle={{ flex: 1, marginBottom: 20 }}
-      showsHorizontalScrollIndicator={false}
-      showsVerticalScrollIndicator={false}
       >
       <Button
       title='most recent first'
@@ -75,8 +125,9 @@ this.setState({ isFetching: false, data: pics });
         data={this.state.data}
         ItemSeparatorComponent={this.renderSeparator}
         renderItem={({ item }) => <ImageItem pic={item} />}
-        contentContainerStyle={{ marginBottom: 20 }}
         keyExtractor={item => item.id}
+        onEndReached={this.loadMoreData.bind(this)}
+        onEndReachedThreshold={0.5}
       />
       </ScrollView>
     );
@@ -87,7 +138,8 @@ const mapStateToProps = (state) => {
   return {
     url: state.postsDB,
     dbref: state.dbRef,
-    gallery: state.gallery
+    gallery: state.gallery,
+    index: state.lastIndex
   };
 };
 
