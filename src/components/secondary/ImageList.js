@@ -15,28 +15,28 @@ class ImageList extends Component {
   constructor(props) {
     super(props);
       this.state = { isFetching: false, data: this.props.gallery };
-
-      ImageList.statInd = this.props.gallery[0].id - 3;
+      this.refreshIndex();
   }
   componentWillMount() {
   }
-  onRefresh = () => {
+  async onRefresh() {
     console.log('refreshing');
     this.setState({ isFetching: true });
-
+    this.refreshIndex();
     const fbdb = fbAccess.database();
     let pics = [];
-    fbdb.ref(this.props.dbref).orderByChild('likes')
+    await fbdb.ref(this.props.dbref)
+    .limitToLast(3)
     .on('child_added', (snapshot) => {
       if (snapshot.val().approved === 'Y') {
         pics.unshift(snapshot.val());
+        //this.props.gallerydata(pics);
     }
   });
   this.setState({ isFetching: false, data: pics });
-};
+}
 
-
-sortByDate = () => {
+async sortByDate() {
       console.log('sorting now ');
       this.setState({ isFetching: true });
 
@@ -49,20 +49,21 @@ sortByDate = () => {
         }
       });
       this.setState({ isFetching: false, data: pics });
-};
+}
+
 async add(pic) {
   console.log('adding up', pic.id);
   await this.setState({ data: [...this.state.data, ...[pic]] });
   return;
 }
+
 async loadMoreData() {
-  console.log('loading more');
   if (ImageList.statInd < 0) {
     console.log('no more data to load');
     return;
   }
-  console.log(ImageList.statInd);
-await fbAccess.database().ref(this.props.dbref)
+
+  await fbAccess.database().ref(this.props.dbref)
     .orderByKey()
     .endAt(String(ImageList.statInd))
     .limitToLast(3)
@@ -75,6 +76,14 @@ await fbAccess.database().ref(this.props.dbref)
     });
 
    ImageList.statInd -= await 3;
+}
+
+refreshIndex() {
+  ImageList.statInd = this.props.gallery[0].id - 3;
+}
+
+sortByLikes() {
+
 }
 
 renderFooter() {
@@ -91,6 +100,7 @@ return (
   </View>
 );
 }
+
   renderSeparator() {
       return (
         <View
@@ -114,15 +124,15 @@ return (
       >
       <Button
       title='most recent first'
-      onPress={this.sortByDate}
+      onPress={this.sortByDate.bind(this)}
       />
       <Button
       title='most liked first'
-      onPress={this.onRefresh}
+      onPress={this.sortByLikes.bind(this)}
       />
       <FlatList
         refreshing={this.state.isFetching}
-        onRefresh={this.onRefresh}
+        onRefresh={this.onRefresh.bind(this)}
         data={this.state.data}
         ItemSeparatorComponent={this.renderSeparator}
         renderItem={({ item }) => <ImageItem pic={item} />}

@@ -1,10 +1,19 @@
 import { View, StyleSheet, Alert, ActivityIndicator } from 'react-native';
 import React, { Component } from 'react';
 import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
 import { Button, Icon, Header } from 'react-native-elements';
 import UserProfile from '../common/UserProfile';
 import fbAccess from '../FirebaseConfig';
-import NotLogged from './NotLogged';
+import * as actions from './../../actions';
+
+
+const FBSDK = require('react-native-fbsdk');
+
+const {
+LoginButton,
+AccessToken
+} = FBSDK;
 
 const styles = StyleSheet.create({
   submit: {
@@ -94,6 +103,31 @@ class Logged extends Component {
           rightComponent={this.rightIcon()}
         />
           <View style={styles.logout}>
+          <LoginButton
+          publishPermissions={['publish_actions']}
+          onLoginFinished={
+            (error, result) => {
+              if (error) {
+                Alert.alert('login has error: ' + result.error);
+              } else if (result.isCancelled) {
+                Alert.alert("login is cancelled.");
+              } else {
+                AccessToken.getCurrentAccessToken().then(
+              (data) => {
+                  this.props.loginStatus('facebook');
+                  this.props.fbUserId(data.userID);
+                  }
+              )
+        .then(() => Actions.logged());
+              }
+            }
+          }
+            onLogoutFinished={() => {
+              this.props.fbUserId(0);
+              Actions.notlogged();
+              Alert.alert('logout.');
+          }}
+          />
           <Button
               title='Log out'
               textStyle={{ color: '#003366' }}
@@ -113,4 +147,4 @@ class Logged extends Component {
   }
 }
 
-export default Logged;
+export default connect(null, actions)(Logged);

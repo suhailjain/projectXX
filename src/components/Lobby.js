@@ -27,7 +27,7 @@ class Lobby extends Component {
     this.getGallery();
   }
 
-  getGallery() {
+  async getGallery() {
     const fbdb = fbAccess.database();
     let pics = [];
     let userPics = [];
@@ -35,7 +35,8 @@ class Lobby extends Component {
     if (fbAccess.auth().currentUser != null) {
       console.log('fetching for user: ', fbAccess.auth().currentUser.uid);
     }
-    fbdb.ref(this.props.dbref).orderByChild('likes')
+    await fbdb.ref(this.props.dbref)
+    .limitToLast(3)
     .on('child_added', (snapshot) => {
       //reversing the like order and check for approved
      if (fbAccess.auth().currentUser != null) {
@@ -45,10 +46,11 @@ class Lobby extends Component {
       }
     }
       if (snapshot.val().approved === 'Y') {
-        pics.unshift(snapshot.val());
-        this.props.gallerydata(pics);
+          pics.unshift(snapshot.val());
+          this.props.gallerydata(pics);
     }
   });
+  //console.log(pics);
 }
 
   checkForParking() {
@@ -95,7 +97,8 @@ const mapStateToProps = state => {
     toggle: state.drawerState,
     park: state.park,
     dbref: state.dbRef,
-    curruser: state.user
+    curruser: state.user,
+    index: state.lastIndex
   };
 };
 

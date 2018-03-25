@@ -169,13 +169,17 @@ class NotLogged extends Component {
                     AccessToken.getCurrentAccessToken().then(
                   (data) => {
                       this.props.loginStatus('facebook');
-                      console.log(data.accessToken.toString());
-                    }
+                      this.props.fbUserId(data.userID);
+                      }
                   )
+            .then(() => Actions.logged());
+                  }
                 }
               }
-            }
-            onLogoutFinished={() => Alert.alert('logout.')}
+                onLogoutFinished={() => {
+                  this.props.fbUserId(0);
+                  Alert.alert('logout.');
+              }}
               />
             </View>
 

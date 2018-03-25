@@ -22,6 +22,13 @@ class SocialConnect extends Component {
   }
 
   isUserSignedIn = () => {
+    console.log(this.props.userId);
+    //this part of state needs to be cached.
+    if (this.props.userId !== 0) {
+      return (
+        <Logged />
+      );
+    }
     if (!((user !== null) && (user.uid !== '') && (user.uid !== 'none'))) {
         return (
           <NotLogged />
@@ -63,4 +70,10 @@ class SocialConnect extends Component {
   }
 }
 
-export default connect(null, actions)(SocialConnect);
+const mapStateToProps = (state) => {
+  return {
+    userId: state.fbUserID
+  };
+};
+
+export default connect(mapStateToProps, actions)(SocialConnect);

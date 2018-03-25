@@ -68,13 +68,6 @@ export const currentImageVisible = (bool) => {
   };
 };
 
-export const cameraFace = (type) => {
-  return {
-    type: 'camera',
-    payload: type
-  };
-};
-
 export const movieSelected = (movie) => {
   return {
     type: 'movie',
@@ -163,5 +156,19 @@ export const loginStatus = (status) => {
   return {
     type: 'login_status',
     payload: status
+  };
+};
+
+export const fbUserId = (id) => {
+  return {
+    type: 'user_id',
+    payload: id
+  };
+};
+
+export const cameraFace = (type) => {
+  return {
+    type: 'camera',
+    payload: type
   };
 };

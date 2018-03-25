@@ -23,6 +23,7 @@ import LikeReducer from './LikeReducer';
 import LoadingReducer from './LoadingReducer';
 import CacheLocation from './CacheLocation';
 import LoginStatus from './LoginStatus';
+import FbUserIdReducer from './FbUserIdReducer';
 
 export default combineReducers({
 
@@ -49,6 +50,7 @@ export default combineReducers({
   approvalstatus: ApprovalReducer,
   likecount: LikeReducer,
   loading: LoadingReducer,
-  loginStatus: LoginStatus
+  loginStatus: LoginStatus,
+  fbUserID: FbUserIdReducer
 
 });

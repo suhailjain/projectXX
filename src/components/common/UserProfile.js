@@ -159,6 +159,7 @@ console.log(userPics);
             ItemSeparatorComponent={this.renderSeparator}
             contentContainerStyle={{ alignItems: 'center'
             }}
+            ListFooterComponent={this.renderFooter}
             />
             </ScrollView>
 
@@ -192,6 +193,21 @@ console.log(userPics);
       );
     }
     }
+    renderFooter() {
+      console.log('rendering footer');
+
+    return (
+      <View
+        style={{
+          paddingVertical: 20,
+          borderTopWidth: 1,
+          borderColor: "#CED0CE"
+        }}
+      >
+      <Text>end</Text>
+      </View>
+    );
+  }
     renderSeparator() {
         return (
           <View
