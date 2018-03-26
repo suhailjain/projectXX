@@ -8,24 +8,30 @@ import fbAccess from '../FirebaseConfig';
 
 const { width, height } = Dimensions.get('window');
 
-const likeHandle = (url, id, likes) => {
-    const user = fbAccess.auth().currentUser;
-    if (user === null) {
-      Alert.alert('you must log in to like');
+const likeHandle = (url, id, likes, fbuser) => {
+    let user;
+    if (fbAccess.auth().currentUser != null) {
+      user = fbAccess.auth().currentUser.uid;
+    } else if (fbuser !== 0) {
+      user = fbuser;
     } else {
+      Alert.alert('you must log in to like');
+      return;
+    }
+
     const db = fbAccess.database();
-    const uid = user.uid;
     const uniqueKey = url + id;
-    db.ref(`/hypeUsers/users/${uid}/${uniqueKey}`).once('value').then((snapshot) => {
+    db.ref(`/hypeUsers/users/${user}/${uniqueKey}`).once('value').then((snapshot) => {
       if (snapshot.val()) {
           Alert.alert('you have liked this before, thanks!');
       } else {
         //user has not liked this image before
-
+        //transaction
         db.ref(`${url}`).child(id).update({ likes: likes + 1 })
+        //.update({ likes: likes + 1 })
 
         .then(() => {
-          db.ref(`/hypeUsers/users/${uid}/`).child(uniqueKey).set(true)
+          db.ref(`/hypeUsers/users/${user}/`).child(uniqueKey).set(true)
             .then(() => {
               Alert.alert('your like was counted');
             });
@@ -33,7 +39,7 @@ const likeHandle = (url, id, likes) => {
     }
   })
     .catch(() => Alert.alert('fishh!, please try again.'));
-  }
+
 };
 
 const styles = StyleSheet.create({
@@ -93,7 +99,7 @@ class ImageItem extends Component {
       backgroundColor='#663300'
       textStyle={{ color: '#ffffff' }}
       title='hype it up!'
-      onPress={() => likeHandle(this.props.dbref, this.props.pic.id, this.props.pic.likes)}
+      onPress={() => likeHandle(this.props.dbref, this.props.pic.id, this.props.pic.likes, this.props.userid)}
       />
       <Text style={styles.likes}>
       {this.props.pic.likes}
@@ -121,7 +127,8 @@ const mapStateToProps = state => {
   return {
     dbref: state.dbRef,
     highlight: state.currentImage,
-    visible: state.visible
+    visible: state.visible,
+    userid: state.fbUserID
   };
 };
 

@@ -93,6 +93,53 @@ class Logged extends Component {
       />
     );
   }
+  fbUserLogout() {
+    console.log(this.props.userid);
+    if (this.props.userid !== 0) {
+      return (
+        <LoginButton
+        publishPermissions={['publish_actions']}
+        onLoginFinished={
+          (error, result) => {
+            if (error) {
+              Alert.alert('login has error: ' + result.error);
+            } else if (result.isCancelled) {
+              Alert.alert("login is cancelled.");
+            } else {
+              AccessToken.getCurrentAccessToken().then(
+            (data) => {
+                this.props.loginStatus('facebook');
+                this.props.fbUserId(data.userID);
+                }
+            )
+      .then(() => Actions.logged());
+            }
+          }
+        }
+          onLogoutFinished={() => {
+            this.props.fbUserId(0);
+            Actions.notlogged();
+            Alert.alert('logout.');
+        }}
+        />
+      );
+    } else {
+      return;
+    }
+  }
+  googleUserLogout() {
+    if (fbAccess.auth().currentUser != null) {
+      return (
+        <Button
+            title='Log out'
+            textStyle={{ color: '#003366' }}
+            backgroundColor='#ffffff'
+            onPress={() => this.logout()}
+        />
+    );
+  } else
+    return;
+  }
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: '#ededed' }}>
@@ -103,37 +150,8 @@ class Logged extends Component {
           rightComponent={this.rightIcon()}
         />
           <View style={styles.logout}>
-          <LoginButton
-          publishPermissions={['publish_actions']}
-          onLoginFinished={
-            (error, result) => {
-              if (error) {
-                Alert.alert('login has error: ' + result.error);
-              } else if (result.isCancelled) {
-                Alert.alert("login is cancelled.");
-              } else {
-                AccessToken.getCurrentAccessToken().then(
-              (data) => {
-                  this.props.loginStatus('facebook');
-                  this.props.fbUserId(data.userID);
-                  }
-              )
-        .then(() => Actions.logged());
-              }
-            }
-          }
-            onLogoutFinished={() => {
-              this.props.fbUserId(0);
-              Actions.notlogged();
-              Alert.alert('logout.');
-          }}
-          />
-          <Button
-              title='Log out'
-              textStyle={{ color: '#003366' }}
-              backgroundColor='#ffffff'
-              onPress={() => this.logout()}
-          />
+          {this.fbUserLogout()}
+          {this.googleUserLogout()}
           </View>
           <UserProfile />
           <ActivityIndicator
@@ -147,4 +165,10 @@ class Logged extends Component {
   }
 }
 
-export default connect(null, actions)(Logged);
+const mapStateToProps = (state) => {
+  return {
+      userid: state.fbUserID
+  };
+};
+
+export default connect(mapStateToProps, actions)(Logged);

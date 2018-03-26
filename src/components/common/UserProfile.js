@@ -114,7 +114,7 @@ console.log(userPics);
   }
     userHasPictures() {
       console.log(this.props.userpics);
-      if (this.props.userpics === '' || this.props.userpics.size === 0) {
+      if (this.props.userpics === '' || this.props.userpics === [] || this.props.userpics.size === 0) {
         return (
           <View style={styles.container}>
             <Text>we would love to see you here!</Text>
