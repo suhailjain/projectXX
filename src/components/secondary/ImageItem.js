@@ -8,7 +8,7 @@ import fbAccess from '../FirebaseConfig';
 
 const { width, height } = Dimensions.get('window');
 
-const likeHandle = (url, id, likes, fbuser) => {
+const likeHandle = (url, id, fbuser) => {
     let user;
     if (fbAccess.auth().currentUser != null) {
       user = fbAccess.auth().currentUser.uid;
@@ -27,14 +27,11 @@ const likeHandle = (url, id, likes, fbuser) => {
       } else {
         //user has not liked this image before
         //transaction
-        db.ref(`${url}`).child(id).update({ likes: likes + 1 })
-        //.update({ likes: likes + 1 })
-
+        db.ref(`${url}`).child(id).child('likes').transaction((like) => {
+          return like + 1;
+        })
         .then(() => {
-          db.ref(`/hypeUsers/users/${user}/`).child(uniqueKey).set(true)
-            .then(() => {
-              Alert.alert('your like was counted');
-            });
+          Alert.alert('your like was counted');
         });
     }
   })
@@ -99,7 +96,7 @@ class ImageItem extends Component {
       backgroundColor='#663300'
       textStyle={{ color: '#ffffff' }}
       title='hype it up!'
-      onPress={() => likeHandle(this.props.dbref, this.props.pic.id, this.props.pic.likes, this.props.userid)}
+      onPress={() => likeHandle(this.props.dbref, this.props.pic.id, this.props.userid)}
       />
       <Text style={styles.likes}>
       {this.props.pic.likes}
