@@ -71,6 +71,13 @@ class NotLogged extends Component {
   }
 
   refreshUserPicList(dbref) {
+    let user;
+    if (fbAccess.auth().currentUser != null) {
+      user = fbAccess.auth().currentUser.uid;
+    } else if (this.props.userid) {
+      user = this.props.userid;
+    }
+    console.log(user);
     return new Promise((resolve) => {
         let userPics = [];
         const fbdb = fbAccess.database();
@@ -78,11 +85,11 @@ class NotLogged extends Component {
         fbdb.ref(dbref).orderByChild('likes')
         .on('child_added', (snapshot) => {
           //reversing the like order and check for approved
-          if (fbAccess.auth().currentUser != null) {
-          if (snapshot.val().user === fbAccess.auth().currentUser.uid) {
+        //  if (fbAccess.auth().currentUser != null) {
+          if (snapshot.val().user === user) {
             userPics.unshift(snapshot.val());
           }
-        }
+      //  }
         });
         this.props.userPics(userPics);
          resolve();
@@ -247,6 +254,7 @@ class NotLogged extends Component {
 const mapStateToProps = state => {
   return {
     dbref: state.dbRef,
+    userid: state.fbUserID
   };
 };
 

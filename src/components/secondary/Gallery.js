@@ -14,10 +14,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const clickMe = (status) => {
-  const user = fbAccess.auth().currentUser;
-  //if (user === null) {
-  if (status === 'facebook' || status === 'email') {
+const clickMe = (fbUserId) => {
+  if (fbAccess.auth().currentUser === 'null' || fbUserId === 0) {
     Alert.alert('you must log in to upload yours');
   } else {
     Actions.frontCam();
@@ -34,7 +32,7 @@ class Gallery extends Component {
     return (
       <Icon
       name='add-a-photo' color='#ededed' underlayColor='#003366'
-      onPress={() => clickMe(this.props.loginStatus)}
+      onPress={() => clickMe(this.props.userid)}
       />
     );
 }
@@ -58,7 +56,8 @@ const mapStateToProps = state => {
   return {
     locate: state.currentLocation,
     gallery: state.gallery,
-    loginStatus: state.loginStatus
+    loginStatus: state.loginStatus,
+    userid: state.fbUserID
   };
 };
 

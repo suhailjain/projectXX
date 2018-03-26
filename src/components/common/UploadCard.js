@@ -14,7 +14,7 @@ const fs = RNFetchBlob.fs;
 window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
 window.Blob = Blob;
 
-const uploadImage = (uri, location, dbref, title, user, mime = 'application/octet-stream') => {
+const uploadImage = (uri, location, dbref, title, user, type, mime = 'application/octet-stream') => {
   return new Promise((resolve, reject) => {
     const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
     const sessionId = new Date().getTime();
@@ -60,7 +60,7 @@ const uploadImage = (uri, location, dbref, title, user, mime = 'application/octe
               key = 0;
           }
         })
-        .then(() => db.ref(dbref).child(key).set({ url: url, likes: 0, id: key, approved: 'N', title: title, user: `${user}`, upsertedAt: `${sessionId}`  })) /* push new record */
+        .then(() => db.ref(dbref).child(key).set({ url: url, likes: 0, id: key, approved: 'N', title: title, user: `${user}`, userType: `${type}`, upsertedAt: `${sessionId}`  })) /* push new record */
         .then(() => {
           db.ref(`/IndexKeys/${dbhouse}`).update({ index: key + 1 })
           .then(() => {
@@ -103,8 +103,17 @@ class UploadCard extends Component {
     name='done'
     color='#663300' underlayColor='#ededed'
     onPress={() => {
+      let user;
+      let type;
       this.setState({ loading: !this.state.loading });
-      uploadImage(this.props.uri, this.props.locate, this.props.dbref, this.props.title, fbAccess.auth().currentUser.uid);
+      if (fbAccess.auth().currentUser != null) {
+         user = fbAccess.auth().currentUser.uid;
+         type = 'email';
+      } else if (this.props.userid !== 0) {
+        user = this.props.userid;
+        type = 'facebook';
+      }
+      uploadImage(this.props.uri, this.props.locate, this.props.dbref, this.props.title, user, type);
     }}
     />
   );
@@ -171,7 +180,8 @@ const styles = {
 const mapStateToProps = state => {
   return {
     locate: state.currentLocation,
-    dbref: state.dbRef
+    dbref: state.dbRef,
+    userid: state.fbUserID
   };
 };
 
