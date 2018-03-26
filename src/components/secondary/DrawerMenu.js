@@ -37,8 +37,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const loginCheck = () => {
-  if (fbAccess.auth().currentUser !== null && (fbAccess.auth().currentUser.uid !== 'none')) {
+const loginCheck = (fbuserid) => {
+  if ((fbAccess.auth().currentUser !== null && (fbAccess.auth().currentUser.uid !== 'none')) || (fbuserid !== 0)) {
   return true;
   } else {
     return false;
@@ -118,7 +118,7 @@ const DrawerMenu = (props) => {
       backgroundColor='#003366'
         title='Feedback'
         onPress={() => {
-        if (loginCheck()) {
+        if (loginCheck(props.userid)) {
         props.drawerState(true);
         Actions.feedback();
         } else {
@@ -171,4 +171,10 @@ const DrawerMenu = (props) => {
   );
 };
 
-export default connect(null, actions)(DrawerMenu);
+const mapStateToProps = (state) => {
+  return {
+    userid: state.fbUserID
+  };
+};
+
+export default connect(mapStateToProps, actions)(DrawerMenu);

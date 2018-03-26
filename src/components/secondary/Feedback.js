@@ -69,15 +69,24 @@ class Feedback extends Component {
       Alert.alert('even a single adjective would be enough, please.');
       return;
     }
+    let user;
+    let usertype;
+    if (fbAccess.auth().currentUser != null) {
+      usertype = 'email';
+      user = fbAccess.auth().currentUser.uid;
+    } else if (this.props.userid) {
+      usertype = 'facebook';
+      user = this.props.userid;
+    }
+
     const sessionId = new Date().getTime();
     this.setState({ loading: true });
-    const user = fbAccess.auth().currentUser.uid;
-    const url = `${feedRef}/service/${service}`;
-  fbAccess.database().ref(url).push({ uid: `${user}`, review: `${comment}`, rating: `${rating}`, upsertTime: `${sessionId}` })
-  .then(() => {
-    this.setState({ loading: false });
-    Actions.pop();
-  });
+    fbAccess.database().ref(`${feedRef}/service/${service}`)
+    .push({ uid: `${user}`, type: `${usertype}`, review: `${comment}`, rating: `${rating}`, upsertTime: `${sessionId}` })
+    .then(() => {
+      this.setState({ loading: false });
+      Actions.pop();
+    });
   }
   update = (selected) => {
       this.setState({ service: selected });
