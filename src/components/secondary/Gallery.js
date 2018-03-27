@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
 });
 
 const clickMe = (fbUserId) => {
-  if (fbAccess.auth().currentUser === 'null' || fbUserId === 0) {
+  if (fbAccess.auth().currentUser === 'null' && fbUserId === 0) {
     Alert.alert('you must log in to upload yours');
   } else {
     Actions.frontCam();

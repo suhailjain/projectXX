@@ -7,8 +7,6 @@ import { Header, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import fbAccess from '../FirebaseConfig';
 
-const storage = fbAccess.storage();
-const db = fbAccess.database();
 const Blob = RNFetchBlob.polyfill.Blob;
 const fs = RNFetchBlob.fs;
 window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
@@ -16,10 +14,11 @@ window.Blob = Blob;
 
 const uploadImage = (uri, location, dbref, title, user, type, mime = 'application/octet-stream') => {
   return new Promise((resolve, reject) => {
+    console.log(dbref);
     const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
     const sessionId = new Date().getTime();
     let uploadBlob = null;
-    const imageRef = storage.ref(location).child(`${sessionId}`);
+    const imageRef = fbAccess.storage().ref(location).child(`${sessionId}`);
     console.log('start of upload');
     console.log('uploading for user', user);
     fs.readFile(uploadUri, 'base64')
@@ -36,44 +35,31 @@ const uploadImage = (uri, location, dbref, title, user, type, mime = 'applicatio
       })
       .then((url) => {
         resolve(url);
-        let key = 0;
-        let dbhouse = '';
-        axios.get('https://unityone-65a80.firebaseio.com/IndexKeys.json')
-        .then(response => { /* get the index*/
-          switch (location) {
-            case 'Rohini': {
-              dbhouse = 'posts';
-              key = response.data.posts.index;
-              break;
-            }
-            case 'Janakpuri': {
-              dbhouse = 'jposts';
-              key = response.data.jposts.index;
-              break;
-            }
-            case 'Shahadra': {
-              dbhouse = 'sposts';
-              key = response.data.sposts.index;
-              break;
-            }
-            default:
-              key = 0;
-          }
+        fbAccess.database().ref('IndexKeys').child(dbref).child('index')
+        .transaction((indexValue) => {
+          return indexValue + 1;
         })
-        .then(() => db.ref(dbref).child(key).set({ url: url, likes: 0, id: key, approved: 'N', title: title, user: `${user}`, userType: `${type}`, upsertedAt: `${sessionId}`  })) /* push new record */
-        .then(() => {
-          db.ref(`/IndexKeys/${dbhouse}`).update({ index: key + 1 })
+        .then((indexValue) => {
+          console.log(indexValue.snapshot.val());
+          fbAccess.database().ref(dbref).child(indexValue.snapshot.val()).set({
+            url: url,
+            likes: 0,
+            id: indexValue.snapshot.val(),
+            approved: 'N',
+            title: title,
+            user: `${user}`,
+            userType: `${type}`,
+            upsertedAt: `${sessionId}`
+          })
           .then(() => {
-            this.setState({ loading: !this.state.loading });
-            //db.ref(`userSpecificPosts/users/${user}`).child().set({ id: key + 1, location: this.props.dbref });
-          });
-        }) /* increment the index */
+            console.log('updated');
+        });
+        })
         .then(() => {
-          Actions.popTo('gallery');
-          //Actions.pop();
-        })
-        .then(() => Alert.alert('your selfie is uploaded and is awaiting authority approval.'));
-        })
+          this.setState({ loading: !this.state.loading });
+          Alert.alert('your selfie is uploaded and is awaiting authority approval.');
+        });
+      })
         .catch((error) => {
         reject(error);
     });
