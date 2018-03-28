@@ -94,8 +94,7 @@ class Logged extends Component {
     );
   }
   fbUserLogout() {
-    console.log(this.props.userid);
-    if (this.props.userid !== 0) {
+    if (AccessToken.getCurrentAccessToken() !== 0) {
       return (
         <LoginButton
         publishPermissions={['publish_actions']}

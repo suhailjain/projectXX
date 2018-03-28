@@ -37,12 +37,7 @@ class Lobby extends Component {
     const fbdb = fbAccess.database();
     let pics = [];
     let userPics = [];
-    // dbref = '/posts' || '/jPosts' || 'sPosts'
-    if (fbAccess.auth().currentUser != null) {
-      console.log('fetching for user: ', fbAccess.auth().currentUser.uid);
-    }
-    //undefiend
-    console.log(user);
+    // dbref = '/posts' || '/jPosts' || 'sPosts
     await fbdb.ref(this.props.dbref)
     .limitToLast(3)
     .on('child_added', (snapshot) => {
@@ -51,13 +46,12 @@ class Lobby extends Component {
         userPics.unshift(snapshot.val());
         this.props.userPics(userPics);
       }
-
       if (snapshot.val().approved === 'Y') {
           pics.unshift(snapshot.val());
           this.props.gallerydata(pics);
     }
   });
-  console.log(userPics);
+  console.log(pics);
 }
 
   checkForParking() {
