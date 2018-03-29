@@ -36,9 +36,9 @@ const {
 } = FBSDK;
 
 const shareLinkContenty = {
-  contentType: 'link',
-  contentUrl: 'https://facebook.com',
-  contentDescription: 'Wow, check out this great site!',
+  imageUrl: 'https://firebasestorage.googleapis.com/v0/b/unityone-65a80.appspot.com/o/Janakpuri%2F1516448888325?alt=media&token=2fcc8e97-2d3a-4163-807d-6757db64f1c7',
+  isUserGenerated: false,
+  caption: 'Wow, check out this great site!',
 };
 
 class UserProfile extends Component {
@@ -143,12 +143,6 @@ console.log(userPics);
                   }}
                   />
             </View>
-
-            <ScrollView
-            contentContainerStyle={{ marginLeft: 15, marginRight: 15, marginBottom: 20, marginTop: 40 }}
-            showsHorizontalScrollIndicator={false}
-            showsVerticalScrollIndicator={false}
-            >
             <FlatList
             refreshing={this.state.isFetching}
             onRefresh={this.onRefresh}
@@ -161,8 +155,6 @@ console.log(userPics);
             }}
             ListFooterComponent={this.renderFooter}
             />
-            </ScrollView>
-
         </View>
         <View style={styles.container}>
         <Button
