@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { View, FlatList, ScrollView, ActivityIndicator, Text } from 'react-native';
+import { View, FlatList, Button, ActivityIndicator, Text } from 'react-native';
 import { connect } from 'react-redux';
-import { Button } from 'react-native-elements';
 import ImageItem from './ImageItem';
 import fbAccess from './../FirebaseConfig';
 import * as actions from './../../actions';
@@ -10,50 +9,37 @@ import * as actions from './../../actions';
 class ImageList extends Component {
 
   static statInd;
-   static newpics = [];
 
   constructor(props) {
     super(props);
-    console.log();
       this.state = { isFetching: false, data: this.props.gallery };
       this.refreshIndex();
   }
-  componentWillMount() {
-  }
+
   async onRefresh() {
     console.log('refreshing');
     this.setState({ isFetching: true });
     this.refreshIndex();
-    const fbdb = fbAccess.database();
+
     let pics = [];
-    await fbdb.ref(this.props.dbref)
+    await fbAccess.database().ref(this.props.dbref)
     .limitToLast(3)
     .on('child_added', (snapshot) => {
       if (snapshot.val().approved === 'Y') {
         pics.unshift(snapshot.val());
-        //this.props.gallerydata(pics);
     }
-  });
-  this.setState({ isFetching: false, data: pics });
-}
-
-async sortByDate() {
-      console.log('sorting now ');
-      this.setState({ isFetching: true });
-
-      const fbdb = fbAccess.database();
-      let pics = [];
-      fbdb.ref(this.props.dbref).orderByChild('upsertedAt')
-      .on('child_added', (snapshot) => {
-        if (snapshot.val().approved === 'Y') {
-          pics.unshift(snapshot.val());
-        }
-      });
+    });
       this.setState({ isFetching: false, data: pics });
-}
+  }
+
+  async sortByLikes() {
+      console.log('sorting now ');
+      let temp = this.state.data;
+      temp.sort((a, b) => parseFloat(b.likes) - parseFloat(a.likes));
+      this.setState({ data: temp });
+  }
 
 async add(pic) {
-  console.log('adding up', pic.id);
   await this.setState({ data: [...this.state.data, ...[pic]] });
   return;
 }
@@ -71,8 +57,6 @@ async loadMoreData() {
     .on('child_added', (snapshot) => {
       if (snapshot.val().approved === 'Y') {
         this.add(snapshot.val());
-       //ImageList.newpics.unshift(snapshot.val());
-       console.log('new node: ', snapshot.val().id);
       }
     });
 
@@ -81,14 +65,11 @@ async loadMoreData() {
 
 refreshIndex() {
   ImageList.statInd = this.props.gallery[0].id - 3;
-}
-
-sortByLikes() {
-
+  ImageList.likeInd = this.props.gallery[0].id + 1;
 }
 
 renderFooter() {
-  console.log('rendering footer');
+console.log('rendering footer');
 return (
   <View
     style={{
@@ -102,7 +83,7 @@ return (
 );
 }
 
-  renderSeparator() {
+renderSeparator() {
       return (
         <View
           style={{
@@ -114,22 +95,16 @@ return (
           }}
         />
       );
-    }
-    /*
-    <Button
-    title='most recent first'
-    onPress={this.sortByDate.bind(this)}
-    />
-    <Button
-    title='most liked first'
-    onPress={this.sortByLikes.bind(this)}
-    />
-    */
+}
 
-
-  render() {
-    console.log('rendering now: ', this.state.data);
+render() {
+    console.log(this.state.data);
     return (
+      <View>
+      <Button
+      title='most liked first'
+      onPress={this.sortByLikes.bind(this)}
+      />
       <FlatList
         refreshing={this.state.isFetching}
         onRefresh={this.onRefresh.bind(this)}
@@ -141,6 +116,7 @@ return (
         onEndReachedThreshold={0.5}
         removeClippedSubviews={false}
       />
+      </View>
 
     );
   }
