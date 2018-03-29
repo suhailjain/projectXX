@@ -14,6 +14,7 @@ class ImageList extends Component {
 
   constructor(props) {
     super(props);
+    console.log();
       this.state = { isFetching: false, data: this.props.gallery };
       this.refreshIndex();
   }
@@ -114,22 +115,21 @@ return (
         />
       );
     }
+    /*
+    <Button
+    title='most recent first'
+    onPress={this.sortByDate.bind(this)}
+    />
+    <Button
+    title='most liked first'
+    onPress={this.sortByLikes.bind(this)}
+    />
+    */
 
 
   render() {
     console.log('rendering now: ', this.state.data);
     return (
-      <ScrollView
-      contentContainerStyle={{ flex: 1, marginBottom: 20 }}
-      >
-      <Button
-      title='most recent first'
-      onPress={this.sortByDate.bind(this)}
-      />
-      <Button
-      title='most liked first'
-      onPress={this.sortByLikes.bind(this)}
-      />
       <FlatList
         refreshing={this.state.isFetching}
         onRefresh={this.onRefresh.bind(this)}
@@ -139,8 +139,9 @@ return (
         keyExtractor={item => item.id}
         onEndReached={this.loadMoreData.bind(this)}
         onEndReachedThreshold={0.5}
+        removeClippedSubviews={false}
       />
-      </ScrollView>
+
     );
   }
 }
