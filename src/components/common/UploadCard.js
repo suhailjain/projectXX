@@ -14,13 +14,11 @@ window.Blob = Blob;
 
 const uploadImage = (uri, location, dbref, title, user, type, mime = 'application/octet-stream') => {
   return new Promise((resolve, reject) => {
-    console.log(dbref);
     const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
     const sessionId = new Date().getTime();
     let uploadBlob = null;
     const imageRef = fbAccess.storage().ref(location).child(`${sessionId}`);
     console.log('start of upload');
-    console.log('uploading for user', user);
     fs.readFile(uploadUri, 'base64')
       .then((data) => {
         return Blob.build(data, { type: `${mime};BASE64` });
@@ -50,20 +48,12 @@ const uploadImage = (uri, location, dbref, title, user, type, mime = 'applicatio
             user: `${user}`,
             userType: `${type}`,
             upsertedAt: `${sessionId}`
-          })
-          .then(() => {
-            console.log('updated');
-        });
-        })
-        .then(() => {
-          this.setState({ loading: !this.state.loading });
-          Alert.alert('your selfie is uploaded and is awaiting authority approval.');
+          });
         });
       })
         .catch((error) => {
         reject(error);
     });
-    console.log('end of upload');
   });
 };
 
@@ -99,7 +89,13 @@ class UploadCard extends Component {
         user = this.props.userid;
         type = 'facebook';
       }
-      uploadImage(this.props.uri, this.props.locate, this.props.dbref, this.props.title, user, type);
+      uploadImage(this.props.uri, this.props.locate, this.props.dbref, this.props.title, user, type)
+      .then(() => {
+        console.log('updated');
+        this.setState({ loading: !this.state.loading });
+        Alert.alert('your selfie is uploaded and is awaiting authority approval.');
+        Actions.popTo('gallery');
+      });
     }}
     />
   );
