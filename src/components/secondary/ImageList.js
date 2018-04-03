@@ -9,27 +9,38 @@ import * as actions from './../../actions';
 class ImageList extends Component {
 
   static statInd;
-
+  static hasMoreData = true;
   constructor(props) {
     super(props);
       this.state = { isFetching: false, data: this.props.gallery };
       this.refreshIndex();
   }
+  componentWillMount() {
+    ImageList.hasMoreData = true;
+  }
+  componentWillUnmount() {
+    ImageList.hasMoreData = true;
+  }
 
   async onRefresh() {
+    ImageList.hasMoreData = true;
     console.log('refreshing');
-    this.setState({ isFetching: true });
-    this.refreshIndex();
-
-    let pics = [];
+    let first = 0;
+    await this.setState({ data: [] });
     await fbAccess.database().ref(this.props.dbref)
-    .limitToLast(3)
-    .on('child_added', (snapshot) => {
-      if (snapshot.val().approved === 'Y') {
-        pics.unshift(snapshot.val());
-    }
-    });
-      this.setState({ isFetching: false, data: pics });
+      .orderByKey()
+      .limitToLast(3)
+      .on('child_added', (snapshot) => {
+        console.log(snapshot.val().id);
+        if (first === 0) {
+          first++;
+          ImageList.statInd = snapshot.val().id;
+        }
+        console.log('newest posts begins from id: ', ImageList.statInd);
+        if (snapshot.val().approved === 'Y') {
+          this.add(snapshot.val());
+        }
+      });
   }
 
   async sortByLikes() {
@@ -45,26 +56,35 @@ async add(pic) {
 }
 
 async loadMoreData() {
-  if (ImageList.statInd < 0) {
+  if (!ImageList.hasMoreData) {
     console.log('no more data to load');
     return;
   }
-
+  await console.log('well be starting at', ImageList.statInd);
+  let first = 0;
   await fbAccess.database().ref(this.props.dbref)
     .orderByKey()
     .endAt(String(ImageList.statInd))
     .limitToLast(3)
     .on('child_added', (snapshot) => {
-      if (snapshot.val().approved === 'Y') {
+      if (first === 0) {
+        ImageList.statInd = snapshot.val().id;
+        console.log('new index : ', ImageList.statInd);
+      }
+      if (snapshot.val().id === 0) {
+        ImageList.hasMoreData = false;
+      }
+      first++;
+      console.log(first);
+      //not adding up when first===3 as it will lead to duplicate item
+      if (snapshot.val().approved === 'Y' && first !== 3 && snapshot.val().id !== 0) {
         this.add(snapshot.val());
       }
     });
-
-   ImageList.statInd -= await 3;
 }
 
 refreshIndex() {
-  ImageList.statInd = this.props.gallery[0].id - 3;
+  ImageList.statInd = this.props.gallery[2].id;
   ImageList.likeInd = this.props.gallery[0].id + 1;
 }
 
@@ -120,6 +140,8 @@ render() {
 
     );
   }
+
+
 }
 
 const mapStateToProps = (state) => {

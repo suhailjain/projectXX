@@ -51,7 +51,6 @@ class Lobby extends Component {
           this.props.gallerydata(pics);
     }
   });
-  console.log(pics);
 }
 
   checkForParking() {

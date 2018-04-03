@@ -33,28 +33,25 @@ const uploadImage = (uri, location, dbref, title, user, type, mime = 'applicatio
       })
       .then((url) => {
         resolve(url);
+        /*
         fbAccess.database().ref('IndexKeys').child(dbref).child('index')
         .transaction((indexValue) => {
           return indexValue + 1;
         })
         .then((indexValue) => {
-          console.log(indexValue.snapshot.val());
-          fbAccess.database().ref(dbref).child(indexValue.snapshot.val()).set({
+          console.log(indexValue.snapshot.val()); */
+          fbAccess.database().ref(dbref).child(sessionId).set({
             url: url,
             likes: 0,
-            id: indexValue.snapshot.val(),
+            id: `${sessionId}`,
             approved: 'N',
             title: title,
             user: `${user}`,
             userType: `${type}`,
-            upsertedAt: `${sessionId}`
-          });
+            approvedAt: 0
         });
-      })
-        .catch((error) => {
-        reject(error);
+      });
     });
-  });
 };
 
 class UploadCard extends Component {
