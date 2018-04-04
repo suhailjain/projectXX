@@ -4,40 +4,9 @@ import { connect } from 'react-redux';
 import Modal from 'react-native-modal';
 import { Divider, Button } from 'react-native-elements';
 import * as actions from '../../actions';
-import fbAccess from '../FirebaseConfig';
+import LikeButton from './LikeButton';
 
 const { width, height } = Dimensions.get('window');
-
-const likeHandle = (url, id, fbuser) => {
-    let user;
-    if (fbAccess.auth().currentUser != null) {
-      user = fbAccess.auth().currentUser.uid;
-    } else if (fbuser !== 0) {
-      user = fbuser;
-    } else {
-      Alert.alert('you must log in to like');
-      return;
-    }
-
-    const db = fbAccess.database();
-    const uniqueKey = url + id;
-    db.ref(`/hypeUsers/users/${user}/${uniqueKey}`).once('value').then((snapshot) => {
-      if (snapshot.val()) {
-          Alert.alert('you have liked this before, thanks!');
-      } else {
-        //user has not liked this image before
-        //transaction
-        db.ref(`${url}`).child(id).child('likes').transaction((like) => {
-          return like + 1;
-        })
-        .then(() => {
-          Alert.alert('your like was counted');
-        });
-    }
-  })
-    .catch(() => Alert.alert('fishh!, please try again.'));
-
-};
 
 const styles = StyleSheet.create({
   container: {
@@ -71,7 +40,9 @@ const styles = StyleSheet.create({
 });
 
 class ImageItem extends Component {
+
   render() {
+    console.log('rendering pic id : ', this.props.pic.id);
     return (
       <View style={styles.container}>
       <View style={styles.imageCont}>
@@ -90,17 +61,14 @@ class ImageItem extends Component {
       {this.props.pic.title}
       </Text>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
-      <Button
-      small
-      rounded
-      backgroundColor='#663300'
-      textStyle={{ color: '#ffffff' }}
-      title='hype it up!'
-      onPress={() => likeHandle(this.props.dbref, this.props.pic.id, this.props.userid)}
+
+      <LikeButton
+      currentLikes={this.props.pic.likes}
+      db={this.props.dbref}
+      id={this.props.pic.id}
+      userid={this.props.userid}
       />
-      <Text style={styles.likes}>
-      {this.props.pic.likes}
-      </Text>
+
       </View>
       <Modal
       onBackdropPress={() => this.props.currentImageVisible(false)}
