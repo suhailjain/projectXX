@@ -32,6 +32,7 @@ class LikeButton extends Component {
           })
           .then(() => {
             this.setState({ number: this.state.number + 1 });
+            //unique identifier to check if a user has liked an image before.
             fbAccess.database().ref(`/hypeUsers/users/${user}`).child(uniqueKey).set(true);
             Alert.alert('your like was counted');
           });
