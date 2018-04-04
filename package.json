@@ -30,6 +30,7 @@
     "react-navigation": "^1.0.0-beta.22",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
+    "redux-persist": "^4.6.0",
     "xcode": "^1.0.0"
   },
   "devDependencies": {
