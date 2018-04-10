@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions, Alert } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Image, NetInfo } from 'react-native';
 import { connect } from 'react-redux';
-import { Button, Header, Divider, SocialIcon } from 'react-native-elements';
+import { Button, Header, Divider } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import * as actions from '../actions';
+import store from '../store';
+import fbAccess from './FirebaseConfig';
+
+const FBSDK = require('react-native-fbsdk');
+
+const {
+  AccessToken
+} = FBSDK;
 
 const styles = StyleSheet.create({
   base: {
@@ -13,6 +21,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#ededed',
     flex: 1,
     justifyContent: 'center',
+  },
+  image: {
+    borderRadius: 5,
+    width: width * 0.8,
+    height: height * 0.24,
   },
   container: {
     flex: 1,
@@ -31,10 +44,24 @@ const styles = StyleSheet.create({
 const { width, height } = Dimensions.get('window');
 
 class PickLocation extends Component {
+  constructor() {
+    super();
+    if (fbAccess.auth().currentUser !== null) {
+      this.props.loginStatus('email');
+      this.props.userId(fbAccess.auth().currentUser.uid);
+    }
+    AccessToken.getCurrentAccessToken().then((resp) => {
+      if (resp !== null) {
+        this.props.loginStatus('facebook');
+        this.props.userId(resp.userID);
+        console.log('fb user id: ', resp.userID);
+    }
+  });
+  }
   title() {
     return (
       <Text style={{ color: '#ffffff', fontSize: 42, fontWeight: 'bold' }}>
-        Unity One
+         my app
       </Text>
     );
   }
@@ -52,12 +79,17 @@ class PickLocation extends Component {
         style={styles.outerContainer}
         >
         <View style={styles.container}>
+        <Image
+          style={styles.image}
+          source={{ uri: 'file:///Users/suhailjain/Library/Developer/CoreSimulator/Devices/DB8029F7-CD06-4792-A938-724F6B4367F7/data/Containers/Data/Application/1076F8D6-4EC1-4686-B435-FDBF02ECA45C/Library/Caches/crazyAF.jpg' }}
+        />
         <Button
         large
         transparent
         textStyle={{ color: '#663300' }}
         title='Rohini'
         onPress={() => {
+          console.log(store.getState());
           this.props.selectLocation('Rohini');
           this.props.postUrl('https://unityone-65a80.firebaseio.com/posts.json');
           this.props.likeUrl('https://unityone-65a80.firebaseio.com/posts');
@@ -74,6 +106,11 @@ class PickLocation extends Component {
         transparent
         textStyle={{ color: '#663300' }}
         title='Janakpuri' onPress={() => {
+        /*  store.dispatch({
+            type: 'inc'
+          });
+          */
+          console.log(store.getState());
           this.props.selectLocation('Janakpuri');
           this.props.postUrl('https://unityone-65a80.firebaseio.com/jPosts.json');
           this.props.likeUrl('https://unityone-65a80.firebaseio.com/jPosts');
@@ -90,6 +127,10 @@ class PickLocation extends Component {
         transparent
         textStyle={{ color: '#663300' }}
         title='Shahadra' onPress={() => {
+          NetInfo.isConnected.fetch().then(isConnected => {
+            console.log('First, is ' + (isConnected ? 'online' : 'offline'));
+          });
+          console.log(store.getState());
           this.props.selectLocation('Shahadra');
           this.props.postUrl('https://unityone-65a80.firebaseio.com/sPosts.json');
           this.props.likeUrl('https://unityone-65a80.firebaseio.com/sPosts');

@@ -1,10 +1,14 @@
-import { View, StyleSheet, TextInput, Alert, ActivityIndicator, KeyboardAvoidingView } from 'react-native';
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Icon, Header, Button } from 'react-native-elements';
+import { View, Text, Dimensions, Alert } from 'react-native';
+import { Form, Item, Input, Label } from 'native-base';
 import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
 import fbAccess from '../FirebaseConfig';
+import BackFab from '../../fabs/BackFab';
+import Button from '../common/Button';
 import * as actions from '../../actions';
+
+const { widtht } = Dimensions.get('window');
 
 const FBSDK = require('react-native-fbsdk');
 
@@ -13,53 +17,34 @@ LoginButton,
 AccessToken
 } = FBSDK;
 
-const styles = StyleSheet.create({
-  submit: {
-    paddingTop: 20,
-    alignItems: 'flex-end'
-  },
-  email: {
-    marginLeft: 7,
-    marginRight: 7,
-    marginTop: 20
-  },
-  fb: {
-    alignItems: 'center'
-  },
-  pass: {
-    marginTop: 10,
-    marginLeft: 7,
-    marginRight: 7,
-  },
-  loginContainer: {
-    flex: 1,
-    marginRight: 7,
-    marginLeft: 7,
-    marginTop: 7,
-    borderColor: '#d0d0d0',
-    borderWidth: 1,
-    backgroundColor: '#ffffff',
-  },
-  logout: {
-    backgroundColor: '#ffffff',
-    paddingBottom: 5,
-    paddingTop: 5,
-    marginRight: 7,
-    marginLeft: 7,
-    marginTop: 7,
-    borderColor: '#d0d0d0',
-    borderWidth: 1
-  },
-  activityIndicator: {
+const styles = {
+  outerContainer: {
     flex: 1
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    marginLeft: 15,
+    marginRight: 15
+  },
+  login: {
+    marginTop: 20,
+    width: widtht,
+    backgroundColor: '#07969b',
+    borderRadius: 15
+  },
+  text: {
+    paddingTop: 5,
+    paddingBottom: 5,
+    alignSelf: 'center',
+    color: '#ffffff',
+    fontSize: 18,
   }
-});
-
+};
 class NotLogged extends Component {
-
   constructor() {
     super();
-    this.state = { email: '', password: '', error: '', loggedIn: false, loading: false };
+    this.state = { email: '', password: '', error: '', loading: false };
   }
 
   handleEmail = (text) => {
@@ -67,6 +52,7 @@ class NotLogged extends Component {
   }
 
   handlePassword = (text) => {
+    console.log(text);
     this.setState({ password: text });
   }
 
@@ -93,14 +79,15 @@ class NotLogged extends Component {
         });
         this.props.userPics(userPics);
          resolve();
-});
-}
+       });
+  }
 
   login = (email, pass) => {
     this.setState({ loading: !this.state.loading });
     fbAccess.auth().signInWithEmailAndPassword(email, pass)
     .then(() => {
       this.props.loginStatus('email');
+      this.props.userId(fbAccess.auth().currentUser.uid);
       this.refreshUserPicList(this.props.dbref).then(() => Actions.logged());
       this.setState({ loading: !this.state.loading, loggedIn: true });
     })
@@ -109,6 +96,7 @@ class NotLogged extends Component {
       fbAccess.auth().createUserWithEmailAndPassword(email, pass)
       .then(() => {
         this.props.loginStatus('email');
+        this.props.userId(fbAccess.auth().currentUser.uid);
         this.setState({ loading: !this.state.loading, loggedIn: true });
         this.refreshUserPicList(this.props.dbref).then(() => Actions.logged());
     })
@@ -129,124 +117,66 @@ class NotLogged extends Component {
     });
   }
 
-  menuIcon() {
-    return (
-      <Icon
-      name='navigate-before'
-      color='#ededed'
-      underlayColor='#ededed'
-      onPress={() => Actions.lobby()}
-      />
-    );
-  }
-
-  rightIcon() {
-    return (
-      <Icon
-      name='local-parking' color='#ededed' underlayColor='#ededed' onPress={() => {
-        this.props.cameraFace('RNCamera.Constants.Type.back');
-        Actions.camera();
-      }}
-      />
-    );
-  }
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: '#ededed' }}>
-      <Header
-      backgroundColor='#003366'
-      leftComponent={this.menuIcon()}
-      centerComponent={{ text: '', style: { color: '#fff' } }}
-      rightComponent={this.rightIcon()}
-      />
-      <KeyboardAvoidingView
-      style={styles.loginContainer}
-      >
-          <View style={styles.email}>
-            <View style={styles.fb}>
-              <LoginButton
-              publishPermissions={['publish_actions']}
-              onLoginFinished={
-                (error, result) => {
-                  if (error) {
-                    Alert.alert('login has error: ' + result.error);
-                  } else if (result.isCancelled) {
-                    Alert.alert("login is cancelled.");
-                  } else {
-                    AccessToken.getCurrentAccessToken().then(
-                  (data) => {
-                      this.props.loginStatus('facebook');
-                      this.props.fbUserId(data.userID);
-                      }
-                  )
-            .then(() => Actions.logged());
+      <View style={styles.outerContainer}>
+        <View style={styles.container}>
+          <Form>
+           <Item floatingLabel>
+             <Label>Email</Label>
+             <Input
+              onChangeText={this.handleEmail}
+             />
+           </Item>
+           <Item floatingLabel last>
+             <Label>Password</Label>
+             <Input
+              onChangeText={this.handlePassword}
+             />
+           </Item>
+          </Form>
+          <Button
+            onPress={this.login}
+            textStyle={styles.text}
+            buttonStyle={styles.login}
+          >
+          Login
+          </Button>
+          <Text style={{
+            paddingTop: 40,
+            paddingBottom: 40,
+            alignSelf: 'center' }}
+          >
+            - or -
+          </Text>
+          <LoginButton
+          publishPermissions={['publish_actions']}
+          onLoginFinished={
+            (error, result) => {
+              if (error) {
+                Alert.alert('login has error: ' + result.error);
+              } else if (result.isCancelled) {
+                Alert.alert("login is cancelled.");
+              } else {
+                AccessToken.getCurrentAccessToken().then(
+              (data) => {
+                  this.props.loginStatus('facebook');
+                  this.props.userId(data.userID);
+                  console.log('fb user id: ', data.userID);
                   }
-                }
+              )
+        .then(() => Actions.logged());
               }
-                onLogoutFinished={() => {
-                  this.props.fbUserId(0);
-                  Alert.alert('logout.');
-              }}
-              />
-            </View>
-
-          <TextInput
-           underlineColorAndroid="transparent"
-           placeholder="Email"
-           placeholderTextColor="#003366"
-           autoCapitalize="none"
-           onChangeText={this.handleEmail}
+            }
+          }
+            onLogoutFinished={() => {
+              this.props.userId(0);
+              Alert.alert('logout.');
+          }}
           />
-          <View
-            style={{
-              height: 2,
-              width: '100%',
-              backgroundColor: '#003366',
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}
-          />
-          </View>
-
-          <View style={styles.pass}>
-          <TextInput
-           style={styles.password}
-           underlineColorAndroid="transparent"
-           placeholder="Password"
-           placeholderTextColor="#003366"
-           autoCapitalize="none"
-           onChangeText={this.handlePassword}
-          />
-          <View
-            style={{
-              height: 2,
-              width: '100%',
-              backgroundColor: '#003366',
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}
-          />
-          </View>
-       <Button
-        title='forgot password'
-        onPress={() => this.resetPass(this.state.email)}
-       />
-       <Button
-        style={styles.submit}
-        title='SignUp/Login'
-        backgroundColor='#003366'
-        onPress={() => this.login(this.state.email, this.state.password)}
-       />
-       <ActivityIndicator
-                animating={this.state.loading}
-                color='#bc2b78'
-                size='large'
-                style={styles.activityIndicator}
-       />
-      <View style={{ backgroundColor: '#003366', marginBottom: 0, height: 30, width: 50 }} />
-      </KeyboardAvoidingView>
+        </View>
+      <BackFab />
       </View>
-
     );
   }
 }

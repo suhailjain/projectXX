@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 
 class UserPicture extends Component {
   selectStyle() {
-    if (this.props.selected === this.props.pic.id) {
+    if (this.props.selected != null && (this.props.selected.id === this.props.pic.id)) {
       return styles.largeImage;
     } else {
       return styles.smallImage;
@@ -35,14 +35,15 @@ class UserPicture extends Component {
       <View style={{ alignItems: 'center' }}>
       <TouchableOpacity
       onPress={() => {
-        this.props.userSelects(this.props.pic.id);
+        this.props.userSelects(this.props.pic);
         this.props.approval(this.props.pic.approved);
         this.props.likes(this.props.pic.likes);
-    }}>
-        <Image
+      }}
+      >
+      <Image
         style={this.selectStyle()}
         source={{ uri: this.props.pic.url }}
-        />
+      />
       </TouchableOpacity>
       </View>
       </View>

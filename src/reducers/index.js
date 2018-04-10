@@ -23,7 +23,10 @@ import LikeReducer from './LikeReducer';
 import LoadingReducer from './LoadingReducer';
 import CacheLocation from './CacheLocation';
 import LoginStatus from './LoginStatus';
-import FbUserIdReducer from './FbUserIdReducer';
+import UserIdReducer from './UserIdReducer';
+import incReducer from '../store/incReducer';
+import ProgressReducer from './ProgressReducer';
+import CaptionReducer from './CaptionReducer';
 
 export default combineReducers({
 
@@ -51,6 +54,9 @@ export default combineReducers({
   likecount: LikeReducer,
   loading: LoadingReducer,
   loginStatus: LoginStatus,
-  fbUserID: FbUserIdReducer
+  userId: UserIdReducer,
+  count: incReducer,
+  progress: ProgressReducer,
+  caption: CaptionReducer
 
 });

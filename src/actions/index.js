@@ -159,7 +159,7 @@ export const loginStatus = (status) => {
   };
 };
 
-export const fbUserId = (id) => {
+export const userId = (id) => {
   return {
     type: 'user_id',
     payload: id
@@ -170,5 +170,19 @@ export const cameraFace = (type) => {
   return {
     type: 'camera',
     payload: type
+  };
+};
+
+export const progress = (type) => {
+  return {
+    type: 'progress',
+    payload: type
+  };
+};
+
+export const caption = (text) => {
+  return {
+    type: 'caption',
+    payload: text
   };
 };

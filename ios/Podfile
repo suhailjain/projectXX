@@ -6,6 +6,7 @@ target 'projectX' do
   # use_frameworks!
 
   # Pods for projectX
+
   target 'projectXTests' do
     inherit! :search_paths
     # Pods for testing

@@ -1,9 +1,11 @@
 import { Text, View, StyleSheet } from 'react-native';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Button } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { Header, Icon } from 'react-native-elements';
 import * as actions from '../../actions';
+import BackFab from '../../fabs/BackFab';
 
 const styles = StyleSheet.create({
   container: {
@@ -45,10 +47,12 @@ rightIcon() {
       centerComponent={{ text: '', style: { color: '#fff' } }}
       rightComponent={this.rightIcon()}
       />
+      <Button warning><Text> Warning </Text></Button>
         <Text style={styles.heading}>Unity One</Text>
         <Text style={styles.para}>We at unity one are trying to build a bridge between services we
         have to offer and the experience which our users enjoy at our three premier
         locations Rohini, Janakpuri and Shahdra.</Text>
+        <BackFab />
       </View>
     );
   }

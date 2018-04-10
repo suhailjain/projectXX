@@ -10,8 +10,13 @@ import { Actions } from 'react-native-router-flux';
 import { RNCamera } from 'react-native-camera';
 import { Icon } from 'react-native-elements';
 import * as actions from '../../actions';
+import Spinner from './Spinner';
 
 class FrontCameraComponent extends Component {
+  constructor() {
+    super();
+    this.state = { loading: false };
+  }
   onBarCodeRead(e) {
     Alert.alert(e.data);
     this.props.parking(e.data);
@@ -22,11 +27,12 @@ class FrontCameraComponent extends Component {
   }
 
   async takePicture() {
+    await this.setState({ loading: !this.state.loading });
     if (this.camera) {
-      const options = { quality: 0.5, base64: true };
+      const options = { quality: 1, base64: true };
       const data = await this.camera.takePictureAsync(options);
-      console.log(data.uri);
       this.props.cache(data.uri);
+      await this.setState({ loading: !this.state.loading });
       Actions.confirmUpload();
     }
    }
@@ -73,6 +79,7 @@ class FrontCameraComponent extends Component {
 
         </View>
         </RNCamera>
+        <Spinner loading={this.state.loading} />
       </View>
     );
   }

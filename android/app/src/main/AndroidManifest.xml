@@ -24,6 +24,9 @@
       android:theme="@style/AppTheme">
         tools:replace="android:value"
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id" />
+        <provider android:authorities="com.facebook.app.FacebookContentProvider180641799191802"
+                  android:name="com.facebook.FacebookContentProvider"
+                  android:exported="true"/>
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
@@ -36,6 +39,7 @@
         </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+
     </application>
 
 </manifest>

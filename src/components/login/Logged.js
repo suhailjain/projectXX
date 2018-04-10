@@ -60,10 +60,6 @@ class Logged extends Component {
     this.state = { loading: false, loggedIn: true };
   }
 
-  componentWillMount() {
-
-  }
-
   logout = () => {
     console.log('logging out of user: ', fbAccess.auth().currentUser.uid);
     this.setState({ loading: !this.state.loading });
@@ -93,8 +89,9 @@ class Logged extends Component {
       />
     );
   }
+
   fbUserLogout() {
-    if (AccessToken.getCurrentAccessToken() !== 0) {
+    if (this.props.usertype === 'facebook') {
       return (
         <LoginButton
         publishPermissions={['publish_actions']}
@@ -108,7 +105,7 @@ class Logged extends Component {
               AccessToken.getCurrentAccessToken().then(
             (data) => {
                 this.props.loginStatus('facebook');
-                this.props.fbUserId(data.userID);
+                this.props.userId(data.userID);
                 }
             )
       .then(() => Actions.logged());
@@ -116,7 +113,7 @@ class Logged extends Component {
           }
         }
           onLogoutFinished={() => {
-            this.props.fbUserId(0);
+            this.props.userId(0);
             Actions.notlogged();
             Alert.alert('logout.');
         }}
@@ -126,8 +123,9 @@ class Logged extends Component {
       return;
     }
   }
+
   googleUserLogout() {
-    if (fbAccess.auth().currentUser != null) {
+    if (this.props.usertype === 'email') {
       return (
         <Button
             title='Log out'
@@ -136,9 +134,11 @@ class Logged extends Component {
             onPress={() => this.logout()}
         />
     );
-  } else
+  } else {
     return;
   }
+  }
+
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: '#ededed' }}>
@@ -166,7 +166,8 @@ class Logged extends Component {
 
 const mapStateToProps = (state) => {
   return {
-      userid: state.fbUserID
+      userid: state.userId,
+      usertype: state.loginStatus
   };
 };
 

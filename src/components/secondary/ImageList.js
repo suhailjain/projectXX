@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
-import { View, FlatList, Button, ActivityIndicator, Text } from 'react-native';
+import { View, FlatList, Button, ActivityIndicator, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import ImageItem from './ImageItem';
 import fbAccess from './../FirebaseConfig';
 import * as actions from './../../actions';
-//there is no data writing back to firebase here
+import store from '../../store';
+import BackFab from '../../fabs/BackFab';
+import ProgressBar from '../common/ProgressBar';
+
+const styles = {
+activityIndicator: {
+    flex: 1
+ }
+};
 
 class ImageList extends Component {
 
@@ -12,8 +20,13 @@ class ImageList extends Component {
   static hasMoreData = true;
   constructor(props) {
     super(props);
-      this.state = { isFetching: false, data: this.props.gallery };
-      this.refreshIndex();
+      if (this.props.gallery.length === 0) {
+        this.state = { isFetching: false, data: store.getState().gallery, loading: false };
+        this.refreshIndexByCached();
+      } else {
+        this.state = { isFetching: false, data: this.props.gallery, loading: false };
+        this.refreshIndex();
+      }
   }
   componentWillMount() {
     ImageList.hasMoreData = true;
@@ -22,7 +35,7 @@ class ImageList extends Component {
     ImageList.hasMoreData = true;
   }
 
-  async onRefresh() {
+async onRefresh() {
     ImageList.hasMoreData = true;
     console.log('refreshing');
     let first = 0;
@@ -41,14 +54,14 @@ class ImageList extends Component {
           this.add(snapshot.val());
         }
       });
-  }
+}
 
-  async sortByLikes() {
+async sortByLikes() {
       console.log('sorting now ');
       let temp = this.state.data;
       temp.sort((a, b) => parseFloat(b.likes) - parseFloat(a.likes));
       this.setState({ data: temp });
-  }
+}
 
 async add(pic) {
   await this.setState({ data: [...this.state.data, ...[pic]] });
@@ -56,11 +69,11 @@ async add(pic) {
 }
 
 async loadMoreData() {
+  this.setState({ loading: !this.state.loading });
   if (!ImageList.hasMoreData) {
-    console.log('no more data to load');
+    Alert.alert('no more data to load');
     return;
   }
-  await console.log('well be starting at', ImageList.statInd);
   let first = 0;
   await fbAccess.database().ref(this.props.dbref)
     .orderByKey()
@@ -69,36 +82,38 @@ async loadMoreData() {
     .on('child_added', (snapshot) => {
       if (first === 0) {
         ImageList.statInd = snapshot.val().id;
-        console.log('new index : ', ImageList.statInd);
       }
       if (snapshot.val().id === 0) {
         ImageList.hasMoreData = false;
       }
       first++;
-      console.log(first);
       //not adding up when first===3 as it will lead to duplicate item
       if (snapshot.val().approved === 'Y' && first !== 3 && snapshot.val().id !== 0) {
         this.add(snapshot.val());
       }
     });
+    this.setState({ loading: !this.state.loading });
 }
 
 refreshIndex() {
   ImageList.statInd = this.props.gallery[2].id;
-  ImageList.likeInd = this.props.gallery[0].id + 1;
+}
+refreshIndexByCached() {
+  ImageList.statInd = store.getState().gallery[2].id;
 }
 
 renderFooter() {
-console.log('rendering footer');
 return (
+  <View>
   <View
-    style={{
-      paddingVertical: 20,
-      borderTopWidth: 1,
-      borderColor: "#CED0CE"
-    }}
-  >
-  <Text>end</Text>
+    style={{ height: 50, backgroundColor: '#003366' }}
+  />
+  <ActivityIndicator
+         animating={this.state.loading}
+         color='#bc2b78'
+         size='large'
+         style={styles.activityIndicator}
+  />
   </View>
 );
 }
@@ -107,7 +122,7 @@ renderSeparator() {
       return (
         <View
           style={{
-            height: 1,
+            height: 3,
             width: "100%",
             backgroundColor: "#ededed",
             justifyContent: 'center',
@@ -116,11 +131,11 @@ renderSeparator() {
         />
       );
 }
-
+//<ProgressBar />
 render() {
-    console.log(this.state.data);
     return (
       <View>
+      <BackFab />
       <Button
       title='most liked first'
       onPress={this.sortByLikes.bind(this)}
@@ -135,6 +150,7 @@ render() {
         onEndReached={this.loadMoreData.bind(this)}
         onEndReachedThreshold={0.5}
         removeClippedSubviews={false}
+        ListFooterComponent={this.renderFooter.bind(this)}
       />
       </View>
 

@@ -8,50 +8,28 @@ import fbAccess from '../FirebaseConfig';
 import Logged from '../login/Logged';
 import NotLogged from '../login/NotLogged';
 
-const FBSDK = require('react-native-fbsdk');
-
-const {
-LoginButton,
-AccessToken
-} = FBSDK;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#ededed'
   },
 });
-let user = '';
+
 class SocialConnect extends Component {
 
-  componentWillMount() {
-    user = fbAccess.auth().currentUser;
-  }
-
   isUserSignedIn = () => {
-    console.log(AccessToken.getCurrentAccessToken() === 0);
-    console.log(fbAccess.auth().currentUser);
-    //this part of state needs to be cached.
-    if ((fbAccess.auth().currentUser === null) && (AccessToken.getCurrentAccessToken() === 0)) {
+    if (Number.parseInt(this.props.userid, 10) === 0) {
+      console.log('redirecting you to : notlogged');
       return (
         <NotLogged />
       );
     } else {
+      console.log('redirecting you to : logged');
       return (
         <Logged />
       );
     }
-    /*
-    if (!((user !== null) && (user.uid !== '') && (user.uid !== 'none') && (AccessToken.getCurrentAccessToken() !== 0))) {
-        return (
-          <NotLogged />
-        );
-      } else {
-        return (
-          <Logged />
-        );
-      } */
-    }
+  }
   menuIcon() {
     return (
       <Icon
@@ -85,7 +63,7 @@ class SocialConnect extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    userId: state.fbUserID
+    userid: state.userId
   };
 };
 

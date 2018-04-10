@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Image, Text, View, TextInput, StyleSheet, Dimensions, ActivityIndicator, KeyboardAvoidingView } from 'react-native';
 import { connect } from 'react-redux';
 import UploadCard from '../common/UploadCard';
+import Caption from './Caption';
 
 const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
@@ -36,20 +37,13 @@ const styles = StyleSheet.create({
 });
 
 class ConfirmUploadView extends Component {
-  constructor() {
-    super();
-    this.state = { title: '' };
-  }
-  title = (text) => {
-    //pic.node.image.uri
-    this.setState({ title: text });
-  }
   render() {
+    console.log('cache: ', this.props.cache);
     return (
       <KeyboardAvoidingView
        style={styles.container}
       >
-        <UploadCard uri={this.props.cache} title={this.state.title} />
+        <UploadCard uri={this.props.cache} />
         <View style={styles.innerContainer} >
 
           <View style={styles.imageCont}>
@@ -61,13 +55,7 @@ class ConfirmUploadView extends Component {
           </View>
 
           <View style={styles.input}>
-          <TextInput
-            underlineColorAndroid="transparent"
-            placeholder="what makes unity special ?"
-            placeholderTextColor="#9a73ef"
-            autoCapitalize="none"
-            onChangeText={this.title}
-          />
+          <Caption />
           </View>
 
         </View>

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, FlatList, StyleSheet, Dimensions, Alert } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Dimensions, Alert, Platform } from 'react-native';
 import { connect } from 'react-redux';
+import axios from 'axios';
 import { Button } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
+import RNFetchBlob from 'react-native-fetch-blob';
 import * as actions from '../../actions';
 import UserPicture from '../secondary/UserPicture';
 import fbAccess from './../FirebaseConfig';
@@ -33,19 +35,35 @@ const FBSDK = require('react-native-fbsdk');
 
 const {
   ShareDialog,
+  GraphRequest,
+ GraphRequestManager
 } = FBSDK;
 
+const sharePhoto = {
+  imageUrl: 'file:///Users/suhailjain/Library/Developer/CoreSimulator/Devices/DB8029F7-CD06-4792-A938-724F6B4367F7/data/Containers/Data/Application/1076F8D6-4EC1-4686-B435-FDBF02ECA45C/Library/Caches/crazyAF.jpg',
+  userGenerated: true,
+  caption: 'hi'
+};
+
+const sharePhotoContent = {
+  contentType: 'photo',
+  photos: [sharePhoto]
+};
+
 const shareLinkContenty = {
+  userGenerated: true,
   imageUrl: 'https://firebasestorage.googleapis.com/v0/b/unityone-65a80.appspot.com/o/Janakpuri%2F1516448888325?alt=media&token=2fcc8e97-2d3a-4163-807d-6757db64f1c7',
-  isUserGenerated: false,
   caption: 'Wow, check out this great site!',
 };
 
+const dirs = RNFetchBlob.fs.dirs;
+let path = '';
 class UserProfile extends Component {
   constructor(props) {
     super(props);
-    this.state = { shareLinkContent: shareLinkContenty, isFetching: false, data: this.props.userpics };
+    this.state = { shareLinkContent: sharePhotoContent, isFetching: false, data: this.props.userpics };
   }
+
   onRefresh = () => {
     console.log('refreshing');
       this.setState({ isFetching: true });
@@ -63,6 +81,14 @@ class UserProfile extends Component {
   this.setState({ isFetching: false, data: userPics });
   console.log(userPics);
 };
+
+responseInfoCallback(error: ?Object, result: ?Object) {
+if (error) {
+  Alert.alert('Error fetching data: ' + error.toString());
+} else {
+  Alert.alert('Success fetching data: ' + result.toString());
+}
+}
 
 showApprovedOnes = () => {
   console.log('refreshing');
@@ -82,28 +108,23 @@ this.setState({ isFetching: false, data: userPics });
 console.log(userPics);
 };
 
-  shareLinkWithShareDialog() {
-  const tmp = this;
-  ShareDialog.canShow(this.state.shareLinkContent).then((canShow) => {
-      if (canShow) {
-        return ShareDialog.show(tmp.state.shareLinkContent);
-      }
-    }
-  ).then((result) => {
-      if (result.isCancelled) {
-        Alert.alert('Share cancelled');
-      } else {
-        Alert.alert('Share success with postId: '
-          + result.postId);
+shareLinkWithShareDialog() {
+  console.log({ string: this.props.shareImage.url });
+  const infoRequest = new GraphRequest(
+    '/me/photos',
+    {
+      httpMethod: 'POST',
+      parameters: {
+        'url': { string: this.props.shareImage.url },
+        'caption': { string: 'article' }
       }
     },
-    (error) => {
-      Alert.alert('Share fail with error: ' + error);
-    }
+    this.responseInfoCallback,
   );
+  new GraphRequestManager().addRequest(infoRequest).start();
  }
 
-  resolveApproval() {
+resolveApproval() {
     if (this.props.approvalStat === 'Y') {
       return 'congratulations, its approved with likes :';
     } else if (this.props.approvalStat === 'N') {
@@ -112,7 +133,8 @@ console.log(userPics);
       return 'select an image to get its approval status';
     }
   }
-    userHasPictures() {
+
+userHasPictures() {
       console.log(this.props.userpics);
       if (this.props.userpics === '' || this.props.userpics === [] || this.props.userpics.size === 0) {
         return (
@@ -185,7 +207,8 @@ console.log(userPics);
       );
     }
     }
-    renderFooter() {
+
+renderFooter() {
       console.log('rendering footer');
 
     return (
@@ -200,7 +223,8 @@ console.log(userPics);
       </View>
     );
   }
-    renderSeparator() {
+
+renderSeparator() {
         return (
           <View
             style={{
@@ -213,7 +237,8 @@ console.log(userPics);
           />
         );
       }
-  render() {
+
+render() {
     return (
       <View>
       {this.userHasPictures()}
@@ -229,7 +254,8 @@ const mapStateToProps = state => {
     dbref: state.dbRef,
     selected: state.carousel,
     approvalStat: state.approvalstatus,
-    likesCount: state.likecount
+    likesCount: state.likecount,
+    shareImage: state.carousel
   };
 };
 
