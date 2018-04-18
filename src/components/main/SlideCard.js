@@ -8,7 +8,7 @@ const { width, height } = Dimensions.get('window');
 const styles = {
   container: {
     flex: 0.7,
-    backgroundColor: '#336600',
+    backgroundColor: '#ffffff',
     borderRadius: 15
   },
   image: {
@@ -25,16 +25,6 @@ class SlideCard extends Component {
   handleGo(cardSelected) {
     console.log(this.props.location);
     console.log(cardSelected);
-    if (this.props.location === 'Rohini') {
-
-      this.props.selectLocation('Rohini');
-      this.props.postUrl('https://unityone-65a80.firebaseio.com/posts.json');
-      this.props.likeUrl('https://unityone-65a80.firebaseio.com/posts');
-      this.props.storeUrl('https://unityone-65a80.firebaseio.com/rohiniShop.json');
-      this.props.foodUrl('https://unityone-65a80.firebaseio.com/rohiniFood.json');
-      this.props.dbRef('/posts');
-      this.props.eventUrl('https://unityone-65a80.firebaseio.com/rEvents.json');
-
       if (cardSelected === 'Shopping') {
         Actions.storelist();
       } else if (cardSelected === 'Food') {
@@ -42,46 +32,12 @@ class SlideCard extends Component {
       } else if (cardSelected === 'Events') {
         Actions.events();
       } else if (cardSelected === 'Cinepolis') {
-        Actions.cinepolis();
+          if (this.props.location === 'Rohini') {
+            Actions.cinepolis();
+          } else {
+            Alert.alert('Cinepolis is available only for Rohini location');
+          }
       }
-    } else if (this.props.location === 'Janakpuri') {
-
-      this.props.selectLocation('Janakpuri');
-      this.props.postUrl('https://unityone-65a80.firebaseio.com/jPosts.json');
-      this.props.likeUrl('https://unityone-65a80.firebaseio.com/jPosts');
-      this.props.storeUrl('https://unityone-65a80.firebaseio.com/janakpuriShop.json');
-      this.props.foodUrl('https://unityone-65a80.firebaseio.com/janakpuriFood.json');
-      this.props.dbRef('/jPosts');
-      this.props.eventUrl('https://unityone-65a80.firebaseio.com/jEvents.json');
-
-      if (cardSelected === 'Shopping') {
-        Actions.storelist();
-      } else if (cardSelected === 'Food') {
-        Actions.foodlist();
-      } else if (cardSelected === 'Events') {
-        Actions.events();
-      } else if (cardSelected === 'Cinepolis') {
-        Alert.alert('Cinepolis is available only for Rohini location');
-      }
-    } else if (this.props.location === 'Shahadra') {
-
-      this.props.postUrl('https://unityone-65a80.firebaseio.com/sPosts.json');
-      this.props.likeUrl('https://unityone-65a80.firebaseio.com/sPosts');
-      this.props.storeUrl('https://unityone-65a80.firebaseio.com/shahdraShop.json');
-      this.props.foodUrl('https://unityone-65a80.firebaseio.com/shahdraFood.json');
-      this.props.dbRef('/sPosts');
-      this.props.eventUrl('https://unityone-65a80.firebaseio.com/sEvents.json');
-
-      if (cardSelected === 'Shopping') {
-        Actions.storelist();
-      } else if (cardSelected === 'Food') {
-        Actions.foodlist();
-      } else if (cardSelected === 'Events') {
-        Actions.events();
-      } else if (cardSelected === 'Cinepolis') {
-        Alert.alert('Cinepolis is available only for Rohini location');
-      }
-    }
   }
   render() {
     return (

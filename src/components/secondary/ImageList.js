@@ -77,6 +77,7 @@ async loadMoreData() {
     return;
   }
   let first = 0;
+//  console.log(this.props);
   await fbAccess.database().ref(this.props.dbref)
     .orderByKey()
     .endAt(String(ImageList.statInd))

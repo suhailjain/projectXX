@@ -17,7 +17,7 @@ class BootUp extends Component {
     super();
     this.state = { loading: 'loading' };
   }
-  componentWillMount() {
+  componentDidMount() {
       this.getUserStatus();
       this.getGallery();
       this.setState({ loading: 'done' });
@@ -88,9 +88,6 @@ class BootUp extends Component {
           //cache specific
         }
     });
-    console.log('rohini', pics);
-    console.log('shah', spics);
-    console.log('jank', jpics);
   }
   render() {
     return (

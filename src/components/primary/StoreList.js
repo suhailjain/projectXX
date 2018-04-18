@@ -8,8 +8,6 @@ import Store from './Store';
 import * as actions from '../../actions';
 import Spinner from '../common/Spinner';
 
-let url = 0;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -32,11 +30,11 @@ class StoreList extends Component {
 }
   componentWillMount() {
     this.props.loading(false);
-      url = this.props.storeurl;
   }
   componentDidMount() {
     this.setState({ loading: this.props.loading });
-    axios.get(url).then(response => {
+    console.log(this.props.storeurl);
+    axios.get(this.props.storeurl).then(response => {
       this.setState({
         storelist: response.data
       });

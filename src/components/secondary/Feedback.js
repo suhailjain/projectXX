@@ -155,12 +155,6 @@ ratingCompleted(rate) {
       <KeyboardAvoidingView
        style={styles.container}
       >
-      <Header
-      backgroundColor='#003366'
-      leftComponent={this.menuIcon()}
-      centerComponent={{ text: '', style: { color: '#fff' } }}
-      rightComponent={this.rightIcon()}
-      />
       <View style={styles.innerContainer}>
       <Text style={styles.question}>We would love to hear it from you, about</Text>
       <View
