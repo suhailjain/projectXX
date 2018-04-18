@@ -14,12 +14,34 @@ const styles = StyleSheet.create({
 });
 
 class Gallery extends Component {
+  static navigationOptions = {
+    tabBarLabel: 'Gallery'
+  }
+  componentWillMount() {
+
+  }
+  resolveGallery() {
+  //  console.log(this.props.locate);
+    if (this.props.locate === 'Rohini') {
+      return (
+        <ImageList gallery={this.props.rgallery} />
+      );
+    } else if (this.props.locate === 'Janakpuri') {
+      return (
+        <ImageList gallery={this.props.jgallery} />
+      );
+    } else if (this.props.locate === 'Shahadra') {
+    //  console.log(this.props.sgallery);
+      return (
+        <ImageList gallery={this.props.sgallery} />
+      );
+    }
+  }
   render() {
     this.props.cameraFace('RNCamera.Constants.Type.front');
     return (
       <View style={styles.container}>
-      <ImageList />
-      <BackFab />
+      {this.resolveGallery()}
       <FrontCamFab />
       </View>
     );
@@ -29,7 +51,9 @@ class Gallery extends Component {
 const mapStateToProps = state => {
   return {
     locate: state.currentLocation,
-    gallery: state.gallery,
+    rgallery: state.rgallery,
+    sgallery: state.sgallery,
+    jgallery: state.jgallery,
     loginStatus: state.loginStatus,
     userid: state.fbUserID
   };

@@ -19,12 +19,16 @@ import Logged from './components/login/Logged';
 import NotLogged from './components/login/NotLogged';
 import ConfirmUploadView from './components/secondary/ConfirmUploadView';
 import FrontCameraComponent from './components/common/FrontCameraComponent';
-
+import Main from './components/main/Main';
+import TabMenu from './components/TabMenu';
+import BootUp from './components/BootUp';
+// first Scene is by default the first class loaded by react-native
 class RouterComponent extends Component {
   render() {
     return (
       <Router hideNavBar={true}>
-        <Scene key="locationPicker" component={PickLocation} />
+        <Scene key="boot" component={BootUp} />
+        <Scene key="tabs" component={TabMenu} />
         <Scene key="lobby" component={Lobby} />
         <Scene key="feedback" component={Feedback} />
         <Scene key="gallery" component={Gallery} />

@@ -40,6 +40,9 @@ const styles = StyleSheet.create({
 let feedRef = '';
 let detail = false;
 class Feedback extends Component {
+  static navigationOptions = {
+    tabBarLabel: 'Feedback'
+  }
   constructor() {
     super();
     this.state = { service: 'Washroom', comment: '', feedtype: '', rating: -1, loading: false };

@@ -103,9 +103,24 @@ export const parking = (park) => {
   };
 };
 
-export const gallerydata = (data) => {
+export const rgallerydata = (data) => {
   return {
-    type: 'gallery',
+    type: 'rgallery',
+    payload: data
+  };
+};
+
+export const sgallerydata = (data) => {
+  //console.log(data);
+  return {
+    type: 'sgallery',
+    payload: data
+  };
+};
+
+export const jgallerydata = (data) => {
+  return {
+    type: 'jgallery',
     payload: data
   };
 };

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, Dimensions, Alert } from 'react-native';
+import { View, Text, Dimensions, Alert, ActivityIndicator } from 'react-native';
+import { Button } from 'react-native-elements';
 import { Form, Item, Input, Label } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import fbAccess from '../FirebaseConfig';
 import BackFab from '../../fabs/BackFab';
-import Button from '../common/Button';
 import * as actions from '../../actions';
 
 const { widtht } = Dimensions.get('window');
@@ -48,6 +48,7 @@ class NotLogged extends Component {
   }
 
   handleEmail = (text) => {
+    console.log(text);
     this.setState({ email: text });
   }
 
@@ -83,6 +84,7 @@ class NotLogged extends Component {
   }
 
   login = (email, pass) => {
+    console.log(email);
     this.setState({ loading: !this.state.loading });
     fbAccess.auth().signInWithEmailAndPassword(email, pass)
     .then(() => {
@@ -90,15 +92,29 @@ class NotLogged extends Component {
       this.props.userId(fbAccess.auth().currentUser.uid);
       this.refreshUserPicList(this.props.dbref).then(() => Actions.logged());
       this.setState({ loading: !this.state.loading, loggedIn: true });
+      //update user total login and last login time here
     })
     .catch((error) => {
       console.log(error);
       fbAccess.auth().createUserWithEmailAndPassword(email, pass)
       .then(() => {
-        this.props.loginStatus('email');
-        this.props.userId(fbAccess.auth().currentUser.uid);
-        this.setState({ loading: !this.state.loading, loggedIn: true });
-        this.refreshUserPicList(this.props.dbref).then(() => Actions.logged());
+        const sessionId = new Date().getTime();
+        fbAccess.database().ref('users').child(fbAccess.auth().currentUser.uid).set({
+            badge: 'noobie',
+            jfeedback: 0,
+            rfeedback: 0,
+            sfeedback: 0,
+            jpics: 0,
+            rpics: 0,
+            spics: 0,
+            lastLogin: `${sessionId}`,
+            totalLogins: 1,
+            type: 'email'
+          });
+          this.props.loginStatus('email');
+          this.props.userId(fbAccess.auth().currentUser.uid);
+          this.refreshUserPicList(this.props.dbref).then(() => Actions.logged());
+          this.setState({ loading: !this.state.loading, loggedIn: true });
     })
     .catch(() => {
       this.setState({ loading: !this.state.loading });
@@ -136,12 +152,13 @@ class NotLogged extends Component {
            </Item>
           </Form>
           <Button
-            onPress={this.login}
+            onPress={() => {
+              this.login(this.state.email, this.state.password);
+            }}
+            title='Login'
             textStyle={styles.text}
             buttonStyle={styles.login}
-          >
-          Login
-          </Button>
+          />
           <Text style={{
             paddingTop: 40,
             paddingBottom: 40,
@@ -174,8 +191,13 @@ class NotLogged extends Component {
               Alert.alert('logout.');
           }}
           />
+          <ActivityIndicator
+                animating={this.state.loading}
+                color='#bc2b78'
+                size='large'
+                style={styles.activityIndicator}
+       />
         </View>
-      <BackFab />
       </View>
     );
   }

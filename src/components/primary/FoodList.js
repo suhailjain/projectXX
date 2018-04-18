@@ -67,20 +67,12 @@ renderSeparator() {
   render() {
     return (
       <View style={styles.container}>
-      <Header
-      backgroundColor='#003366'
-      leftComponent={this.menuIcon()}
-      centerComponent={{ text: '', style: { color: '#fff' } }}
-      rightComponent={this.rightIcon()}
-      />
-      <View style={styles.innerContainer}>
       <FlatList
         ItemSeparatorComponent={this.renderSeparator}
         data={this.state.storelist}
         renderItem={({ item }) => <Store store={item} />}
         keyExtractor={item => item.brand}
       />
-      </View>
       </View>
     );
   }

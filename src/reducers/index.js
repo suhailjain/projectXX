@@ -15,7 +15,9 @@ import MovieShowReducer from './MovieShowReducer';
 import EventUrlReducer from './EventUrlReducer';
 import DayReducer from './DayReducer';
 import ParkingReducer from './ParkingReducer';
-import GalleryReducer from './GalleryReducer';
+import RGalleryReducer from './RGalleryReducer';
+import SGalleryReducer from './SGalleryReducer';
+import JGalleryReducer from './JGalleryReducer';
 import UserPostsReducer from './UserPostsReducer';
 import UserSelectedImageReducer from './UserSelectedImageReducer';
 import ApprovalReducer from './ApprovalReducer';
@@ -47,7 +49,9 @@ export default combineReducers({
   eventURL: EventUrlReducer,
   day: DayReducer,
   park: ParkingReducer,
-  gallery: GalleryReducer,
+  rgallery: RGalleryReducer,
+  jgallery: JGalleryReducer,
+  sgallery: SGalleryReducer,
   userposts: UserPostsReducer,
   carousel: UserSelectedImageReducer,
   approvalstatus: ApprovalReducer,

@@ -31,12 +31,6 @@ rightIcon() {
     render() {
       return (
         <View style={styles.container} >
-        <Header
-        backgroundColor='#003366'
-        leftComponent={this.menuIcon()}
-        centerComponent={{ text: '', style: { color: '#fff' } }}
-        rightComponent={this.rightIcon()}
-        />
         <MovieList />
         </View>
       );

@@ -1,4 +1,4 @@
-export default (state = null, action) => {
+export default (state = '/posts', action) => {
   switch (action.type) {
     case 'db_ref':
       return action.payload;

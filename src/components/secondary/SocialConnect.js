@@ -16,6 +16,9 @@ const styles = StyleSheet.create({
 });
 
 class SocialConnect extends Component {
+  static navigationOptions = {
+    tabBarLabel: 'Connect'
+  }
 
   isUserSignedIn = () => {
     if (Number.parseInt(this.props.userid, 10) === 0) {

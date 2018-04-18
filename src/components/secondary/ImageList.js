@@ -20,13 +20,14 @@ class ImageList extends Component {
   static hasMoreData = true;
   constructor(props) {
     super(props);
-      if (this.props.gallery.length === 0) {
+    /*  if (this.props.gallery.length === 0) {
         this.state = { isFetching: false, data: store.getState().gallery, loading: false };
         this.refreshIndexByCached();
-      } else {
+      } else { */
+//      console.log(this.props);
         this.state = { isFetching: false, data: this.props.gallery, loading: false };
         this.refreshIndex();
-      }
+      //}
   }
   componentWillMount() {
     ImageList.hasMoreData = true;
@@ -69,6 +70,7 @@ async add(pic) {
 }
 
 async loadMoreData() {
+  console.log('loading more pics');
   this.setState({ loading: !this.state.loading });
   if (!ImageList.hasMoreData) {
     Alert.alert('no more data to load');
@@ -106,7 +108,7 @@ renderFooter() {
 return (
   <View>
   <View
-    style={{ height: 50, backgroundColor: '#003366' }}
+    style={{ height: 40, backgroundColor: '#003366' }}
   />
   <ActivityIndicator
          animating={this.state.loading}
@@ -133,6 +135,7 @@ renderSeparator() {
 }
 //<ProgressBar />
 render() {
+//  console.log(this.props.gallery);
     return (
       <View>
       <BackFab />
@@ -164,7 +167,6 @@ const mapStateToProps = (state) => {
   return {
     url: state.postsDB,
     dbref: state.dbRef,
-    gallery: state.gallery,
     index: state.lastIndex
   };
 };
