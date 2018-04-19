@@ -5,20 +5,14 @@ import { Fab, Icon, Button } from 'native-base';
 import { connect } from 'react-redux';
 import SlideCard from './SlideCard';
 import * as actions from '../../actions';
-import fbAccess from '../FirebaseConfig';
-
-const FBSDK = require('react-native-fbsdk');
-
-const {
-  AccessToken
-} = FBSDK;
 
 const { width, height } = Dimensions.get('window');
 
 const styles = {
     container: {
-      marginTop: 50,
-      backgroundColor: '#fbfbfb'
+      marginTop: 30,
+      height: height / 1.5,
+      backgroundColor: '#DBDBDB'
     },
     title: {
       marginTop: 30,
@@ -36,22 +30,22 @@ class Main extends Component {
     this.state = { entries: [
       {
         header: 'Shopping',
-        description: 'Shopping',
+        description: 'More than 100 top notch fashion retail brands brought under one roof.',
         image: { uri: 'https://firebasestorage.googleapis.com/v0/b/unityone-65a80.appspot.com/o/backgrounds%2Fshop.jpg?alt=media&token=cb50abfd-1bd6-4acb-9c87-d224ecf277d9' }
       },
       {
         header: 'Food',
-        description: 'Food',
+        description: 'Around 60 tongue smacking food chains, leading the food world.',
         image: { uri: 'https://firebasestorage.googleapis.com/v0/b/unityone-65a80.appspot.com/o/backgrounds%2FFood.jpg?alt=media&token=cfac46b1-cc0d-4b2a-a4bf-4295f78bb861' }
       },
       {
         header: 'Events',
-        description: 'Events',
+        description: 'We at Unity do not leave even a single chance of celebrating it with you.',
         image: { uri: 'https://firebasestorage.googleapis.com/v0/b/unityone-65a80.appspot.com/o/backgrounds%2FEvents.jpg?alt=media&token=19f5ffac-1cf3-42b9-bdef-b14b16aba758' }
       },
       {
         header: 'Cinepolis',
-        description: 'Cinepolis',
+        description: 'Experience movies like no where else.',
         image: { uri: 'https://firebasestorage.googleapis.com/v0/b/unityone-65a80.appspot.com/o/backgrounds%2Fcinepolisback.jpg?alt=media&token=a5e7c4c5-36db-4cdd-bdef-0f341317728f' }
       }
     ],
@@ -67,7 +61,8 @@ class Main extends Component {
    }
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1,
+      backgroundColor: '#DBDBDB' }}>
       <Text style={styles.title}>{this.props.location}</Text>
       <Carousel
           ref={(c) => { this._carousel = c; }}

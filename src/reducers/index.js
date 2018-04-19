@@ -29,6 +29,7 @@ import UserIdReducer from './UserIdReducer';
 import incReducer from '../store/incReducer';
 import ProgressReducer from './ProgressReducer';
 import CaptionReducer from './CaptionReducer';
+import SignUpModalReducer from './SignUpModalReducer';
 
 export default combineReducers({
 
@@ -61,6 +62,7 @@ export default combineReducers({
   userId: UserIdReducer,
   count: incReducer,
   progress: ProgressReducer,
-  caption: CaptionReducer
+  caption: CaptionReducer,
+  signup: SignUpModalReducer
 
 });

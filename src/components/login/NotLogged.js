@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Dimensions, Alert, ActivityIndicator } from 'react-native';
+import { View, Text, Dimensions, Alert, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { Button } from 'react-native-elements';
 import { Form, Item, Input, Label } from 'native-base';
 import { Actions } from 'react-native-router-flux';
@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import fbAccess from '../FirebaseConfig';
 import BackFab from '../../fabs/BackFab';
 import * as actions from '../../actions';
+import SignUp from './SignUp';
 
 const { widtht } = Dimensions.get('window');
 
@@ -44,7 +45,7 @@ const styles = {
 class NotLogged extends Component {
   constructor() {
     super();
-    this.state = { email: '', password: '', error: '', loading: false };
+    this.state = { email: '', password: '', error: '', loading: false, signup: false };
   }
 
   handleEmail = (text) => {
@@ -159,9 +160,22 @@ class NotLogged extends Component {
             textStyle={styles.text}
             buttonStyle={styles.login}
           />
-          <Text style={{
-            paddingTop: 40,
-            paddingBottom: 40,
+          <TouchableOpacity onPress={() => {
+            this.props.signupmodal(true);
+          }}>
+          <Text
+            style={{
+            paddingTop: 5,
+            paddingBottom: 5,
+            alignSelf: 'center' }}
+          >
+            Sign Up
+          </Text>
+          </TouchableOpacity>
+          <Text
+            style={{
+            paddingTop: 30,
+            paddingBottom: 30,
             alignSelf: 'center' }}
           >
             - or -
@@ -197,6 +211,7 @@ class NotLogged extends Component {
                 size='large'
                 style={styles.activityIndicator}
        />
+       <SignUp visible={this.props.visible} />
         </View>
       </View>
     );
@@ -206,7 +221,8 @@ class NotLogged extends Component {
 const mapStateToProps = state => {
   return {
     dbref: state.dbRef,
-    userid: state.fbUserID
+    userid: state.fbUserID,
+    visible: state.signup
   };
 };
 

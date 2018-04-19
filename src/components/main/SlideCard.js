@@ -12,19 +12,27 @@ const styles = {
     borderRadius: 15
   },
   image: {
+    marginTop: 15,
     flex: 0.6
   },
   headtext: {
     marginTop: 5,
     alignSelf: 'center',
     fontSize: 20
+  },
+  description: {
+    marginTop: 10,
+    fontSize: 11,
+    marginLeft: 3,
+    marginRight: 3
+  },
+  go: {
+    justifyContent: 'flex-end'
   }
 };
 
 class SlideCard extends Component {
   handleGo(cardSelected) {
-    console.log(this.props.location);
-    console.log(cardSelected);
       if (cardSelected === 'Shopping') {
         Actions.storelist();
       } else if (cardSelected === 'Food') {
@@ -49,7 +57,7 @@ class SlideCard extends Component {
         style={styles.image}
         source={this.props.item.image}
         />
-        <Text>
+        <Text style={styles.description}>
         {this.props.item.description}
         </Text>
         <Button

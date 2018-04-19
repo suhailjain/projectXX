@@ -201,3 +201,10 @@ export const caption = (text) => {
     payload: text
   };
 };
+
+export const signupmodal = (bool) => {
+  return {
+    type: 'signup',
+    payload: bool
+  };
+};
