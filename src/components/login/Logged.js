@@ -142,12 +142,6 @@ class Logged extends Component {
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: '#ededed' }}>
-        <Header
-          backgroundColor='#003366'
-          leftComponent={this.menuIcon()}
-          centerComponent={{ text: '', style: { color: '#fff' } }}
-          rightComponent={this.rightIcon()}
-        />
           <View style={styles.logout}>
           {this.fbUserLogout()}
           {this.googleUserLogout()}

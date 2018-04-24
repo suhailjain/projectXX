@@ -19,8 +19,13 @@ const TabMenu = TabNavigator({
   swipeEnabled: false,
   tabBarOptions: {
     labelStyle: {
-      fontSize: 10
+      fontSize: 10,
+      color: '#ffffff'
     },
+    activeTintColor: '#003366',
+    inactiveTintColor: '#663300',
+    activeBackgroundColor: '#86A3C4',
+    inactiveBackgroundColor: '#034A9C',
     allowFontScaling: true
   }
 });

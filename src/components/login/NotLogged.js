@@ -4,6 +4,7 @@ import { Button } from 'react-native-elements';
 import { Form, Item, Input, Label } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
+import { Jiro } from 'react-native-textinput-effects';
 import fbAccess from '../FirebaseConfig';
 import BackFab from '../../fabs/BackFab';
 import * as actions from '../../actions';
@@ -31,7 +32,7 @@ const styles = {
   login: {
     marginTop: 20,
     width: widtht,
-    backgroundColor: '#07969b',
+    backgroundColor: '#034A9C',
     borderRadius: 15
   },
   text: {
@@ -138,20 +139,24 @@ class NotLogged extends Component {
     return (
       <View style={styles.outerContainer}>
         <View style={styles.container}>
-          <Form>
-           <Item floatingLabel>
-             <Label>Email</Label>
-             <Input
-              onChangeText={this.handleEmail}
-             />
-           </Item>
-           <Item floatingLabel last>
-             <Label>Password</Label>
-             <Input
-              onChangeText={this.handlePassword}
-             />
-           </Item>
-          </Form>
+        <Jiro
+          label={'Email'}
+          onChangeText={(text) => {
+            this.setState({ email: text });
+          }}
+        // this is used as active and passive border color
+          borderColor={'#86A3C4'}
+          inputStyle={{ color: 'white' }}
+        />
+        <Jiro
+          label={'Password'}
+          onChangeText={(text) => {
+            this.setState({ password: text });
+          }}
+        // this is used as active and passive border color
+          borderColor={'#86A3C4'}
+          inputStyle={{ color: 'white' }}
+        />
           <Button
             onPress={() => {
               this.login(this.state.email, this.state.password);
