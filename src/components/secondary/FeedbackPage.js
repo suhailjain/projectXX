@@ -3,7 +3,6 @@ import { View, Text, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import * as actions from '../../actions';
-import fbAccess from '../FirebaseConfig';
 import Service from './Service';
 
 const styles = {

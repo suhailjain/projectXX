@@ -86,6 +86,7 @@ class Main extends Component {
                  <Button onPress={() => {
                    this.setState({ active: !this.state.active });
                    this.props.selectLocation('Janakpuri');
+                   this.props.feedbackDB('jfeedback');
                    this.props.postUrl('https://unityone-65a80.firebaseio.com/jPosts.json');
                    this.props.storeUrl('https://unityone-65a80.firebaseio.com/janakpuriShop.json');
                    this.props.foodUrl('https://unityone-65a80.firebaseio.com/janakpuriFood.json');
@@ -97,6 +98,7 @@ class Main extends Component {
                  <Button onPress={() => {
                    this.setState({ active: !this.state.active });
                    this.props.selectLocation('Shahadra');
+                   this.props.feedbackDB('sfeedback');
                    this.props.postUrl('https://unityone-65a80.firebaseio.com/sPosts.json');
                    this.props.storeUrl('https://unityone-65a80.firebaseio.com/shahdraShop.json');
                    this.props.foodUrl('https://unityone-65a80.firebaseio.com/shahdraFood.json');
@@ -108,6 +110,7 @@ class Main extends Component {
                  <Button onPress={() => {
                    this.setState({ active: !this.state.active });
                    this.props.selectLocation('Rohini');
+                   this.props.feedbackDB('feedback');
                    this.props.postUrl('https://unityone-65a80.firebaseio.com/posts.json');
                    this.props.storeUrl('https://unityone-65a80.firebaseio.com/rohiniShop.json');
                    this.props.foodUrl('https://unityone-65a80.firebaseio.com/rohiniFood.json');

@@ -209,6 +209,12 @@ export const signupmodal = (bool) => {
   };
 };
 
+export const feedbackDB = (dbref) => {
+  return {
+    type: 'feedbck_dbref',
+    payload: dbref
+  };
+};
 
 export const feedbackServices = (servicesArray) => {
   return {
