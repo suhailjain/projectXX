@@ -208,3 +208,11 @@ export const signupmodal = (bool) => {
     payload: bool
   };
 };
+
+
+export const feedbackServices = (servicesArray) => {
+  return {
+    type: 'services',
+    payload: servicesArray
+  };
+};

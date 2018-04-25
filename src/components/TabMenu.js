@@ -1,6 +1,6 @@
 import React from 'react-native';
 import { TabNavigator } from 'react-navigation';
-import Feedback from './secondary/Feedback';
+import FeedbackPage from './secondary/FeedbackPage';
 import Aboutus from './secondary/Aboutus';
 import Main from './main/Main';
 import SocialConnect from './secondary/SocialConnect';
@@ -11,7 +11,7 @@ const TabMenu = TabNavigator({
   Home: { screen: Main },
   Connect: { screen: SocialConnect },
   Gallery: { screen: Gallery },
-  Feedback: { screen: Feedback },
+  Feedback: { screen: FeedbackPage },
   About: { screen: Aboutus }
 }, {
   tabBarPosition: 'bottom',

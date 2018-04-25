@@ -18,9 +18,18 @@ class BootUp extends Component {
     this.state = { loading: 'loading' };
   }
   componentDidMount() {
+      this.getFeedbackServices();
       this.getUserStatus();
       this.getGallery();
       this.setState({ loading: 'done' });
+  }
+  getFeedbackServices() {
+    let services = [];
+    console.log('about to fetch services');
+    fbAccess.database().ref('/services').on('child_added', (snapshot) => {
+      services.push(snapshot.val());
+    });
+    this.props.feedbackServices(services);
   }
   async getUserStatus() {
     if (fbAccess.auth().currentUser !== null) {

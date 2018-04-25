@@ -30,6 +30,7 @@ import incReducer from '../store/incReducer';
 import ProgressReducer from './ProgressReducer';
 import CaptionReducer from './CaptionReducer';
 import SignUpModalReducer from './SignUpModalReducer';
+import FeedbackServicesReducer from './FeedbackServicesReducer';
 
 export default combineReducers({
 
@@ -63,6 +64,7 @@ export default combineReducers({
   count: incReducer,
   progress: ProgressReducer,
   caption: CaptionReducer,
-  signup: SignUpModalReducer
+  signup: SignUpModalReducer,
+  services: FeedbackServicesReducer
 
 });
