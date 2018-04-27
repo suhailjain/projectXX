@@ -8,12 +8,18 @@ const { width, height } = Dimensions.get('window');
 
 const styles = {
   bar: {
+    flex: 0.5,
     backgroundColor: '#ffffff',
     width: width - 20,
-    alignSelf: 'center'
-  },
-  title: {
     alignSelf: 'center',
+    borderRadius: 6,
+  },
+  service: {
+    justifyContent: 'center',
+    paddingTop: 15,
+    paddingBottom: 15,
+    alignSelf: 'center',
+    fontSize: 16
   }
 };
 
@@ -34,7 +40,7 @@ class Service extends Component {
   return (
     <View style={styles.bar}>
     <TouchableOpacity onPress={() => this.props.currentImageVisible(this.props.service.name)} >
-    <Text style={styles.title}>{this.props.service.name}</Text>
+    <Text style={styles.service}>{this.props.service.name}</Text>
     </TouchableOpacity>
     {this.showOptions(this.props.service.name)}
     </View>

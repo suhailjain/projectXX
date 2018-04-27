@@ -7,13 +7,30 @@ import {
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
+import CameraComponent from './common/CameraComponent';
 
 class ParkAssist extends Component {
-  render() {
-    return (
+  static navigationOptions = {
+    tabBarLabel: 'Parking'
+  }
+  isParked() {
+    if (this.props.park === 'not_found') {
+      return (
+        <CameraComponent />
+      );
+    } else {
+      return (
       <View>
       <Text>you will find your car at</Text>
       <Text>{this.props.park}</Text>
+      </View>
+    );
+    }
+  }
+  render() {
+    return (
+      <View>
+      {this.isParked()}
       </View>
     );
   }

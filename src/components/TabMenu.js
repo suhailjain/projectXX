@@ -5,14 +5,14 @@ import Aboutus from './secondary/Aboutus';
 import Main from './main/Main';
 import SocialConnect from './secondary/SocialConnect';
 import Gallery from './secondary/Gallery';
-
+import ParkAssist from './ParkAssist';
 
 const TabMenu = TabNavigator({
   Home: { screen: Main },
   Connect: { screen: SocialConnect },
   Gallery: { screen: Gallery },
   Feedback: { screen: FeedbackPage },
-  About: { screen: Aboutus }
+  Parking: { screen: ParkAssist }
 }, {
   tabBarPosition: 'bottom',
   animationEnabled: true,

@@ -26,10 +26,6 @@ const styles = StyleSheet.create({
 
 class Aboutus extends Component {
 
-  static navigationOptions = {
-    tabBarLabel: 'About'
-  }
-
   menuIcon() {
     return (
   <Icon name='navigate-before' color='#ededed' underlayColor='#003366' onPress={() => Actions.pop()} />

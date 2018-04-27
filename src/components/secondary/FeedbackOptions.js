@@ -12,7 +12,9 @@ const styles = {
     alignSelf: 'center'
   },
   submit: {
-    alignSelf: 'center'
+    alignSelf: 'center',
+    paddingTop: 6,
+    paddingBottom: 6
   }
 };
 let rating = 0;
@@ -33,7 +35,7 @@ class FeedbackOptions extends Component {
 
     });
     //update user table
-    //fbAccess.database().ref(`/users/${this.props.user}`).update();  
+    //fbAccess.database().ref(`/users/${this.props.user}`).update();
   }
   render() {
     return (
@@ -46,11 +48,19 @@ class FeedbackOptions extends Component {
         />
         <Text style={styles.comment}>Comments</Text>
         <TextInput
-        style={{ height: 40, borderColor: 'gray', borderWidth: 2 }}
+        style={{ height: 40 }}
+        multiline
         onChangeText={(text) => this.setState({ text })}
         value={this.state.text}
         />
         <TouchableOpacity onPress={() => this.submitFeedback()}>
+        <View
+          style={{
+            height: 3,
+            width: "100%",
+            backgroundColor: "#DBDBDB"
+          }}
+        />
         <Text style={styles.submit}>Submit</Text>
         </TouchableOpacity>
       </View>

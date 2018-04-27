@@ -9,6 +9,11 @@ const styles = {
   container: {
     backgroundColor: '#DBDBDB',
     flex: 1
+  },
+  title: {
+    alignSelf: 'center',
+    fontSize: 22,
+    marginTop: 25
   }
 };
 class FeedbackPage extends Component {
@@ -28,7 +33,7 @@ class FeedbackPage extends Component {
       return (
         <View
           style={{
-            height: 3,
+            height: 6,
             width: "100%",
             backgroundColor: "#DBDBDB"
           }}
@@ -36,15 +41,28 @@ class FeedbackPage extends Component {
       );
   }
 
+  renderHeader() {
+    return (
+      <View
+        style={{
+          height: 10,
+          width: "100%",
+          backgroundColor: "#DBDBDB"
+        }}
+      />
+    );
+  }
+
   render() {
     return (
       <View style={styles.container}>
-      <Text>Please select a service</Text>
+      <Text style={styles.title}>Please select a service</Text>
       <FlatList
         data={this.state.services}
         renderItem={({ item }) => <Service service={item} />}
         keyExtractor={item => item.name}
         ItemSeparatorComponent={this.renderSeparator}
+        ListHeaderComponent={this.renderHeader}
       />
       </View>
     );
