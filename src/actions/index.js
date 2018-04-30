@@ -125,9 +125,23 @@ export const jgallerydata = (data) => {
   };
 };
 
-export const userPics = (posts) => {
+export const ruserPics = (posts) => {
   return {
-    type: 'user_posts',
+    type: 'ruser_posts',
+    payload: posts
+  };
+};
+
+export const suserPics = (posts) => {
+  return {
+    type: 'suser_posts',
+    payload: posts
+  };
+};
+
+export const juserPics = (posts) => {
+  return {
+    type: 'juser_posts',
     payload: posts
   };
 };
