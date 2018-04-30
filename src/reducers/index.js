@@ -18,7 +18,9 @@ import ParkingReducer from './ParkingReducer';
 import RGalleryReducer from './RGalleryReducer';
 import SGalleryReducer from './SGalleryReducer';
 import JGalleryReducer from './JGalleryReducer';
-import UserPostsReducer from './UserPostsReducer';
+import RUserPostsReducer from './RUserPostsReducer';
+import SUserPostsReducer from './SUserPostsReducer';
+import JUserPostsReducer from './JUserPostsReducer';
 import UserSelectedImageReducer from './UserSelectedImageReducer';
 import ApprovalReducer from './ApprovalReducer';
 import LikeReducer from './LikeReducer';
@@ -55,7 +57,9 @@ export default combineReducers({
   rgallery: RGalleryReducer,
   jgallery: JGalleryReducer,
   sgallery: SGalleryReducer,
-  userposts: UserPostsReducer,
+  ruserposts: RUserPostsReducer,
+  suserposts: SUserPostsReducer,
+  juserposts: JUserPostsReducer,
   carousel: UserSelectedImageReducer,
   approvalstatus: ApprovalReducer,
   likecount: LikeReducer,

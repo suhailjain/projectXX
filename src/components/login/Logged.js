@@ -1,4 +1,4 @@
-import { View, StyleSheet, Alert, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, Alert, ActivityIndicator, Text, TouchableOpacity, Dimensions } from 'react-native';
 import React, { Component } from 'react';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
@@ -7,6 +7,8 @@ import UserProfile from '../common/UserProfile';
 import fbAccess from '../FirebaseConfig';
 import * as actions from './../../actions';
 
+
+const { width, height } = Dimensions.get('window');
 
 const FBSDK = require('react-native-fbsdk');
 
@@ -50,75 +52,40 @@ const styles = StyleSheet.create({
   },
   activityIndicator: {
     flex: 1
+  },
+  back: {
+    position: 'absolute',
+    marginTop: height - 50,
+    marginLeft: 20
   }
 });
 
 class Logged extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+
+    super(props);
+    console.log(this.props.rpics);
+    console.log(this.props.jpics);
+    console.log(this.props.spics);
+    if (this.props.location === 'Rohini') {
+      this.state = { pics: this.props.rpics };
+    } else if (this.props.location === 'Janakpuri') {
+      this.state = { pics: this.props.jpics };
+    } else if (this.props.location === 'Shahadra') {
+      this.state = { pics: this.props.spics };
+    }
     this.state = { loading: false, loggedIn: true };
   }
 
   logout = () => {
     console.log('logging out of user: ', fbAccess.auth().currentUser.uid);
-    this.setState({ loading: !this.state.loading });
-    fbAccess.auth().signOut().then(() => {
-      this.setState({ loading: !this.state.loading, loggedIn: !this.state.loggedIn });
-      Actions.notlogged();
-    });
-  }
 
-  menuIcon() {
-    return (
-      <Icon
-      name='navigate-before'
-      color='#ededed'
-      underlayColor='#ededed'
-      onPress={() => Actions.lobby()}
-      />
-    );
-  }
-
-  rightIcon() {
-    return (
-      <Icon
-      name='local-parking' color='#ededed' underlayColor='#ededed' onPress={() => {
-        Actions.camera();
-      }}
-      />
-    );
   }
 
   fbUserLogout() {
     if (this.props.usertype === 'facebook') {
-      return (
-        <LoginButton
-        publishPermissions={['publish_actions']}
-        onLoginFinished={
-          (error, result) => {
-            if (error) {
-              Alert.alert('login has error: ' + result.error);
-            } else if (result.isCancelled) {
-              Alert.alert("login is cancelled.");
-            } else {
-              AccessToken.getCurrentAccessToken().then(
-            (data) => {
-                this.props.loginStatus('facebook');
-                this.props.userId(data.userID);
-                }
-            )
-      .then(() => Actions.logged());
-            }
-          }
-        }
-          onLogoutFinished={() => {
-            this.props.userId(0);
-            Actions.notlogged();
-            Alert.alert('logout.');
-        }}
-        />
-      );
+      return;
     } else {
       return;
     }
@@ -126,14 +93,7 @@ class Logged extends Component {
 
   googleUserLogout() {
     if (this.props.usertype === 'email') {
-      return (
-        <Button
-            title='Log out'
-            textStyle={{ color: '#003366' }}
-            backgroundColor='#ffffff'
-            onPress={() => this.logout()}
-        />
-    );
+      return;
   } else {
     return;
   }
@@ -141,12 +101,52 @@ class Logged extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: '#ededed' }}>
+      <View style={{ flex: 1, backgroundColor: '#DBDBDB' }}>
+      <View style={{ flex: 0.3, backgroundColor: '#034A9C' }}>
+      <Text style={{ alignSelf: 'center', color: '#ffffff' }}>{this.props.userid}</Text>
+      </View>
           <View style={styles.logout}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('notlogged')} >
           {this.fbUserLogout()}
           {this.googleUserLogout()}
+          <Button
+          onPress={() => {
+            this.setState({ loading: !this.state.loading });
+            fbAccess.auth().signOut().then(() => {
+              this.setState({ loading: !this.state.loading, loggedIn: !this.state.loggedIn });
+            });
+            this.props.navigation.navigate('notlogged');
+          }}
+          title='log out'
+          />
+          <LoginButton
+          publishPermissions={['publish_actions']}
+          onLoginFinished={
+            (error, result) => {
+              if (error) {
+                Alert.alert('login has error: ' + result.error);
+              } else if (result.isCancelled) {
+                Alert.alert("login is cancelled.");
+              } else {
+                AccessToken.getCurrentAccessToken().then(
+              (data) => {
+                  this.props.loginStatus('facebook');
+                  this.props.userId(data.userID);
+                  }
+              )
+        .then(() => Actions.logged());
+              }
+            }
+          }
+            onLogoutFinished={() => {
+              this.props.userId(0);
+              this.props.navigation.navigate('notlogged');
+              Alert.alert('logout.');
+          }}
+          />
+          </TouchableOpacity>
           </View>
-          <UserProfile />
+          <UserProfile pictures={this.state.pics} />
           <ActivityIndicator
                    animating={this.state.loading}
                    color='#bc2b78'
@@ -161,7 +161,11 @@ class Logged extends Component {
 const mapStateToProps = (state) => {
   return {
       userid: state.userId,
-      usertype: state.loginStatus
+      location: state.currentLocation,
+      usertype: state.loginStatus,
+      rpics: state.ruserposts,
+      spics: state.suserposts,
+      jpics: state.juserposts
   };
 };
 

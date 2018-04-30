@@ -135,7 +135,8 @@ resolveApproval() {
   }
 
 userHasPictures() {
-      console.log(this.props.userpics);
+      console.log(this.props.pictures);
+      /*
       if (this.props.userpics === '' || this.props.userpics === [] || this.props.userpics.size === 0) {
         return (
           <View style={styles.container}>
@@ -149,7 +150,7 @@ userHasPictures() {
             />
           </View>
         );
-      } else {
+      } else { */
       return (
         <View>
           <View style={styles.container}>
@@ -168,7 +169,7 @@ userHasPictures() {
             <FlatList
             refreshing={this.state.isFetching}
             onRefresh={this.onRefresh}
-            data={this.state.data}
+            data={this.props.pictures}
             horizontal
             renderItem={({ item }) => <UserPicture pic={item} />}
             keyExtractor={item => item.id}
@@ -206,7 +207,7 @@ userHasPictures() {
         </View>
       );
     }
-    }
+
 
 renderFooter() {
       console.log('rendering footer');
@@ -216,7 +217,7 @@ renderFooter() {
         style={{
           paddingVertical: 20,
           borderTopWidth: 1,
-          borderColor: "#CED0CE"
+          borderColor: '#CED0CE'
         }}
       >
       <Text>end</Text>

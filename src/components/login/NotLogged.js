@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Dimensions, Alert, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { View, Text, Dimensions, Alert, ActivityIndicator, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { Button } from 'react-native-elements';
 import { Form, Item, Input, Label } from 'native-base';
 import { Actions } from 'react-native-router-flux';
@@ -137,7 +137,7 @@ class NotLogged extends Component {
 
   render() {
     return (
-      <View style={styles.outerContainer}>
+      <KeyboardAvoidingView style={styles.outerContainer}>
         <View style={styles.container}>
         <Jiro
           label={'Email'}
@@ -201,7 +201,7 @@ class NotLogged extends Component {
                   console.log('fb user id: ', data.userID);
                   }
               )
-        .then(() => Actions.logged());
+        .then(() => this.props.navigation.navigate('logged'));
               }
             }
           }
@@ -215,10 +215,10 @@ class NotLogged extends Component {
                 color='#bc2b78'
                 size='large'
                 style={styles.activityIndicator}
-       />
+          />
        <SignUp visible={this.props.visible} />
         </View>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }

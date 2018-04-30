@@ -23,20 +23,20 @@ class BootUp extends Component {
       this.getGallery();
       this.setState({ loading: 'done' });
   }
-  getFeedbackServices() {
+  async getFeedbackServices() {
     let services = [];
     console.log('about to fetch services');
-    fbAccess.database().ref('/services').on('child_added', (snapshot) => {
+    await fbAccess.database().ref('/services').on('child_added', (snapshot) => {
       services.push(snapshot.val());
     });
-    this.props.feedbackServices(services);
+    await this.props.feedbackServices(services);
   }
   async getUserStatus() {
     if (fbAccess.auth().currentUser !== null) {
       this.props.loginStatus('email');
       this.props.userid(fbAccess.auth().currentUser.uid);
     }
-    AccessToken.getCurrentAccessToken().then(
+    await AccessToken.getCurrentAccessToken().then(
   (data) => {
       if (data !== null) {
       this.props.loginStatus('facebook');
@@ -51,6 +51,8 @@ class BootUp extends Component {
     let spics = [];
     let jpics = [];
     let userPics = [];
+    let suserPics = [];
+    let juserPics = [];
     //console.log('user form the lobby: ', this.props.userid);
     // dbref = '/posts' || '/jPosts' || 'sPosts
     //fetching gallery for shahadra
@@ -58,10 +60,10 @@ class BootUp extends Component {
     .limitToLast(3)
     .on('child_added', (snapshot) => {
       //reversing the like order and check for approved
-    /*  if (snapshot.val().user === this.props.userid) {
+      if (snapshot.val().user === this.props.userid) {
         userPics.unshift(snapshot.val());
-        this.props.userPics(userPics);
-      } */
+        this.props.suserPics(suserPics);
+      }
       if (snapshot.val().approved === 'Y') {
           spics.unshift(snapshot.val());
           this.props.sgallerydata(spics);
@@ -72,10 +74,10 @@ class BootUp extends Component {
     .limitToLast(3)
     .on('child_added', (snapshot) => {
       //reversing the like order and check for approved
-    /*  if (snapshot.val().user === this.props.userid) {
+     if (snapshot.val().user === this.props.userid) {
         userPics.unshift(snapshot.val());
         this.props.userPics(userPics);
-      } */
+      }
       if (snapshot.val().approved === 'Y') {
           jpics.unshift(snapshot.val());
           this.props.jgallerydata(jpics);
@@ -87,10 +89,10 @@ class BootUp extends Component {
     .limitToLast(3)
     .on('child_added', (snapshot) => {
       //reversing the like order and check for approved
-    /*  if (snapshot.val().user === this.props.userid) {
+      if (snapshot.val().user === this.props.userid) {
         userPics.unshift(snapshot.val());
-        this.props.userPics(userPics);
-      } */
+        this.props.juserPics(juserPics);
+      }
       if (snapshot.val().approved === 'Y') {
           pics.unshift(snapshot.val());
           this.props.rgallerydata(pics);
@@ -100,8 +102,8 @@ class BootUp extends Component {
   }
   render() {
     return (
-      <View>
-      <Text>
+      <View style={{ flex: 1, alignItems: 'center' }}>
+      <Text style={{ justifyContent: 'center' }}>
       {this.state.loading}
       </Text>
       <Button
