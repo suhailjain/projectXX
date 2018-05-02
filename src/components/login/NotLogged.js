@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Dimensions, Alert, ActivityIndicator, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { Button } from 'react-native-elements';
-import { Form, Item, Input, Label } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { Jiro } from 'react-native-textinput-effects';
@@ -86,13 +85,12 @@ class NotLogged extends Component {
   }
 
   login = (email, pass) => {
-    console.log(email);
     this.setState({ loading: !this.state.loading });
     fbAccess.auth().signInWithEmailAndPassword(email, pass)
     .then(() => {
       this.props.loginStatus('email');
       this.props.userId(fbAccess.auth().currentUser.uid);
-      this.refreshUserPicList(this.props.dbref).then(() => Actions.logged());
+      this.refreshUserPicList(this.props.dbref);
       this.setState({ loading: !this.state.loading, loggedIn: true });
       //update user total login and last login time here
     })
@@ -115,7 +113,7 @@ class NotLogged extends Component {
           });
           this.props.loginStatus('email');
           this.props.userId(fbAccess.auth().currentUser.uid);
-          this.refreshUserPicList(this.props.dbref).then(() => Actions.logged());
+          this.refreshUserPicList(this.props.dbref);
           this.setState({ loading: !this.state.loading, loggedIn: true });
     })
     .catch(() => {
@@ -200,8 +198,7 @@ class NotLogged extends Component {
                   this.props.userId(data.userID);
                   console.log('fb user id: ', data.userID);
                   }
-              )
-        .then(() => this.props.navigation.navigate('logged'));
+              );
               }
             }
           }

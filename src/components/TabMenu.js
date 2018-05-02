@@ -1,4 +1,4 @@
-import React from 'react-native';
+import React from 'react';
 import { TabNavigator } from 'react-navigation';
 import FeedbackPage from './secondary/FeedbackPage';
 import Aboutus from './secondary/Aboutus';
@@ -6,6 +6,7 @@ import Main from './main/Main';
 import SocialConnect from './secondary/SocialConnect';
 import Gallery from './secondary/Gallery';
 import ParkAssist from './ParkAssist';
+import Logged from './login/Logged';
 
 const TabMenu = TabNavigator({
   Home: { screen: Main },

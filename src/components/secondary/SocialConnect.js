@@ -24,38 +24,18 @@ class SocialConnect extends Component {
     if (Number.parseInt(this.props.userid, 10) === 0) {
       console.log('redirecting you to : notlogged');
       return (
-        <NotLogged />
+        <NotLogged navigation={this.props.navigation} />
       );
     } else {
       console.log('redirecting you to : logged');
       return (
-        <Logged />
+        <Logged navigation={this.props.navigation} />
       );
     }
   }
-  menuIcon() {
-    return (
-      <Icon
-      name='navigate-before'
-      color='#ededed'
-      underlayColor='#ededed'
-      onPress={() => Actions.pop()}
-      />
-    );
-  }
-
-  rightIcon() {
-    return (
-      <Icon
-      name='local-parking' color='#ededed' underlayColor='#003366' onPress={() => {
-        this.props.cameraFace('RNCamera.Constants.Type.back');
-        Actions.camera();
-      }}
-      />
-    );
-  }
 
   render() {
+    console.log(this.props.navigation);
     return (
       <View style={styles.container}>
       {this.isUserSignedIn()}

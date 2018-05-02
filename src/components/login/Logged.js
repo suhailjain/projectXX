@@ -59,12 +59,12 @@ const styles = StyleSheet.create({
     marginLeft: 20
   }
 });
-
 class Logged extends Component {
 
   constructor(props) {
-
     super(props);
+    this.googleUserLogout.bind(this);
+    this.logout.bind(this);
     console.log(this.props.rpics);
     console.log(this.props.jpics);
     console.log(this.props.spics);
@@ -78,14 +78,42 @@ class Logged extends Component {
     this.state = { loading: false, loggedIn: true };
   }
 
-  logout = () => {
+  logout() {
     console.log('logging out of user: ', fbAccess.auth().currentUser.uid);
-
+    this.setState({ loading: !this.state.loading });
+    fbAccess.auth().signOut().then(() => {
+    //  this.setState({ loading: !this.state.loading, loggedIn: !this.state.loggedIn });
+          this.props.userId(0);
+    });
   }
 
   fbUserLogout() {
     if (this.props.usertype === 'facebook') {
-      return;
+      return (
+        <LoginButton
+        publishPermissions={['publish_actions']}
+        onLoginFinished={
+          (error, result) => {
+            if (error) {
+              Alert.alert('login has error: ' + result.error);
+            } else if (result.isCancelled) {
+              Alert.alert("login is cancelled.");
+            } else {
+              AccessToken.getCurrentAccessToken().then(
+            (data) => {
+                this.props.loginStatus('facebook');
+                this.props.userId(data.userID);
+                }
+            );
+            }
+          }
+        }
+          onLogoutFinished={() => {
+            this.props.userId(0);
+            Alert.alert('logout.');
+        }}
+        />
+      );
     } else {
       return;
     }
@@ -93,58 +121,29 @@ class Logged extends Component {
 
   googleUserLogout() {
     if (this.props.usertype === 'email') {
-      return;
+      return (
+        <Button
+            title='Log out'
+            textStyle={{ color: '#003366' }}
+            backgroundColor='#ffffff'
+            onPress={() => this.logout()}
+        />
+    );
   } else {
     return;
   }
   }
 
   render() {
+    console.log(this.props.navigation);
     return (
       <View style={{ flex: 1, backgroundColor: '#DBDBDB' }}>
       <View style={{ flex: 0.3, backgroundColor: '#034A9C' }}>
       <Text style={{ alignSelf: 'center', color: '#ffffff' }}>{this.props.userid}</Text>
       </View>
           <View style={styles.logout}>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('notlogged')} >
           {this.fbUserLogout()}
           {this.googleUserLogout()}
-          <Button
-          onPress={() => {
-            this.setState({ loading: !this.state.loading });
-            fbAccess.auth().signOut().then(() => {
-              this.setState({ loading: !this.state.loading, loggedIn: !this.state.loggedIn });
-            });
-            this.props.navigation.navigate('notlogged');
-          }}
-          title='log out'
-          />
-          <LoginButton
-          publishPermissions={['publish_actions']}
-          onLoginFinished={
-            (error, result) => {
-              if (error) {
-                Alert.alert('login has error: ' + result.error);
-              } else if (result.isCancelled) {
-                Alert.alert("login is cancelled.");
-              } else {
-                AccessToken.getCurrentAccessToken().then(
-              (data) => {
-                  this.props.loginStatus('facebook');
-                  this.props.userId(data.userID);
-                  }
-              )
-        .then(() => Actions.logged());
-              }
-            }
-          }
-            onLogoutFinished={() => {
-              this.props.userId(0);
-              this.props.navigation.navigate('notlogged');
-              Alert.alert('logout.');
-          }}
-          />
-          </TouchableOpacity>
           </View>
           <UserProfile pictures={this.state.pics} />
           <ActivityIndicator
