@@ -58,18 +58,11 @@ class NotLogged extends Component {
     this.setState({ password: text });
   }
 
-  refreshUserPicList(dbref) {
-    let user;
-    if (fbAccess.auth().currentUser != null) {
-      user = fbAccess.auth().currentUser.uid;
-    } else if (this.props.userid) {
-      user = this.props.userid;
-    }
-    console.log(user);
+  refreshUserPicList(dbref, user) {
     return new Promise((resolve) => {
         let userPics = [];
         const fbdb = fbAccess.database();
-          console.log('refreshing for user:  ', fbAccess.auth().currentUser.uid);
+          console.log('refreshing for user:  ', user);
         fbdb.ref(dbref).orderByChild('likes')
         .on('child_added', (snapshot) => {
           //reversing the like order and check for approved
@@ -79,7 +72,14 @@ class NotLogged extends Component {
           }
       //  }
         });
-        this.props.userPics(userPics);
+        if (dbref === '/posts') {
+            this.props.ruserPics(userPics);
+        } else if (dbref === '/sPosts') {
+          console.log('got location right');
+            this.props.suserPics(userPics);
+        } else if (dbref === '/jPosts') {
+            this.props.juserPics(userPics);
+        }
          resolve();
        });
   }
@@ -88,10 +88,10 @@ class NotLogged extends Component {
     this.setState({ loading: !this.state.loading });
     fbAccess.auth().signInWithEmailAndPassword(email, pass)
     .then(() => {
-      this.props.loginStatus('email');
       this.props.userId(fbAccess.auth().currentUser.uid);
-      this.refreshUserPicList(this.props.dbref);
+      this.props.loginStatus('email');
       this.setState({ loading: !this.state.loading, loggedIn: true });
+      this.refreshUserPicList(this.props.dbref, this.props.userid);
       //update user total login and last login time here
     })
     .catch((error) => {
@@ -223,7 +223,7 @@ class NotLogged extends Component {
 const mapStateToProps = state => {
   return {
     dbref: state.dbRef,
-    userid: state.fbUserID,
+    userid: state.userId,
     visible: state.signup
   };
 };

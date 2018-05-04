@@ -110,7 +110,6 @@ class Logged extends Component {
         }
           onLogoutFinished={() => {
             this.props.userId(0);
-            Alert.alert('logout.');
         }}
         />
       );
@@ -135,7 +134,6 @@ class Logged extends Component {
   }
 
   render() {
-    console.log(this.props.navigation);
     return (
       <View style={{ flex: 1, backgroundColor: '#DBDBDB' }}>
       <View style={{ flex: 0.3, backgroundColor: '#034A9C' }}>
@@ -145,7 +143,7 @@ class Logged extends Component {
           {this.fbUserLogout()}
           {this.googleUserLogout()}
           </View>
-          <UserProfile pictures={this.state.pics} />
+          <UserProfile />
           <ActivityIndicator
                    animating={this.state.loading}
                    color='#bc2b78'

@@ -1,10 +1,7 @@
-  import { View, StyleSheet } from 'react-native';
-  import React, { Component } from 'react';
-import { Actions } from 'react-native-router-flux';
+import { View, StyleSheet } from 'react-native';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Icon } from 'react-native-elements';
 import * as actions from '../../actions';
-import fbAccess from '../FirebaseConfig';
 import Logged from '../login/Logged';
 import NotLogged from '../login/NotLogged';
 
@@ -35,7 +32,6 @@ class SocialConnect extends Component {
   }
 
   render() {
-    console.log(this.props.navigation);
     return (
       <View style={styles.container}>
       {this.isUserSignedIn()}

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import Modal from 'react-native-modal';
-import { SwipeRow, Icon, Button } from 'native-base';
+import { Header, Icon } from 'react-native-elements';
+import { SwipeRow, Button } from 'native-base';
 import * as actions from '../../actions';
+import fbAccess from './../FirebaseConfig';
 import LikeButton from './LikeButton';
 
 const { width, height } = Dimensions.get('window');
@@ -28,6 +30,10 @@ const styles = StyleSheet.create({
   },
   likes: {
     fontSize: 16
+  },
+  comments: {
+    marginLeft: 7,
+    alignItems: 'center'
   }
 });
 /*
@@ -39,15 +45,18 @@ class ImageItem extends Component {
 
       <View>
       <SwipeRow
-            leftOpenValue={200}
-            rightOpenValue={-75}
+            disableLeftSwipe
+            leftOpenValue={170}
             left={
             //comments
+            <View style={styles.comments}>
             <Text>
             {this.props.pic.title}
             </Text>
+            </View>
             }
             body={
+              <View>
               <TouchableOpacity onPress={() => {
                 this.props.currentImage(this.props.pic.url);
                 this.props.currentImageVisible(true);
@@ -58,14 +67,13 @@ class ImageItem extends Component {
                 source={{ uri: this.props.pic.url }}
               />
               </TouchableOpacity>
-            }
-            right={
               <LikeButton
               currentLikes={this.props.pic.likes}
               db={this.props.dbref}
               id={this.props.pic.id}
               userid={this.props.userid}
               />
+              </View>
             }
       />
 
@@ -93,7 +101,7 @@ const mapStateToProps = state => {
     highlight: state.currentImage,
     visible: state.visible,
     locate: state.currentLocation,
-    userid: state.fbUserID
+    userid: state.userId
   };
 };
 

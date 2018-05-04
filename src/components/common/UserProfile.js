@@ -61,11 +61,19 @@ let path = '';
 class UserProfile extends Component {
   constructor(props) {
     super(props);
-    this.state = { shareLinkContent: sharePhotoContent, isFetching: false, data: this.props.userpics };
-  }
+    if (this.props.dbref === '/posts') {
+      this.state = { shareLinkContent: sharePhotoContent, isFetching: false, data: this.props.ruserpics };
+    } else if (this.props.dbref === '/jPosts') {
+      this.state = { shareLinkContent: sharePhotoContent, isFetching: false, data: this.props.juserpics };
+    } else if (this.props.dbref === '/sPosts') {
+      this.state = { shareLinkContent: sharePhotoContent, isFetching: false, data: this.props.suserpics };
+    }
 
+  }
+//needs revision
   onRefresh = () => {
     console.log('refreshing');
+    /*
       this.setState({ isFetching: true });
     const fbdb = fbAccess.database();
     let userPics = [];
@@ -80,6 +88,7 @@ class UserProfile extends Component {
   });
   this.setState({ isFetching: false, data: userPics });
   console.log(userPics);
+  */
 };
 
 responseInfoCallback(error: ?Object, result: ?Object) {
@@ -135,9 +144,8 @@ resolveApproval() {
   }
 
 userHasPictures() {
-      console.log(this.props.pictures);
-      /*
-      if (this.props.userpics === '' || this.props.userpics === [] || this.props.userpics.size === 0) {
+    console.log(this.state.data);
+      if (this.state.data.size === 0) {
         return (
           <View style={styles.container}>
             <Text>we would love to see you here!</Text>
@@ -150,7 +158,7 @@ userHasPictures() {
             />
           </View>
         );
-      } else { */
+      } else {
       return (
         <View>
           <View style={styles.container}>
@@ -169,7 +177,7 @@ userHasPictures() {
             <FlatList
             refreshing={this.state.isFetching}
             onRefresh={this.onRefresh}
-            data={this.props.pictures}
+            data={this.state.data}
             horizontal
             renderItem={({ item }) => <UserPicture pic={item} />}
             keyExtractor={item => item.id}
@@ -207,11 +215,10 @@ userHasPictures() {
         </View>
       );
     }
-
+}
 
 renderFooter() {
       console.log('rendering footer');
-
     return (
       <View
         style={{
@@ -250,8 +257,9 @@ render() {
 
 const mapStateToProps = state => {
   return {
-    userpics: state.userposts,
-    curruser: state.user,
+    ruserpics: state.ruserposts,
+    juserpics: state.juserposts,
+    suserpics: state.suserposts,
     dbref: state.dbRef,
     selected: state.carousel,
     approvalStat: state.approvalstatus,

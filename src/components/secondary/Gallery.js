@@ -9,7 +9,7 @@ import FrontCamFab from '../../fabs/FrontCamFab';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ededed'
+    backgroundColor: '#ffffff'
   },
 });
 
@@ -31,7 +31,7 @@ class Gallery extends Component {
         <ImageList gallery={this.props.jgallery} />
       );
     } else if (this.props.locate === 'Shahadra') {
-    //  console.log(this.props.sgallery);
+      console.log(this.props.sgallery);
       return (
         <ImageList gallery={this.props.sgallery} />
       );

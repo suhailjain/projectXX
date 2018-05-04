@@ -127,9 +127,7 @@ renderSeparator() {
           style={{
             height: 3,
             width: "100%",
-            backgroundColor: "#ededed",
-            justifyContent: 'center',
-            alignItems: 'center'
+            backgroundColor: "#DBDBDB"
           }}
         />
       );
@@ -139,7 +137,6 @@ render() {
 //  console.log(this.props.gallery);
     return (
       <View>
-      <BackFab />
       <Button
       title='most liked first'
       onPress={this.sortByLikes.bind(this)}
