@@ -5,7 +5,6 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { Jiro } from 'react-native-textinput-effects';
 import fbAccess from '../FirebaseConfig';
-import BackFab from '../../fabs/BackFab';
 import * as actions from '../../actions';
 import SignUp from './SignUp';
 
@@ -58,41 +57,14 @@ class NotLogged extends Component {
     this.setState({ password: text });
   }
 
-  refreshUserPicList(dbref, user) {
-    return new Promise((resolve) => {
-        let userPics = [];
-        const fbdb = fbAccess.database();
-          console.log('refreshing for user:  ', user);
-        fbdb.ref(dbref).orderByChild('likes')
-        .on('child_added', (snapshot) => {
-          //reversing the like order and check for approved
-        //  if (fbAccess.auth().currentUser != null) {
-          if (snapshot.val().user === user) {
-            userPics.unshift(snapshot.val());
-          }
-      //  }
-        });
-        if (dbref === '/posts') {
-            this.props.ruserPics(userPics);
-        } else if (dbref === '/sPosts') {
-          console.log('got location right');
-            this.props.suserPics(userPics);
-        } else if (dbref === '/jPosts') {
-            this.props.juserPics(userPics);
-        }
-         resolve();
-       });
-  }
-
   login = (email, pass) => {
     this.setState({ loading: !this.state.loading });
     fbAccess.auth().signInWithEmailAndPassword(email, pass)
     .then(() => {
-      this.props.userId(fbAccess.auth().currentUser.uid);
-      this.props.loginStatus('email');
-      this.setState({ loading: !this.state.loading, loggedIn: true });
-      this.refreshUserPicList(this.props.dbref, this.props.userid);
-      //update user total login and last login time here
+        this.props.userId(fbAccess.auth().currentUser.uid);
+        this.props.loginStatus('email');
+        //this.setState({ loading: !this.state.loading, loggedIn: true });
+        //update user total login and last login time here
     })
     .catch((error) => {
       console.log(error);
@@ -113,8 +85,7 @@ class NotLogged extends Component {
           });
           this.props.loginStatus('email');
           this.props.userId(fbAccess.auth().currentUser.uid);
-          this.refreshUserPicList(this.props.dbref);
-          this.setState({ loading: !this.state.loading, loggedIn: true });
+          //this.setState({ loading: !this.state.loading, loggedIn: true });
     })
     .catch(() => {
       this.setState({ loading: !this.state.loading });

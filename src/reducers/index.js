@@ -34,6 +34,7 @@ import CaptionReducer from './CaptionReducer';
 import SignUpModalReducer from './SignUpModalReducer';
 import FeedbackServicesReducer from './FeedbackServicesReducer';
 import FeedbackDBReducer from './FeedbackDBReducer';
+import UsernameReducer from './UsernameReducer';
 
 export default combineReducers({
 
@@ -71,6 +72,7 @@ export default combineReducers({
   caption: CaptionReducer,
   signup: SignUpModalReducer,
   services: FeedbackServicesReducer,
-  feedbckDB: FeedbackDBReducer
+  feedbckDB: FeedbackDBReducer,
+  username: UsernameReducer
 
 });

@@ -5,7 +5,6 @@ import ImageItem from './ImageItem';
 import fbAccess from './../FirebaseConfig';
 import * as actions from './../../actions';
 import store from '../../store';
-import BackFab from '../../fabs/BackFab';
 import ProgressBar from '../common/ProgressBar';
 
 const styles = {

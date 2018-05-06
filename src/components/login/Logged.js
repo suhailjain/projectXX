@@ -2,6 +2,7 @@ import { View, StyleSheet, Alert, ActivityIndicator, Text, TouchableOpacity, Dim
 import React, { Component } from 'react';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
+import axios from 'axios';
 import { Button, Icon, Header } from 'react-native-elements';
 import UserProfile from '../common/UserProfile';
 import fbAccess from '../FirebaseConfig';
@@ -59,23 +60,17 @@ const styles = StyleSheet.create({
     marginLeft: 20
   }
 });
+let name = '';
 class Logged extends Component {
 
   constructor(props) {
     super(props);
     this.googleUserLogout.bind(this);
     this.logout.bind(this);
-    console.log(this.props.rpics);
-    console.log(this.props.jpics);
-    console.log(this.props.spics);
-    if (this.props.location === 'Rohini') {
-      this.state = { pics: this.props.rpics };
-    } else if (this.props.location === 'Janakpuri') {
-      this.state = { pics: this.props.jpics };
-    } else if (this.props.location === 'Shahadra') {
-      this.state = { pics: this.props.spics };
-    }
     this.state = { loading: false, loggedIn: true };
+  }
+  componentWillMount() {
+
   }
 
   logout() {
@@ -136,8 +131,8 @@ class Logged extends Component {
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: '#DBDBDB' }}>
-      <View style={{ flex: 0.3, backgroundColor: '#034A9C' }}>
-      <Text style={{ alignSelf: 'center', color: '#ffffff' }}>{this.props.userid}</Text>
+      <View style={{ flex: 0.5, backgroundColor: '#034A9C' }}>
+      <Text style={{ fontSize: 20, color: '#ffffff', justifyContent: 'flex-end' }}>{this.props.username}</Text>
       </View>
           <View style={styles.logout}>
           {this.fbUserLogout()}
@@ -162,7 +157,8 @@ const mapStateToProps = (state) => {
       usertype: state.loginStatus,
       rpics: state.ruserposts,
       spics: state.suserposts,
-      jpics: state.juserposts
+      jpics: state.juserposts,
+      username: state.username
   };
 };
 

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Scene, Router } from 'react-native-router-flux';
 import PickLocation from './components/PickLocation';
-import Lobby from './components/Lobby';
 import Feedback from './components/secondary/Feedback';
 import Gallery from './components/secondary/Gallery';
 import Aboutus from './components/secondary/Aboutus';
@@ -29,7 +28,6 @@ class RouterComponent extends Component {
       <Router hideNavBar={true}>
         <Scene key="boot" component={BootUp} />
         <Scene key="tabs" component={TabMenu} />
-        <Scene key="lobby" component={Lobby} />
         <Scene key="feedback" component={Feedback} />
         <Scene key="gallery" component={Gallery} />
         <Scene key="about" component={Aboutus} />

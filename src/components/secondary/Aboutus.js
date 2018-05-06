@@ -5,7 +5,6 @@ import { Button } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { Header, Icon } from 'react-native-elements';
 import * as actions from '../../actions';
-import BackFab from '../../fabs/BackFab';
 
 const styles = StyleSheet.create({
   container: {
@@ -53,7 +52,7 @@ rightIcon() {
         <Text style={styles.para}>We at unity one are trying to build a bridge between services we
         have to offer and the experience which our users enjoy at our three premier
         locations Rohini, Janakpuri and Shahdra.</Text>
-        <BackFab />
+      
       </View>
     );
   }

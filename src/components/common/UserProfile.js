@@ -13,8 +13,7 @@ const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     marginTop: 7,
-    marginLeft: 7,
-    marginRight: 7,
+    width: width,
     alignItems: 'center',
     marginBottom: 7,
     borderColor: '#d0d0d0',
@@ -66,8 +65,12 @@ class UserProfile extends Component {
     } else if (this.props.dbref === '/jPosts') {
       this.state = { shareLinkContent: sharePhotoContent, isFetching: false, data: this.props.juserpics };
     } else if (this.props.dbref === '/sPosts') {
+      console.log(this.props.suserpics);
       this.state = { shareLinkContent: sharePhotoContent, isFetching: false, data: this.props.suserpics };
     }
+
+  }
+  componentDidMount() {
 
   }
 //needs revision
@@ -144,7 +147,6 @@ resolveApproval() {
   }
 
 userHasPictures() {
-    console.log(this.state.data);
       if (this.state.data.size === 0) {
         return (
           <View style={styles.container}>
@@ -177,7 +179,7 @@ userHasPictures() {
             <FlatList
             refreshing={this.state.isFetching}
             onRefresh={this.onRefresh}
-            data={this.state.data}
+            data={this.props.suserpics}
             horizontal
             renderItem={({ item }) => <UserPicture pic={item} />}
             keyExtractor={item => item.id}
@@ -247,6 +249,7 @@ renderSeparator() {
       }
 
 render() {
+  console.log(this.props.suserpics);
     return (
       <View>
       {this.userHasPictures()}

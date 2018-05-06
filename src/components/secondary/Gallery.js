@@ -3,8 +3,6 @@ import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import ImageList from './ImageList';
 import * as actions from '../../actions';
-import BackFab from '../../fabs/BackFab';
-import FrontCamFab from '../../fabs/FrontCamFab';
 
 const styles = StyleSheet.create({
   container: {
@@ -42,7 +40,6 @@ class Gallery extends Component {
     return (
       <View style={styles.container}>
       {this.resolveGallery()}
-      <FrontCamFab />
       </View>
     );
   }
