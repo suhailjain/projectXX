@@ -5,6 +5,7 @@ import { Actions } from 'react-native-router-flux';
 import Spinner from './common/Spinner';
 import * as actions from '../actions';
 import fbAccess from './FirebaseConfig';
+import DrawerModal from './common/DrawerModal';
 
 const FBSDK = require('react-native-fbsdk');
 
@@ -18,18 +19,23 @@ class BootUp extends Component {
     this.state = { loading: 'loading' };
   }
   componentDidMount() {
+    this.getMetaData();
+  }
+  getMetaData() {
+    return new Promise((resolve) => {
       this.getFeedbackServices();
       this.getUserStatus();
       this.getGallery();
+      resolve();
+    })
+    .then(() => {
       this.setState({ loading: 'done' });
+    });
   }
   async getFeedbackServices() {
-    let services = [];
-    console.log('about to fetch services');
-    await fbAccess.database().ref('/services').on('child_added', (snapshot) => {
-      services.push(snapshot.val());
+    await fbAccess.database().ref('/services').once('value', (snapshot) => {
+      this.props.feedbackServices(snapshot.val());
     });
-    await this.props.feedbackServices(services);
   }
   async getUserStatus() {
     if (fbAccess.auth().currentUser !== null) {
@@ -45,67 +51,71 @@ class BootUp extends Component {
     }
   );
   }
-  async getGallery() {
-    const fbdb = fbAccess.database();
+ getGallery() {
     let pics = [];
     let spics = [];
     let jpics = [];
     let userPics = [];
     let suserPics = [];
     let juserPics = [];
-    //console.log('user form the lobby: ', this.props.userid);
-    // dbref = '/posts' || '/jPosts' || 'sPosts
     //fetching gallery for shahadra
-    await fbdb.ref('/sPosts')
+   fbAccess.database().ref('/sPosts')
     .limitToLast(3)
-    .on('child_added', (snapshot) => {
+    .once('value', (snapshot) => {
+      console.log(snapshot.val());
       //reversing the like order and check for approved
-      if (snapshot.val().user === this.props.userid) {
-        userPics.unshift(snapshot.val());
-        this.props.suserPics(suserPics);
-      }
-      if (snapshot.val().approved === 'Y') {
-          spics.unshift(snapshot.val());
+      snapshot.forEach((child) => {
+        if (child.val().approved === 'Y') {
+          spics.unshift(child.val());
           this.props.sgallerydata(spics);
         }
-    });
-    //fetching gallery for Janakpuri
-    await fbdb.ref('/jPosts')
-    .limitToLast(3)
-    .on('child_added', (snapshot) => {
-      //reversing the like order and check for approved
-     if (snapshot.val().user === this.props.userid) {
-        userPics.unshift(snapshot.val());
-        this.props.userPics(userPics);
-      }
-      if (snapshot.val().approved === 'Y') {
-          jpics.unshift(snapshot.val());
-          this.props.jgallerydata(jpics);
-          //cache specific
+        if (this.props.userid !== 0 && child.val().user === this.props.userid) {
+          suserPics.unshift(child.val());
+          this.props.suserPics(suserPics);
         }
+      });
+    });
+
+    //fetching gallery for Janakpuri
+   fbAccess.database().ref('/jPosts')
+    .limitToLast(3)
+    .once('value', (snapshot) => {
+      //reversing the like order and check for approved
+      snapshot.forEach((child) => {
+        if (child.val().approved === 'Y') {
+          jpics.unshift(child.val());
+          this.props.jgallerydata(jpics);
+        }
+        if (this.props.userid !== 0 && child.val().user === this.props.userid) {
+          juserPics.unshift(child.val());
+          this.props.juserPics(juserPics);
+        }
+      });
     });
     //fetching gallery for Rohini
-    await fbdb.ref('/posts')
+   fbAccess.database().ref('/posts')
     .limitToLast(3)
-    .on('child_added', (snapshot) => {
+    .once('value', (snapshot) => {
       //reversing the like order and check for approved
-      if (snapshot.val().user === this.props.userid) {
-        userPics.unshift(snapshot.val());
-        this.props.juserPics(juserPics);
-      }
-      if (snapshot.val().approved === 'Y') {
-          pics.unshift(snapshot.val());
+      snapshot.forEach((child) => {
+        if (child.val().approved === 'Y') {
+          pics.unshift(child.val());
           this.props.rgallerydata(pics);
-          //cache specific
         }
+        if (this.props.userid !== 0 && child.val().user === this.props.userid) {
+          userPics.unshift(child.val());
+          this.props.ruserPics(userPics);
+        }
+      });
     });
   }
   render() {
     return (
-      <View style={{ flex: 1, alignItems: 'center' }}>
-      <Text style={{ justifyContent: 'center' }}>
-      {this.state.loading}
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text style={{ fontSize: 26 }}>
+      Loading...
       </Text>
+      <Text>{this.state.loading}</Text>
       <Button
       onPress={() => Actions.tabs({ type: 'replace' })}
       title='go'
@@ -115,4 +125,10 @@ class BootUp extends Component {
   }
 }
 
-export default connect(null, actions)(BootUp);
+const mapStateToProps = state => {
+  return {
+      userid: state.userId
+  };
+};
+
+export default connect(mapStateToProps, actions)(BootUp);

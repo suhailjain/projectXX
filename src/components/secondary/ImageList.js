@@ -38,21 +38,22 @@ class ImageList extends Component {
 async onRefresh() {
     ImageList.hasMoreData = true;
     console.log('refreshing');
-    let first = 0;
+    let first = true;
     await this.setState({ data: [] });
     await fbAccess.database().ref(this.props.dbref)
-      .orderByKey()
       .limitToLast(3)
-      .on('child_added', (snapshot) => {
-        console.log(snapshot.val().id);
-        if (first === 0) {
-          first++;
-          ImageList.statInd = snapshot.val().id;
-        }
-        console.log('newest posts begins from id: ', ImageList.statInd);
-        if (snapshot.val().approved === 'Y') {
-          this.add(snapshot.val());
-        }
+      .once('value', (snapshot) => {
+        console.log(snapshot.val());
+          snapshot.forEach((child) => {
+            if (first) {
+              ImageList.statInd = child.val().id;
+              first = false;
+            }
+            console.log('newest posts begins from id: ', ImageList.statInd);
+            if (child.val().approved === 'Y') {
+              this.add(child.val());
+            }
+          });
       });
 }
 
@@ -64,6 +65,7 @@ async sortByLikes() {
 }
 
 async add(pic) {
+  console.log('adding to list', pic.id);
   await this.setState({ data: [...this.state.data, ...[pic]] });
   return;
 }
@@ -81,18 +83,22 @@ async loadMoreData() {
     .orderByKey()
     .endAt(String(ImageList.statInd))
     .limitToLast(3)
-    .on('child_added', (snapshot) => {
-      if (first === 0) {
-        ImageList.statInd = snapshot.val().id;
-      }
-      if (snapshot.val().id === 0) {
-        ImageList.hasMoreData = false;
-      }
-      first++;
-      //not adding up when first===3 as it will lead to duplicate item
-      if (snapshot.val().approved === 'Y' && first !== 3 && snapshot.val().id !== 0) {
-        this.add(snapshot.val());
-      }
+    .once('value', (snapshot) => {
+      snapshot.forEach((child) => {
+        if (first === 0) {
+          ImageList.statInd = child.val().id;
+        }
+
+        first++;
+
+        if (child.val().id === 0) {
+          ImageList.hasMoreData = false;
+        }
+        //not adding up when first===3 as it will lead to duplicate item
+        if (child.val().approved === 'Y' && first !== 3 && child.val().id !== 0) {
+          this.add(child.val());
+        }
+      });
     });
     this.setState({ loading: !this.state.loading });
 }
