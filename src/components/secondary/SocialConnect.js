@@ -32,31 +32,37 @@ refreshUserPicList(user) {
     console.log(user);
     //fetching gallery for shahadra
     fbAccess.database().ref('/sPosts')
-    .on('child_added', (snapshot) => {
+    .once('value', (snapshot) => {
       //reversing the like order and check for approved
-      if (snapshot.val().user === user) {
-        suserPics.unshift(snapshot.val());
-        this.props.suserPics(suserPics);
-      }
+      snapshot.forEach((child) => {
+        if (child.val().user === user) {
+          suserPics.unshift(child.val());
+        }
+      });
+      this.props.suserPics(suserPics);
     });
     //fetching gallery for Janakpuri
     fbAccess.database().ref('/jPosts')
-    .on('child_added', (snapshot) => {
+    .once('value', (snapshot) => {
       //reversing the like order and check for approved
-     if (snapshot.val().user === user) {
-        juserPics.unshift(snapshot.val());
-        this.props.juserPics(juserPics);
-      }
+      snapshot.forEach((child) => {
+        if (child.val().user === user) {
+          juserPics.unshift(child.val());
+        }
+      });
+      this.props.juserPics(juserPics);
     });
     //fetching gallery for Rohini
    fbAccess.database().ref('/posts')
-    .on('child_added', (snapshot) => {
-      //reversing the like order and check for approved
-      if (snapshot.val().user === user) {
-        ruserPics.unshift(snapshot.val());
-        this.props.ruserPics(ruserPics);
-      }
-    });
+   .once('value', (snapshot) => {
+     //reversing the like order and check for approved
+     snapshot.forEach((child) => {
+       if (child.val().user === user) {
+         ruserPics.unshift(child.val());
+       }
+     });
+     this.props.ruserPics(ruserPics);
+   });
     console.log(suserPics);
     console.log(juserPics);
     console.log(ruserPics);
@@ -70,7 +76,7 @@ refreshUserPicList(user) {
         <NotLogged navigation={this.props.navigation} />
       );
     } else {
-      this.refreshUserPicList()
+      this.refreshUserPicList(this.props.userid)
       .then(() => {
         console.log('redirecting you to : logged');
       });
