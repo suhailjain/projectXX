@@ -11,29 +11,23 @@ import { RNCamera } from 'react-native-camera';
 import { Icon } from 'react-native-elements';
 import * as actions from '../../actions';
 import Spinner from './Spinner';
+import ImageModal from './ImageModal';
 
 class FrontCameraComponent extends Component {
   constructor() {
     super();
     this.state = { loading: false };
   }
-  onBarCodeRead(e) {
-    Alert.alert(e.data);
-    this.props.parking(e.data);
-    console.log(
-        "Barcode Found!",
-        "Type: " + e.type + "\nData: " + e.data
-    );
-  }
 
   async takePicture() {
-    await this.setState({ loading: !this.state.loading });
+    //await this.setState({ loading: !this.state.loading });
     if (this.camera) {
       const options = { quality: 1, base64: true };
       const data = await this.camera.takePictureAsync(options);
-      this.props.cache(data.uri);
-      await this.setState({ loading: !this.state.loading });
-      Actions.confirmUpload();
+      this.props.cacheURI(data.uri);
+      this.props.uploadscreen(true);
+      //await this.setState({ loading: !this.state.loading });
+      //Actions.confirmUpload();
     }
    }
 
@@ -45,9 +39,7 @@ class FrontCameraComponent extends Component {
           ref={(cam) => {
             this.camera = cam;
           }}
-          barCodeTypes={[RNCamera.Constants.BarCodeType.qr]}
           autofocus={RNCamera.Constants.AutoFocus.on}
-          onBarCodeRead={this.onBarCodeRead.bind(this)}
           style={styles.preview}
           type={RNCamera.Constants.Type.front}
           captureAudio={false}
@@ -80,6 +72,7 @@ class FrontCameraComponent extends Component {
         </View>
         </RNCamera>
         <Spinner loading={this.state.loading} />
+        <ImageModal visible={this.props.visible} />
       </View>
     );
   }
@@ -107,7 +100,9 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    type: state.cameraFace
+    type: state.cameraFace,
+    visible: state.upload,
+    uri: state.cache
   };
 };
 

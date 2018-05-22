@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Dimensions, Alert, ActivityIndicator, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { View, Text, Dimensions, Alert, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { Button } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
@@ -7,6 +7,7 @@ import { Jiro } from 'react-native-textinput-effects';
 import fbAccess from '../FirebaseConfig';
 import * as actions from '../../actions';
 import SignUp from './SignUp';
+import Spinner from '../common/Spinner';
 
 const { widtht } = Dimensions.get('window');
 
@@ -23,9 +24,10 @@ const styles = {
   },
   container: {
     flex: 1,
-    justifyContent: 'center',
-    marginLeft: 15,
-    marginRight: 15
+    marginTop: '15%',
+    marginLeft: 20,
+    backgroundColor: '#DBDBDB',
+    marginRight: 20
   },
   login: {
     marginTop: 20,
@@ -106,7 +108,6 @@ class NotLogged extends Component {
 
   render() {
     return (
-      <KeyboardAvoidingView style={styles.outerContainer}>
         <View style={styles.container}>
         <Jiro
           label={'Email'}
@@ -134,9 +135,11 @@ class NotLogged extends Component {
             textStyle={styles.text}
             buttonStyle={styles.login}
           />
-          <TouchableOpacity onPress={() => {
+          <TouchableOpacity
+            onPress={() => {
             this.props.signupmodal(true);
-          }}>
+          }}
+          >
           <Text
             style={{
             paddingTop: 5,
@@ -154,6 +157,7 @@ class NotLogged extends Component {
           >
             - or -
           </Text>
+          <View style={{ alignSelf: 'center' }}>
           <LoginButton
           publishPermissions={['publish_actions']}
           onLoginFinished={
@@ -178,15 +182,10 @@ class NotLogged extends Component {
               Alert.alert('logout.');
           }}
           />
-          <ActivityIndicator
-                animating={this.state.loading}
-                color='#bc2b78'
-                size='large'
-                style={styles.activityIndicator}
-          />
+          </View>
        <SignUp visible={this.props.visible} />
+       <Spinner loading={this.state.loading} />
         </View>
-      </KeyboardAvoidingView>
     );
   }
 }

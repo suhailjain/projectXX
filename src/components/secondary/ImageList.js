@@ -104,7 +104,8 @@ async loadMoreData() {
 }
 
 refreshIndex() {
-  ImageList.statInd = this.props.gallery[2].id;
+  console.log(this.props.gallery.lastIndex);
+  ImageList.statInd = this.props.gallery[this.props.gallery.lastIndex].id;
 }
 refreshIndexByCached() {
   ImageList.statInd = store.getState().gallery[2].id;

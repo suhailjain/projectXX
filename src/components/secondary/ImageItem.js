@@ -42,8 +42,6 @@ const styles = StyleSheet.create({
 class ImageItem extends Component {
   render() {
     return (
-
-      <View>
       <SwipeRow
             disableLeftSwipe
             leftOpenValue={170}
@@ -57,9 +55,9 @@ class ImageItem extends Component {
             }
             body={
               <View>
-              <TouchableOpacity onPress={() => {
-                this.props.currentImage(this.props.pic.url);
-                this.props.currentImageVisible(true);
+              <TouchableOpacity
+                onPress={() => {
+                  console.log('image clicked');
                }}
               >
               <Image
@@ -76,21 +74,6 @@ class ImageItem extends Component {
               </View>
             }
       />
-
-
-      <Modal
-      onBackdropPress={() => this.props.currentImageVisible(false)}
-      isVisible={this.props.visible}
-      >
-          <Image
-          style={{ width: width * 0.90,
-                  height: height * 0.85,
-                  alignSelf: 'center',
-                }}
-          source={{ uri: this.props.highlight }}
-          />
-      </Modal>
-      </View>
     );
   }
 }

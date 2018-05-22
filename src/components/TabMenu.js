@@ -8,13 +8,13 @@ import Gallery from './secondary/Gallery';
 import ParkAssist from './ParkAssist';
 import Logged from './login/Logged';
 
-const TabMenu = TabNavigator({
-  Home: { screen: Main },
-  Connect: { screen: SocialConnect },
-  Gallery: { screen: Gallery },
-  Feedback: { screen: FeedbackPage },
-  Parking: { screen: ParkAssist }
-}, {
+  const TabMenu = TabNavigator({
+    Home: { screen: Main },
+    Connect: { screen: SocialConnect },
+    Gallery: { screen: Gallery },
+    Feedback: { screen: FeedbackPage },
+    Parking: { screen: ParkAssist }
+  }, {
   tabBarPosition: 'bottom',
   animationEnabled: true,
   swipeEnabled: false,

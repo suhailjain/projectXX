@@ -68,16 +68,30 @@ class UserProfile extends Component {
       console.log(this.props.suserpics);
       this.state = { shareLinkContent: sharePhotoContent, isFetching: false, data: this.props.suserpics };
     }
-
+    console.log(this.state.data);
   }
   componentDidMount() {
 
   }
 //needs revision
   onRefresh = () => {
-    console.log('refreshing');
+    console.log('refreshing user images');
+    this.setState({ isFetching: true });
+    let userPics = [];
+    fbAccess.database().ref(this.props.dbref)
+    .once('value', (snapshot) => {
+      //reversing the like order and check for approved
+      snapshot.forEach((child) => {
+        if (child.val().user === this.props.userid) {
+          userPics.unshift(child.val());
+        }
+      });
+      console.log(userPics);
+      this.setState({ isFetching: false, data: userPics });
+    });
+
     /*
-      this.setState({ isFetching: true });
+
     const fbdb = fbAccess.database();
     let userPics = [];
     fbdb.ref(this.props.dbref).orderByChild('likes')
@@ -89,7 +103,6 @@ class UserProfile extends Component {
       }
     }
   });
-  this.setState({ isFetching: false, data: userPics });
   console.log(userPics);
   */
 };
@@ -164,22 +177,12 @@ userHasPictures() {
       return (
         <View>
           <View style={styles.container}>
-            <View style={{ alignItems: 'center', marginTop: 7 }}>
-                <Text style={{ fontSize: 16 }}>Images uploaded by you</Text>
-                  <View
-                    style={{
-                    height: 1,
-                    width: '70%',
-                    backgroundColor: '#000000',
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                  }}
-                  />
-            </View>
+
+            <Text style={{ fontSize: 16 }}>Images uploaded by you</Text>
             <FlatList
             refreshing={this.state.isFetching}
             onRefresh={this.onRefresh}
-            data={this.props.suserpics}
+            data={this.state.data}
             horizontal
             renderItem={({ item }) => <UserPicture pic={item} />}
             keyExtractor={item => item.id}
@@ -233,7 +236,17 @@ renderFooter() {
       </View>
     );
   }
-
+  renderHeader() {
+    return (
+      <View
+        style={{
+          height: 30,
+          width: 20,
+          backgroundColor: "#DBDBDB"
+        }}
+      />
+    );
+  }
 renderSeparator() {
         return (
           <View
@@ -264,6 +277,7 @@ const mapStateToProps = state => {
     juserpics: state.juserposts,
     suserpics: state.suserposts,
     dbref: state.dbRef,
+    userid: state.userId,
     selected: state.carousel,
     approvalStat: state.approvalstatus,
     likesCount: state.likecount,

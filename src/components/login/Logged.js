@@ -7,6 +7,10 @@ import { Button, Icon, Header } from 'react-native-elements';
 import UserProfile from '../common/UserProfile';
 import fbAccess from '../FirebaseConfig';
 import * as actions from './../../actions';
+import DrawerModal from '../common/DrawerModal';
+import UserImageList from './UserImageList';
+import UserFeedbacks from './UserFeedbacks';
+import UserStats from './UserStats';
 
 
 const { width, height } = Dimensions.get('window');
@@ -55,12 +59,11 @@ const styles = StyleSheet.create({
     flex: 1
   },
   back: {
-    position: 'absolute',
-    marginTop: height - 50,
-    marginLeft: 20
+    alignSelf: 'flex-end',
+    marginBottom: 10,
+    marginLeft: 200
   }
 });
-let name = '';
 class Logged extends Component {
 
   constructor(props) {
@@ -68,6 +71,7 @@ class Logged extends Component {
     this.googleUserLogout.bind(this);
     this.logout.bind(this);
     this.state = { loading: false, loggedIn: true };
+    console.log('constructor of logged');
   }
   componentWillMount() {
 
@@ -115,36 +119,60 @@ class Logged extends Component {
 
   googleUserLogout() {
     if (this.props.usertype === 'email') {
-      return (
-        <Button
-            title='Log out'
-            textStyle={{ color: '#003366' }}
-            backgroundColor='#ffffff'
-            onPress={() => this.logout()}
-        />
-    );
+      return;
   } else {
     return;
   }
+  }
+  renderMainComponent() {
+    let data = [];
+    if (this.props.dbref === '/posts') {
+      data = this.props.rpics;
+    } else if (this.props.dbref === '/jPosts') {
+      data = this.props.jpics;
+    } else if (this.props.dbref === '/sPosts') {
+      data = this.props.spics;
+    }
+    if (this.props.menuType === 'gallery') {
+      return (
+        <UserImageList data={data} />
+      );
+    } else if (this.props.menuType === 'feedback') {
+      return (
+        <UserFeedbacks />
+      );
+    } else if (this.props.menuType === 'stats') {
+      return (
+        <UserStats />
+      );
+    }
   }
 
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: '#DBDBDB' }}>
-      <View style={{ flex: 0.5, backgroundColor: '#034A9C' }}>
-      <Text style={{ fontSize: 20, color: '#ffffff', justifyContent: 'flex-end' }}>{this.props.username}</Text>
+      <View style={{ height: '20%', backgroundColor: '#034A9C', flexDirection: 'row' }}>
+      <Text style={{ alignSelf: 'flex-end', fontSize: 20, color: '#ffffff', marginBottom: 10, marginLeft: 20 }}>{this.props.username}</Text>
+      <TouchableOpacity
+      onPress={() => this.props.drawerState(false)}
+      style={styles.back}
+      >
+      <Icon
+      large
+      color='#ffffff'
+      name='menu'
+      />
+      </TouchableOpacity>
       </View>
-          <View style={styles.logout}>
           {this.fbUserLogout()}
-          {this.googleUserLogout()}
-          </View>
-          <UserProfile />
+          {this.renderMainComponent()}
           <ActivityIndicator
                    animating={this.state.loading}
                    color='#bc2b78'
                    size='large'
                    style={styles.activityIndicator}
           />
+        <DrawerModal visible={this.props.toggle} />
       </View>
     );
   }
@@ -155,10 +183,13 @@ const mapStateToProps = (state) => {
       userid: state.userId,
       location: state.currentLocation,
       usertype: state.loginStatus,
+      dbref: state.dbRef,
       rpics: state.ruserposts,
       spics: state.suserposts,
       jpics: state.juserposts,
-      username: state.username
+      username: state.username,
+      toggle: state.drawerState,
+      menuType: state.loggedmenuselected
   };
 };
 

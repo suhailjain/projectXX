@@ -5,23 +5,15 @@ import { connect } from 'react-redux';
 const { width } = Dimensions.get('window');
 
 class ProgressBar extends Component {
-  constructor() {
-    super();
-    this.state = { progress: 0 };
-  }
-  change() {
-    if (this.props.progress === 0.8 || this.props.progress === 0.3) {
-      this.setState({ progress: this.props.progress * width });
-    }
-  }
   render() {
-    this.change();
+    console.log(this.props.progress);
     return (
       <View
       style={{
         backgroundColor: '#003366',
-        height: 10,
-        width: this.state.progress
+        borderRadius: 8,
+        flex: 0.03,
+        width: this.props.progress * width
       }}
       />
     );

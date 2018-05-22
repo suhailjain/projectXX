@@ -10,14 +10,28 @@ const { width, height } = Dimensions.get('window');
 
 const styles = {
     container: {
-      marginTop: 30,
+      marginTop: 60,
       height: height / 1.5,
       backgroundColor: '#DBDBDB'
     },
+    base: {
+      flex: 1,
+      backgroundColor: '#DBDBDB'
+    },
     title: {
-      marginTop: 30,
       fontSize: 36,
-      alignSelf: 'center'
+      alignSelf: 'center',
+      color: '#ffffff',
+      marginTop: 10,
+      marginBottom: 10
+    },
+    titleView: {
+      borderRadius: 17,
+      backgroundColor: '#003366',
+      marginLeft: 40,
+      marginTop: 35,
+      marginRight: 40,
+      justifyContent: 'center'
     }
 };
 
@@ -61,9 +75,10 @@ class Main extends Component {
    }
   render() {
     return (
-      <View style={{ flex: 1,
-      backgroundColor: '#DBDBDB' }}>
+      <View style={styles.base}>
+      <View style={styles.titleView}>
       <Text style={styles.title}>{this.props.location}</Text>
+      </View>
       <Carousel
           ref={(c) => { this._carousel = c; }}
           data={this.state.entries}
@@ -71,7 +86,7 @@ class Main extends Component {
           sliderWidth={width}
           sliderHeight={height / 1.5}
           itemHeight={height / 1.5}
-          itemWidth={width / 1.5}
+          itemWidth={width / 1.35}
           loop={false}
           containerCustomStyle={styles.container}
       />
@@ -88,7 +103,7 @@ class Main extends Component {
                    this.props.selectLocation('Janakpuri');
                    this.props.feedbackDB('jfeedback');
                    this.props.postUrl('https://unityone-65a80.firebaseio.com/jPosts.json');
-                   this.props.storeUrl('https://unityone-65a80.firebaseio.com/janakpuriShop.json');
+                  // this.props.storeUrl('https://unityone-65a80.firebaseio.com/janakpuriShop.json');
                    this.props.foodUrl('https://unityone-65a80.firebaseio.com/janakpuriFood.json');
                    this.props.dbRef('/jPosts');
                    this.props.eventUrl('https://unityone-65a80.firebaseio.com/jEvents.json');
@@ -100,7 +115,7 @@ class Main extends Component {
                    this.props.selectLocation('Shahadra');
                    this.props.feedbackDB('sfeedback');
                    this.props.postUrl('https://unityone-65a80.firebaseio.com/sPosts.json');
-                   this.props.storeUrl('https://unityone-65a80.firebaseio.com/shahdraShop.json');
+                //   this.props.storeUrl('https://unityone-65a80.firebaseio.com/shahdraShop.json');
                    this.props.foodUrl('https://unityone-65a80.firebaseio.com/shahdraFood.json');
                    this.props.dbRef('/sPosts');
                    this.props.eventUrl('https://unityone-65a80.firebaseio.com/sEvents.json');
@@ -112,7 +127,7 @@ class Main extends Component {
                    this.props.selectLocation('Rohini');
                    this.props.feedbackDB('feedback');
                    this.props.postUrl('https://unityone-65a80.firebaseio.com/posts.json');
-                   this.props.storeUrl('https://unityone-65a80.firebaseio.com/rohiniShop.json');
+                  // this.props.storeUrl('https://unityone-65a80.firebaseio.com/rohiniShop.json');
                    this.props.foodUrl('https://unityone-65a80.firebaseio.com/rohiniFood.json');
                    this.props.dbRef('/posts');
                    this.props.eventUrl('https://unityone-65a80.firebaseio.com/rEvents.json');

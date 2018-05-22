@@ -15,8 +15,8 @@ class DrawerModal extends Component {
       <Modal
       isVisible={this.props.visible}
       style={styles.drawerContainer}
-      animationIn={'slideInLeft'}
-      animationOut={'slideOutLeft'}
+      animationIn={'slideInRight'}
+      animationOut={'slideOutRight'}
       onBackdropPress={() => this.props.drawerState(true)}
       >
         <DrawerMenu onPress={() => this.props.drawerState(true)} />
@@ -28,11 +28,9 @@ class DrawerModal extends Component {
 
 const styles = StyleSheet.create({
   drawerContainer: {
-    flex: 1,
-    marginRight: width * 0.5,
-    marginLeft: 0,
-    marginBottom: 0,
-    marginTop: 0
+    marginTop: '35%',
+    marginLeft: width * 0.7,
+    marginRight: 0
   }
 });
 

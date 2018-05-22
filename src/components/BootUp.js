@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, Button } from 'react-native';
 import { connect } from 'react-redux';
+import axios from 'axios';
 import { Actions } from 'react-native-router-flux';
 import Spinner from './common/Spinner';
 import * as actions from '../actions';
@@ -23,6 +24,7 @@ class BootUp extends Component {
   }
   getMetaData() {
     return new Promise((resolve) => {
+      this.getStores();
       this.getFeedbackServices();
       this.getUserStatus();
       this.getGallery();
@@ -30,6 +32,11 @@ class BootUp extends Component {
     })
     .then(() => {
       this.setState({ loading: 'done' });
+    });
+  }
+ getStores() {
+    fbAccess.database().ref('/rohiniShop').once('value', (snapshot) => {
+      this.props.stores(snapshot.val());
     });
   }
   async getFeedbackServices() {
@@ -62,7 +69,6 @@ class BootUp extends Component {
    fbAccess.database().ref('/sPosts')
     .limitToLast(3)
     .once('value', (snapshot) => {
-      console.log(snapshot.val());
       //reversing the like order and check for approved
       snapshot.forEach((child) => {
         if (child.val().approved === 'Y') {

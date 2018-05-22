@@ -10,31 +10,28 @@ import { Actions } from 'react-native-router-flux';
 import { RNCamera } from 'react-native-camera';
 import { Icon } from 'react-native-elements';
 import * as actions from '../../actions';
+import fbAccess from '../FirebaseConfig';
 
 class CameraComponent extends Component {
   onBarCodeRead(e) {
-    Actions.pop();
-    Alert.alert('we have saved your parking for you');
     this.props.parking(e.data);
-    console.log(
-        "Barcode Found!",
-        "Type: " + e.type + "\nData: " + e.data
-    );
-
+    if (e.data === 'a1') {
+      fbAccess.database().ref('/parking').set({ a1: this.props.userid })
+      .then(() => {
+        Alert.alert(
+          'Park Assist',
+          'We wont let you forget your parking slot',
+      [
+        { text: 'Thanks', onPress: () => Actions.pop() },
+        { text: 'Again', onPress: () => this.props.parking('not_found') }
+      ],
+      { cancelable: false }
+      );
+      });
+    }
   }
 
-  async takePicture() {
-    if (this.camera) {
-      const options = { quality: 0.5, base64: true };
-      const data = await this.camera.takePictureAsync(options);
-      console.log(data.uri);
-      this.props.cache(data.uri);
-      Actions.confirmUpload();
-    }
-   }
-
   render() {
-    console.log(this.props.type);
     return (
       <View style={styles.container}>
         <RNCamera
@@ -49,60 +46,32 @@ class CameraComponent extends Component {
           captureAudio={false}
           permissionDialogTitle={'Permission to use camera'}
           permissionDialogMessage={'We need your permission to use your camera phone'}
-        >
-        <View style={styles.innerContainer}>
-
-        <Icon
-        raised
-        iconStyle={{ backgroundColor: 'transparent' }}
-        name='chevron-left'
-        color='#003366'
-        onPress={() => Actions.pop()}
         />
-
+        <View style={{ flex: 0.4, justifyContent: 'flex-end', marginBottom: 20 }}>
         <Icon
-        raised
-        name='camera'
-        color='#003366'
-        onPress={() => this.takePicture()}
-        />
-        <Icon
-        raised
         name='close'
         color='#003366'
         onPress={() => Actions.pop()}
         />
-
         </View>
-        </RNCamera>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  click: {
-
-  },
-  innerContainer: {
-    flex: 1,
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    alignItems: 'flex-end'
-  },
   container: {
     flex: 1,
   },
   preview: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center'
+    flex: 0.6
   },
 });
 
 const mapStateToProps = state => {
   return {
-    type: state.cameraFace
+    type: state.cameraFace,
+    userid: state.userId
   };
 };
 

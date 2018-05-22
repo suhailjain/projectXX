@@ -9,7 +9,7 @@ import fbAccess from '../FirebaseConfig';
 
 const styles = {
   container: {
-    flex: 1,
+    flex: 0.7,
     marginLeft: 10,
     marginRight: 10,
     borderRadius: 13,
@@ -64,7 +64,7 @@ class SignUp extends Component {
         this.setState({ email: text });
       }}
     // this is used as active and passive border color
-      borderColor={'#336600'}
+      borderColor={'#034A9C'}
       inputStyle={{ color: 'white' }}
     />
     <Jiro
@@ -73,7 +73,7 @@ class SignUp extends Component {
         this.setState({ name: text });
       }}
     // this is used as active and passive border color
-      borderColor={'#336600'}
+      borderColor={'#034A9C'}
       inputStyle={{ color: 'white' }}
     />
     <Jiro
@@ -82,7 +82,7 @@ class SignUp extends Component {
         this.setState({ number: text });
       }}
     // this is used as active and passive border color
-      borderColor={'#336600'}
+      borderColor={'#034A9C'}
       inputStyle={{ color: 'white' }}
     />
     <Jiro
@@ -91,7 +91,7 @@ class SignUp extends Component {
         this.setState({ password: text });
       }}
     // this is used as active and passive border color
-      borderColor={'#336600'}
+      borderColor={'#034A9C'}
       inputStyle={{ color: 'white' }}
     />
     <Button

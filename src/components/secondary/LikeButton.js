@@ -25,6 +25,7 @@ class LikeButton extends Component {
   }
   hitLike() {
     console.log('in hitLike');
+      const sessionId = new Date().getTime();
       let user = this.props.userid;
       /*if (fbAccess.auth().currentUser != null) {
         user = fbAccess.auth().currentUser.uid;
@@ -52,7 +53,14 @@ class LikeButton extends Component {
             //unique identifier to check if a user has liked an image before.
             fbAccess.database().ref(`/hypeUsers/users/${user}`).child(uniqueKey).set(true);
             //Alert.alert('your like was counted');
-            console.log('success full like');
+            console.log('Image is liked');
+          })
+          .then(() => {
+            fbAccess.database().ref(this.props.db).child(this.props.id).child('lastLikedAt')
+            .transaction(() => {
+              return sessionId;
+            })
+            .then(() => console.log('lastLikedAt updated'));
           });
       }
     })

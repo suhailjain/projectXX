@@ -12,7 +12,14 @@ export const postUrl = (url) => {
   };
 };
 
-export const storeUrl = (url) => {
+export const selectStyle = (style) => {
+  return {
+    type: 'style',
+    payload: style
+  };
+};
+
+export const stores = (url) => {
   return {
     type: 'store_url',
     payload: url
@@ -44,6 +51,13 @@ export const likeUrl = (url) => {
   return {
     type: 'like_url',
     payload: url
+  };
+};
+
+export const loggedMenu = (mode) => {
+  return {
+    type: 'logged_menu',
+    payload: mode
   };
 };
 
@@ -111,7 +125,7 @@ export const rgallerydata = (data) => {
 };
 
 export const sgallerydata = (data) => {
-  //console.log(data);
+//  console.log(data);
   return {
     type: 'sgallery',
     payload: data
@@ -174,7 +188,7 @@ export const loading = (mode) => {
   };
 };
 
-export const cache = (location) => {
+export const cacheURI = (location) => {
   return {
     type: 'cache',
     payload: location
@@ -223,6 +237,13 @@ export const signupmodal = (bool) => {
   };
 };
 
+export const uploadscreen = (bool) => {
+  return {
+    type: 'upload',
+    payload: bool
+  };
+};
+
 export const feedbackDB = (dbref) => {
   return {
     type: 'feedbck_dbref',
@@ -234,5 +255,19 @@ export const feedbackServices = (servicesArray) => {
   return {
     type: 'services',
     payload: servicesArray
+  };
+};
+
+export const SetUserName = (name) => {
+  return {
+    type: 'username',
+    payload: name
+  };
+};
+
+export const searchText = (text) => {
+  return {
+    type: 'search',
+    payload: text
   };
 };

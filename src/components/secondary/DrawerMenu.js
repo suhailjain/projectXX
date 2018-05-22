@@ -3,8 +3,8 @@ import {
   StyleSheet,
   View,
   Alert,
+  Text,
   Dimensions,
-  Image,
   TouchableOpacity
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -19,154 +19,77 @@ const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
+    backgroundColor: '#003366',
+    borderBottomLeftRadius: 9,
+    borderTopLeftRadius: 9,
+    paddingTop: 7,
+    paddingBottom: 7
   },
   containerOuter: {
-    flex: 1,
-    backgroundColor: '#003366',
-  },
-  container: {
-    flex: 0.8,
-    justifyContent: 'center',
-    marginLeft: 10,
-    backgroundColor: '#003366',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-});
-
-const loginCheck = (fbuserid) => {
-  if ((fbAccess.auth().currentUser !== null && (fbAccess.auth().currentUser.uid !== 'none')) || (fbuserid !== 0)) {
-  return true;
-  } else {
-    return false;
+    borderBottomLeftRadius: 7,
+    borderTopLeftRadius: 7
   }
-};
+});
 
 const DrawerMenu = (props) => {
   return (
     <View style={styles.containerOuter}>
-    <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', marginTop: 30, marginRight: 10 }}>
-    <Icon
-    name='navicon'
-    type='font-awesome'
-    underlayColor='#003366'
-    color='#ffffff'
-    onPress={() => props.drawerState(true)}
-    />
+    <View style={styles.row}>
+      <Icon name='collections' iconStyle={{ marginLeft: 7, color: '#ffffff', marginRight: 5 }} />
+      <TouchableOpacity
+      onPress={() => {
+      props.loggedMenu('gallery');
+      props.drawerState(true);
+      }}
+      >
+      <Text style={{ color: '#ffffff' }}>Images</Text>
+      </TouchableOpacity>
     </View>
+    <View
+      style={{
+        height: 7,
+        width: width * 1,
+        backgroundColor: 'transparent',
+      }}
+    />
 
-    <View style={{ alignItems: 'center', marginTop: 60 }}>
-    <TouchableOpacity
-    onPress={() => {
-        props.drawerState(true);
-        Actions.locationPicker();
+    <View style={styles.row}>
+    <Icon name='feedback' iconStyle={{ marginLeft: 7, color: '#ffffff', marginRight: 5 }} />
+      <TouchableOpacity
+      onPress={() => {
+      props.loggedMenu('feedback');
+      props.drawerState(true);
+      }}
+      >
+      <Text style={{ color: '#ffffff' }}>Feedback</Text>
+      </TouchableOpacity>
+    </View>
+    <View
+    style={{
+      height: 7,
+      width: width * 1,
+      backgroundColor: 'transparent',
     }}
-    >
-    <Image
-      style={{ width: 150, height: 150, borderRadius: 75 }}
-      source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/unityone-65a80.appspot.com/o/backgrounds%2Funityone-rohini-logo.jpg?alt=media&token=9f3ac95d-64c3-436f-b46b-e937fbb2e5ee' }}
-    />
-    </TouchableOpacity>
-    </View>
-
-    <View style={styles.container}>
-
-    <View style={styles.row}>
-      <Icon name='movie' iconStyle={{ marginLeft: 5, color: '#ffffff' }} />
-      <Button
-      backgroundColor='#003366'
-        title='Unity Clip'
-        onPress={() => {
-        props.drawerState(true);
-        Actions.movie();
-        }}
-      />
-    </View>
-    <View
-      style={{
-        height: 1,
-        backgroundColor: "#ffffff",
-        marginRight: 10
-      }}
-    />
-
-    <View style={styles.row}>
-      <Icon name='collections' iconStyle={{ marginLeft: 5, color: '#ffffff' }} />
-      <Button
-      backgroundColor='#003366'
-        title='Unity Selfie'
-        onPress={() => {
-        props.drawerState(true);
-        Actions.gallery();
-      }}
-      />
-    </View>
-    <View
-      style={{
-        height: 1,
-        backgroundColor: "#ffffff",
-        marginRight: 10
-      }}
-    />
-
-    <View style={styles.row}>
-    <Icon name='feedback' iconStyle={{ marginLeft: 5, color: '#ffffff' }} />
-      <Button
-      backgroundColor='#003366'
-        title='Feedback'
-        onPress={() => {
-        if (loginCheck(props.userid)) {
-        props.drawerState(true);
-        Actions.feedback();
-        } else {
-        Alert.alert('login is must');
-        }
-        }}
-      />
-    </View>
-    <View
-      style={{
-        height: 1,
-        backgroundColor: "#ffffff",
-        marginRight: 10
-      }}
     />
 
       <View style={styles.row}>
-      <Icon name='group' iconStyle={{ marginLeft: 5, color: '#ffffff' }} />
-      <Button
-      backgroundColor='#003366'
-        title='Connect'
-        onPress={() => {
+      <Icon name='group' iconStyle={{ marginLeft: 7, color: '#ffffff', marginRight: 5 }} />
+      <TouchableOpacity
+      onPress={() => {
+        props.loggedMenu('stats');
         props.drawerState(true);
-        Actions.connect();
       }}
-      />
+      >
+      <Text style={{ color: '#ffffff' }}>Stats</Text>
+      </TouchableOpacity>
       </View>
       <View
-        style={{
-          height: 1,
-          backgroundColor: "#ffffff",
-          marginRight: 10
-        }}
-      />
-
-      <View style={styles.row}>
-      <Icon name='info' iconStyle={{ marginLeft: 5, color: '#ffffff' }} />
-      <Button
-      backgroundColor='#003366'
-        title='About'
-        onPress={() => {
-        props.drawerState(true);
-        Actions.about();
+      style={{
+        height: 15,
+        width: width * 1,
+        backgroundColor: 'transparent',
       }}
       />
-      </View>
-
-    </View>
     </View>
   );
 };

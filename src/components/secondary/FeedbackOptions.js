@@ -5,16 +5,28 @@ import * as actions from '../../actions';
 import fbAccess from '../FirebaseConfig';
 
 const styles = {
+  container: {
+    borderBottomLeftRadius: 12,
+    borderBottomRightRadius: 12
+  },
   rate: {
-    alignSelf: 'center'
+    alignSelf: 'center',
+    marginTop: 5,
   },
   comment: {
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   submit: {
+    color: '#ffffff',
     alignSelf: 'center',
     paddingTop: 6,
     paddingBottom: 6
+  },
+  slider: {
+    marginTop: 10,
+    marginRight: 10,
+    marginLeft: 10,
+    marginBottom: 15
   }
 };
 let rating = 0;
@@ -39,30 +51,52 @@ class FeedbackOptions extends Component {
   }
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <Text style={styles.rate}>Rate</Text>
         <Slider
         onSlidingComplete={(value) => {
           rating = value;
         }}
+        style={styles.slider}
+        maximumValue={10}
+        minimumValue={1}
+        stepValue={1}
+        value={5}
         />
         <Text style={styles.comment}>Comments</Text>
         <TextInput
-        style={{ height: 40 }}
+        numberOfLines={4}
+        maxLength={100}
+        placeholder="Thriving for some feedback. Max chars 100."
+        placeholderTextColor="#DBDBDB"
+        style={{ height: 70,
+        marginLeft: 10,
+        marginRight: 10,
+        }}
         multiline
         onChangeText={(text) => this.setState({ text })}
         value={this.state.text}
         />
-        <TouchableOpacity onPress={() => this.submitFeedback()}>
+        <TouchableOpacity
+        onPress={() => this.submitFeedback()}
+        style={{ backgroundColor: '#034A9C' }}
+        >
         <View
           style={{
-            height: 3,
-            width: "100%",
-            backgroundColor: "#DBDBDB"
+            height: 4,
+            width: '100%',
+            backgroundColor: '#DBDBDB'
           }}
         />
         <Text style={styles.submit}>Submit</Text>
         </TouchableOpacity>
+        <View
+          style={{
+            height: 17,
+            width: '100%',
+            backgroundColor: '#DBDBDB'
+          }}
+        />
       </View>
     );
   }

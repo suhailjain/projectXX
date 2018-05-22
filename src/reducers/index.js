@@ -35,13 +35,17 @@ import SignUpModalReducer from './SignUpModalReducer';
 import FeedbackServicesReducer from './FeedbackServicesReducer';
 import FeedbackDBReducer from './FeedbackDBReducer';
 import UsernameReducer from './UsernameReducer';
+import LoggedMenuReducer from './LoggedMenuReducer';
+import UploadModalReducer from './UploadModalReducer';
+import StyleReducer from './StyleReducer';
+import SearchReducer from './SearchReducer';
 
 export default combineReducers({
 
   cache: CacheLocation,
   currentLocation: LocationReducer,
   postsDB: PostsReducer,
-  storeDB: StoreReducer,
+  stores: StoreReducer,
   foodDB: FoodReducer,
   dbRef: DbRefReducer,
   purpose: PurposeReducer,
@@ -73,6 +77,10 @@ export default combineReducers({
   signup: SignUpModalReducer,
   services: FeedbackServicesReducer,
   feedbckDB: FeedbackDBReducer,
-  username: UsernameReducer
+  username: UsernameReducer,
+  loggedmenuselected: LoggedMenuReducer,
+  upload: UploadModalReducer,
+  style: StyleReducer,
+  search: SearchReducer
 
 });

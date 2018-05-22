@@ -1,6 +1,6 @@
-export default (state = 'UserName', action) => {
+export default (state = '', action) => {
   switch (action.type) {
-    case 'username':
+    case 'search':
       return action.payload;
     default:
       return state;

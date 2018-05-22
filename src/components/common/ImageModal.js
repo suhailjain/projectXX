@@ -1,25 +1,32 @@
 import React, { Component } from 'react';
-import { View, Platform, Alert } from 'react-native';
-import { Actions } from 'react-native-router-flux';
+import { View, Text, Button, Image, Dimensions, TextInput, Platform } from 'react-native';
+import Modal from 'react-native-modal';
 import RNFetchBlob from 'react-native-fetch-blob';
-import axios from 'axios';
-import { Header, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
-import fbAccess from '../FirebaseConfig';
+import { Actions } from 'react-native-router-flux';
 import * as actions from '../../actions';
-import Spinner from './Spinner';
+import fbAccess from '../FirebaseConfig';
+import Caption from '../secondary/Caption';
+import ProgressBar from './ProgressBar';
+
+const { width, height } = Dimensions.get('window');
 
 const Blob = RNFetchBlob.polyfill.Blob;
 const fs = RNFetchBlob.fs;
 window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
 window.Blob = Blob;
 
-class UploadCard extends Component {
-
-  constructor() {
-    super();
-    this.state = { loading: false, loggedIn: true };
+const styles = {
+  image: {
+    flex: 0.7,
+    paddingBottom: 0,
+    justifyContent: 'flex-end',
+    backgroundColor: '#ffffff',
+    borderRadius: 8
   }
+};
+
+class ImageModal extends Component {
   uploadImage(uri, location, dbref, title, user, type, mime = 'application/octet-stream') {
     return new Promise((resolve, reject) => {
       this.props.progress(0.1);
@@ -29,7 +36,7 @@ class UploadCard extends Component {
         this.props.progress(0.3);
       const imageRef = fbAccess.storage().ref(location).child(`${sessionId}.jpg`);
       console.log('start of upload');
-        this.props.progress(0.6);
+        this.props.progress(0.4);
       fs.readFile(uploadUri, 'base64')
         .then((data) => {
           return Blob.build(data, { type: `${mime};BASE64` });
@@ -57,80 +64,45 @@ class UploadCard extends Component {
           });
         })
         .catch((error) => console.log('could not upload: ', error));
-          this.props.progress(0.8);
+          this.props.progress(0.5);
       });
   }
-  leftIcon() {
-    return (
-    <Icon
-    name='delete'
-    color='#663300' underlayColor='#ededed'
-    onPress={() => Actions.popTo('gallery')}
-    />
-  );
-  }
-  rightIcon() {
-    return (
-    <Icon
-    name='done'
-    color='#663300' underlayColor='#ededed'
-    onPress={() => {
-      this.uploadImage(this.props.uri, this.props.locate, this.props.dbref, this.props.captiontext, this.props.userid, this.props.usertype)
-      .then(() => {
-        console.log('updated');
-        this.props.progress(1);
-        Actions.popTo('gallery')
-        Alert.alert('your selfie is uploaded and is awaiting authority approval.');
-      });
-    }}
-    />
-  );
-  }
-
   render() {
+    console.log(this.props.cache);
     return (
-      <View>
-      <Header
-      backgroundColor='#003366'
-      leftComponent={this.leftIcon()}
-      centerComponent={{ text: '', style: { color: '#fff' } }}
-      rightComponent={this.rightIcon()}
-      />
-      <Spinner loading={this.state.loading} />
-      </View>
+      <Modal
+        isVisible={this.props.visible}
+        onBackdropPress={() => this.props.uploadscreen(false)}
+        style={{ flex: 1, justifyContent: 'space-between' }}
+      >
+        <Caption />
+        <ProgressBar />
+        <Button
+        title='send'
+        onPress={() => {
+          this.uploadImage(this.props.uri, this.props.locate, this.props.dbref, this.props.captiontext, this.props.userid, this.props.usertype)
+          .then(() => {
+            console.log('updated');
+            this.props.progress(0.9);
+            this.props.uploadscreen(false);
+            this.props.progress(0);
+            Actions.pop();
+          });
+        }}
+        />
+        <Image
+          source={{ uri: this.props.uri }}
+          style={styles.image}
+        />
+
+      </Modal>
     );
   }
 }
 
-const styles = {
-  container: {
-    height: 40,
-    borderWidth: 1,
-    borderRadius: 2,
-    borderColor: '#ddd',
-    borderBottomWidth: 0,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 1,
-    marginLeft: 5,
-    marginRight: 5,
-    marginTop: 10
-  },
-  upload: {
-    flexDirection: 'row'
-  },
-  retry: {
-    flexDirection: 'row'
-  },
-  activityIndicator: {
-      flex: 1
-   }
-};
-
 const mapStateToProps = state => {
   return {
+    uri: state.cache,
     locate: state.currentLocation,
     dbref: state.dbRef,
     userid: state.userId,
@@ -139,4 +111,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, actions)(UploadCard);
+export default connect(mapStateToProps, actions)(ImageModal);

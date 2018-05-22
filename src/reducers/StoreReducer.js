@@ -1,4 +1,4 @@
-export default (state = 'https://unityone-65a80.firebaseio.com/rohiniShop.json', action) => {
+export default (state = [], action) => {
   //onsole.log(action.payload);
   switch (action.type) {
     case 'store_url':

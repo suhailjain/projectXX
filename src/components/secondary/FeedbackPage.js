@@ -12,7 +12,7 @@ const styles = {
   },
   title: {
     alignSelf: 'center',
-    fontSize: 22,
+    fontSize: 24,
     marginTop: 25
   }
 };
@@ -22,7 +22,6 @@ class FeedbackPage extends Component {
   }
   constructor(props) {
     super(props);
-    console.log(this.props.services);
     this.state = { services: this.props.services };
   }
 
@@ -56,7 +55,10 @@ class FeedbackPage extends Component {
   render() {
     return (
       <View style={styles.container}>
+      <View style={{ flex: 0.2, justifyContent: 'center' }}>
       <Text style={styles.title}>Please select a service</Text>
+      </View>
+      <View style={{ flex: 0.8 }}>
       <FlatList
         data={this.state.services}
         renderItem={({ item }) => <Service service={item} />}
@@ -64,6 +66,7 @@ class FeedbackPage extends Component {
         ItemSeparatorComponent={this.renderSeparator}
         ListHeaderComponent={this.renderHeader}
       />
+      </View>
       </View>
     );
   }

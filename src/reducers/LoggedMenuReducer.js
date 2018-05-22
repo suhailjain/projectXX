@@ -1,6 +1,6 @@
-export default (state = 'UserName', action) => {
+export default (state = 'gallery', action) => {
   switch (action.type) {
-    case 'username':
+    case 'logged_menu':
       return action.payload;
     default:
       return state;
