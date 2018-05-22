@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Scene, Router } from 'react-native-router-flux';
-import PickLocation from './components/PickLocation';
 import Gallery from './components/secondary/Gallery';
 import Aboutus from './components/secondary/Aboutus';
 import SocialConnect from './components/secondary/SocialConnect';
@@ -14,7 +13,6 @@ import FoodList from './components/primary/FoodList';
 import Logged from './components/login/Logged';
 import NotLogged from './components/login/NotLogged';
 import FrontCameraComponent from './components/common/FrontCameraComponent';
-import Main from './components/main/Main';
 import TabMenu from './components/TabMenu';
 import BootUp from './components/BootUp';
 import WixCamera from './components/common/WixCamera';
@@ -22,7 +20,7 @@ import WixCamera from './components/common/WixCamera';
 class RouterComponent extends Component {
   render() {
     return (
-      <Router hideNavBar={true}>
+      <Router hideNavBar>
         <Scene key="boot" component={BootUp} />
         <Scene key="tabs" component={TabMenu} />
         <Scene key="gallery" component={Gallery} />

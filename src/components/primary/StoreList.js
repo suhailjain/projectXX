@@ -32,13 +32,6 @@ class StoreList extends Component {
   componentWillMount() {
     this.props.loading(false);
   }
-  componentDidMount() {
-    console.log(this.state.storelist);
-    StoreList.copy = this.props.storelist;
-    console.log(StoreList.copy);
-    this.setState({ loading: this.props.loading });
-    console.log(this.props.search);
-  }
   filter = () => {
     if (this.props.search === '') {
           this.setState({

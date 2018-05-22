@@ -12,8 +12,8 @@ class SearchView extends Component {
     console.log(search);
     let temp = [];
           this.props.storelist.forEach((child) => {
-            console.log(child.brand);
-            if (child.brand.includes(search)) {
+            console.log(child.brand, ' - ', child.brand.startsWith(search));
+            if (child.brand.startsWith(search)) {
               temp.push(child);
             }
           });
