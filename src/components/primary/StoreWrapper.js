@@ -5,6 +5,7 @@ import * as actions from '../../actions';
 
 class StoreWrapper extends Component {
   render() {
+    if (this.props.shoporfood) {
     if (this.props.source === 'Rohini') {
       this.props.stores(this.props.rohinistore);
     } else if (this.props.source === 'Janakpuri') {
@@ -12,6 +13,16 @@ class StoreWrapper extends Component {
     } else if (this.props.source === 'Shahadra') {
       this.props.stores(this.props.shahstore);
     }
+  } else {
+    console.log('food');
+    if (this.props.source === 'Rohini') {
+      this.props.stores(this.props.foodrohini);
+    } else if (this.props.source === 'Janakpuri') {
+      this.props.stores(this.props.foodjanak);
+    } else if (this.props.source === 'Shahadra') {
+      this.props.stores(this.props.foodshah);
+    }
+  }
     return (
       <StoreList />
     );
@@ -23,7 +34,11 @@ const mapStateToProps = state => {
     source: state.currentLocation,
     rohinistore: state.rohinishops,
     janakstore: state.janakshops,
-    shahstore: state.shahshops
+    shahstore: state.shahshops,
+    shoporfood: state.shopFood,
+    foodrohini: state.rohinifood,
+    foodjanak: state.janakfood,
+    foodshah: state.shahfood
   };
 };
 

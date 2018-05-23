@@ -34,9 +34,11 @@ const styles = {
 class SlideCard extends Component {
   handleGo(cardSelected) {
       if (cardSelected === 'Shopping') {
+        this.props.isItForShopping(true);
         Actions.storelist();
       } else if (cardSelected === 'Food') {
-        Actions.foodlist();
+        this.props.isItForShopping(false);
+        Actions.storelist();
       } else if (cardSelected === 'Events') {
         Actions.events();
       } else if (cardSelected === 'Cinepolis') {

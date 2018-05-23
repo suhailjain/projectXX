@@ -313,3 +313,10 @@ export const textInSearchBar = (text) => {
     payload: text
   };
 };
+
+export const isItForShopping = (bool) => {
+  return {
+    type: 'food_shop',
+    payload: bool
+  };
+};

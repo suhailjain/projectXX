@@ -9,7 +9,6 @@ import StoreWrapper from './components/primary/StoreWrapper';
 import Cinepolis from './components/primary/Cinepolis';
 import ParkAssist from './components/ParkAssist';
 import EventList from './components//primary/EventList';
-import FoodList from './components/primary/FoodList';
 import Logged from './components/login/Logged';
 import NotLogged from './components/login/NotLogged';
 import FrontCameraComponent from './components/common/FrontCameraComponent';
@@ -29,7 +28,6 @@ class RouterComponent extends Component {
         <Scene key="connect" component={SocialConnect} />
         <Scene key="camera" component={CameraComponent} />
         <Scene key="storelist" component={StoreWrapper} />
-        <Scene key="foodlist" component={FoodList} />
         <Scene key="cinepolis" component={Cinepolis} />
         <Scene key="park" component={ParkAssist} />
         <Scene key='events' component={EventList} />

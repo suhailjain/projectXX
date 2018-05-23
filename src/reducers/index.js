@@ -43,6 +43,10 @@ import SearchTextReducer from './SearchTextReducer';
 import RohiniStoreReducer from './RohiniStoreReducer';
 import JanakpuriStoreReducer from './JanakpuriStoreReducer';
 import ShahadraStoreReducer from './ShahadraStoreReducer';
+import RohiniFoodReducer from './RohiniFoodReducer';
+import JanakpuriFoodReducer from './JanakpuriFoodReducer';
+import ShahadraFoodReducer from './ShahadraFoodReducer';
+import ShoppingOrFoodReducer from './ShoppingOrFoodReducer';
 
 export default combineReducers({
 
@@ -89,6 +93,10 @@ export default combineReducers({
   searchedText: SearchTextReducer,
   rohinishops: RohiniStoreReducer,
   janakshops: JanakpuriStoreReducer,
-  shahshops: ShahadraStoreReducer
+  shahshops: ShahadraStoreReducer,
+  rohinifood: RohiniFoodReducer,
+  janakfood: JanakpuriFoodReducer,
+  shahfood: ShahadraFoodReducer,
+  shopFood: ShoppingOrFoodReducer
 
 });
