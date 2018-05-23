@@ -19,16 +19,51 @@ export const selectStyle = (style) => {
   };
 };
 
-export const stores = (url) => {
+export const Rstores = (url) => {
   return {
-    type: 'store_url',
+    type: 'store_r',
     payload: url
   };
 };
 
-export const foodUrl = (url) => {
+export const Jstores = (url) => {
   return {
-    type: 'food_url',
+    type: 'store_j',
+    payload: url
+  };
+};
+
+export const Sstores = (url) => {
+  return {
+    type: 'store_s',
+    payload: url
+  };
+};
+
+export const stores = (url) => {
+  return {
+    type: 'store_selected',
+    payload: url
+  };
+};
+
+export const Rfood = (url) => {
+  return {
+    type: 'food_r',
+    payload: url
+  };
+};
+
+export const Jfood = (url) => {
+  return {
+    type: 'food_j',
+    payload: url
+  };
+};
+
+export const Sfood = (url) => {
+  return {
+    type: 'food_s',
     payload: url
   };
 };

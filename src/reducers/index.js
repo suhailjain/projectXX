@@ -40,6 +40,9 @@ import UploadModalReducer from './UploadModalReducer';
 import StyleReducer from './StyleReducer';
 import SearchReducer from './SearchReducer';
 import SearchTextReducer from './SearchTextReducer';
+import RohiniStoreReducer from './RohiniStoreReducer';
+import JanakpuriStoreReducer from './JanakpuriStoreReducer';
+import ShahadraStoreReducer from './ShahadraStoreReducer';
 
 export default combineReducers({
 
@@ -83,6 +86,9 @@ export default combineReducers({
   upload: UploadModalReducer,
   style: StyleReducer,
   search: SearchReducer,
-  searchedText: SearchTextReducer
+  searchedText: SearchTextReducer,
+  rohinishops: RohiniStoreReducer,
+  janakshops: JanakpuriStoreReducer,
+  shahshops: ShahadraStoreReducer
 
 });

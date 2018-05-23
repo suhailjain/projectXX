@@ -5,7 +5,7 @@ import Aboutus from './components/secondary/Aboutus';
 import SocialConnect from './components/secondary/SocialConnect';
 import Movie from './components/secondary/Movie';
 import CameraComponent from './components/common/CameraComponent';
-import StoreList from './components/primary/StoreList';
+import StoreWrapper from './components/primary/StoreWrapper';
 import Cinepolis from './components/primary/Cinepolis';
 import ParkAssist from './components/ParkAssist';
 import EventList from './components//primary/EventList';
@@ -28,7 +28,7 @@ class RouterComponent extends Component {
         <Scene key="movie" component={Movie} />
         <Scene key="connect" component={SocialConnect} />
         <Scene key="camera" component={CameraComponent} />
-        <Scene key="storelist" component={StoreList} />
+        <Scene key="storelist" component={StoreWrapper} />
         <Scene key="foodlist" component={FoodList} />
         <Scene key="cinepolis" component={Cinepolis} />
         <Scene key="park" component={ParkAssist} />

@@ -96,42 +96,49 @@ class Main extends Component {
           containerStyle={{}}
           style={{ backgroundColor: '#003366' }}
           position="bottomLeft"
-                 onPress={() => this.setState({ active: !this.state.active })}>
+                 onPress={() => this.setState({ active: !this.state.active })}
+      >
                  <Icon name="flame" style={{ fontSize: 24 }} />
-                 <Button onPress={() => {
+                 <Button
+                  onPress={() => {
                    this.setState({ active: !this.state.active });
                    this.props.selectLocation('Janakpuri');
                    this.props.feedbackDB('jfeedback');
                    this.props.postUrl('https://unityone-65a80.firebaseio.com/jPosts.json');
                   // this.props.storeUrl('https://unityone-65a80.firebaseio.com/janakpuriShop.json');
-                   this.props.foodUrl('https://unityone-65a80.firebaseio.com/janakpuriFood.json');
+                   //this.props.foodUrl('https://unityone-65a80.firebaseio.com/janakpuriFood.json');
                    this.props.dbRef('/jPosts');
                    this.props.eventUrl('https://unityone-65a80.firebaseio.com/jEvents.json');
-                 }} style={{ width: 53, backgroundColor: '#fbfbfb' }}>
+                 }} style={{ width: 53, backgroundColor: '#fbfbfb' }}
+                 >
                   <Text style={{ fontSize: 10 }}>Janakpuri</Text>
                  </Button>
-                 <Button onPress={() => {
+                 <Button
+                 onPress={() => {
                    this.setState({ active: !this.state.active });
                    this.props.selectLocation('Shahadra');
                    this.props.feedbackDB('sfeedback');
                    this.props.postUrl('https://unityone-65a80.firebaseio.com/sPosts.json');
                 //   this.props.storeUrl('https://unityone-65a80.firebaseio.com/shahdraShop.json');
-                   this.props.foodUrl('https://unityone-65a80.firebaseio.com/shahdraFood.json');
+                  // this.props.foodUrl('https://unityone-65a80.firebaseio.com/shahdraFood.json');
                    this.props.dbRef('/sPosts');
                    this.props.eventUrl('https://unityone-65a80.firebaseio.com/sEvents.json');
-                 }} style={{ width: 50, marginLeft: 5, backgroundColor: '#fbfbfb' }}>
+                 }} style={{ width: 50, marginLeft: 5, backgroundColor: '#fbfbfb' }}
+                 >
                   <Text style={{ fontSize: 10 }}>Shahadra</Text>
                  </Button>
-                 <Button onPress={() => {
+                 <Button
+                 onPress={() => {
                    this.setState({ active: !this.state.active });
                    this.props.selectLocation('Rohini');
                    this.props.feedbackDB('feedback');
                    this.props.postUrl('https://unityone-65a80.firebaseio.com/posts.json');
                   // this.props.storeUrl('https://unityone-65a80.firebaseio.com/rohiniShop.json');
-                   this.props.foodUrl('https://unityone-65a80.firebaseio.com/rohiniFood.json');
+                   //this.props.foodUrl('https://unityone-65a80.firebaseio.com/rohiniFood.json');
                    this.props.dbRef('/posts');
                    this.props.eventUrl('https://unityone-65a80.firebaseio.com/rEvents.json');
-                 }} style={{ width: 40, marginLeft: 5, backgroundColor: '#fbfbfb' }}>
+                 }} style={{ width: 40, marginLeft: 5, backgroundColor: '#fbfbfb' }}
+                 >
                    <Text style={{ fontSize: 10 }}>Rohini</Text>
                  </Button>
                </Fab>

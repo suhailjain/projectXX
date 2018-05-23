@@ -50,8 +50,14 @@ class StoreList extends Component {
         <TouchableOpacity
         onPress={() => {
           //firebase upsert
+          if (this.props.userid === 0) {
+            // alert reqrd.
+            console.log('please login first');
+          } else {
           fbAccess.database().ref('/storeRequests')
           .push({ user: this.props.userid, store: this.props.searchedForText });
+          console.log('your request has been noted.');
+        }
         }}
         >
         <Text style={styles.request}>you want this store here?</Text>

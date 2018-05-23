@@ -36,7 +36,22 @@ class BootUp extends Component {
   }
  getStores() {
     fbAccess.database().ref('/rohiniShop').once('value', (snapshot) => {
-      this.props.stores(snapshot.val());
+      this.props.Rstores(snapshot.val());
+    });
+    fbAccess.database().ref('/rohiniFood').once('value', (snapshot) => {
+      this.props.Rfood(snapshot.val());
+    });
+    fbAccess.database().ref('/janakpuriShop').once('value', (snapshot) => {
+      this.props.Jstores(snapshot.val());
+    });
+    fbAccess.database().ref('/janakpuriFood').once('value', (snapshot) => {
+      this.props.Jfood(snapshot.val());
+    });
+    fbAccess.database().ref('/shahdraShop').once('value', (snapshot) => {
+      this.props.Sstores(snapshot.val());
+    });
+    fbAccess.database().ref('/shahdraFood').once('value', (snapshot) => {
+      this.props.Sfood(snapshot.val());
     });
   }
   async getFeedbackServices() {
