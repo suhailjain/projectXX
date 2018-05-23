@@ -1,16 +1,25 @@
 import React, { Component } from 'react';
-import { FlatList, View, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
-import axios from 'axios';
+import { FlatList, View, StyleSheet, TouchableOpacity, Dimensions, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { Icon } from 'react-native-elements';
 import Store from './Store';
 import * as actions from '../../actions';
 import SearchView from '../common/SearchView';
+import fbAccess from '../FirebaseConfig';
 
 const { width, height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
+  request: {
+    alignSelf: 'center',
+    marginBottom: 30,
+
+  },
+  reqView: {
+    flex: 1,
+    justifyContent: 'flex-end'
+  },
   container: {
     flex: 1,
     backgroundColor: '#DBDBDB'
@@ -26,27 +35,46 @@ class StoreList extends Component {
   static copy = [];
   constructor(props) {
     super(props);
-    this.props.searchText(this.props.storelist);
-    this.state = { storelist: this.props.storelist, loading: false };
+    this.props.filteredResults(this.props.storelist);
+    this.state = { loading: false };
 }
   componentWillMount() {
     this.props.loading(false);
   }
-  filter = () => {
-    if (this.props.search === '') {
-          this.setState({
-            storelist: StoreList.copy
-          });
-        } else {
-          StoreList.copy.forEach((child) => {
-            if (!child.brand.includes(this.props.search, 0)) {
-              StoreList.copy.splice(StoreList.copy.indexOf(child), 1);
-              console.log(StoreList.copy);
-              this.setState({ storelist: StoreList.copy });
-            }
-          });
+
+  isListEmpty() {
+    //isListEmptyComponent na use krne ka reason hai, flex ineffective hai uspe
+    if (this.props.search.length === 0) {
+      return (
+        <View style={styles.reqView}>
+        <TouchableOpacity
+        onPress={() => {
+          //firebase upsert
+          fbAccess.database().ref('/storeRequests')
+          .push({ user: this.props.userid, store: this.props.searchedForText });
+        }}
+        >
+        <Text style={styles.request}>you want this store here?</Text>
+        </TouchableOpacity>
+        </View>
+      );
+    } else {
+      return (
+        <FlatList
+          ItemSeparatorComponent={this.renderSeparator}
+          data={this.props.search}
+          ListHeaderComponent={this.renderHeader}
+          ListFooterComponent={this.renderFooter}
+          renderItem={({ item, index }) => <Store store={item} index={index} />}
+          keyExtractor={item => item.brand}
+          columnWrapperStyle={{ flex: 1, justifyContent: 'space-between', marginLeft: 10, marginRight: 10 }}
+          onScroll={() => console.log('shops scrolled')}
+          numColumns={2}
+        />
+      );
     }
   }
+
 renderSeparator() {
     return (
       <View
@@ -82,21 +110,10 @@ renderSeparator() {
   }
 
   render() {
-    console.log('rerender stores', this.props.search);
     return (
       <View style={styles.container}>
       <SearchView />
-      <FlatList
-        ItemSeparatorComponent={this.renderSeparator}
-        data={this.props.search}
-        ListHeaderComponent={this.renderHeader}
-        ListFooterComponent={this.renderFooter}
-        renderItem={({ item, index }) => <Store store={item} index={index} />}
-        keyExtractor={item => item.brand}
-        columnWrapperStyle={{ flex: 1, justifyContent: 'space-between', marginLeft: 10, marginRight: 10 }}
-        onScroll={() => console.log('shops scrolled')}
-        numColumns={2}
-      />
+      {this.isListEmpty()}
       <TouchableOpacity
       onPress={() => Actions.pop()}
       style={styles.back}
@@ -114,7 +131,9 @@ const mapStateToProps = state => {
   return {
     storelist: state.stores,
     loading: state.loading,
-    search: state.search
+    search: state.search,
+    userid: state.userId,
+    searchedForText: state.searchedText
   };
 };
 

@@ -39,6 +39,7 @@ import LoggedMenuReducer from './LoggedMenuReducer';
 import UploadModalReducer from './UploadModalReducer';
 import StyleReducer from './StyleReducer';
 import SearchReducer from './SearchReducer';
+import SearchTextReducer from './SearchTextReducer';
 
 export default combineReducers({
 
@@ -81,6 +82,7 @@ export default combineReducers({
   loggedmenuselected: LoggedMenuReducer,
   upload: UploadModalReducer,
   style: StyleReducer,
-  search: SearchReducer
+  search: SearchReducer,
+  searchedText: SearchTextReducer
 
 });

@@ -265,9 +265,16 @@ export const SetUserName = (name) => {
   };
 };
 
-export const searchText = (text) => {
+export const filteredResults = (results) => {
   return {
     type: 'search',
+    payload: results
+  };
+};
+
+export const textInSearchBar = (text) => {
+  return {
+    type: 'search_text',
     payload: text
   };
 };

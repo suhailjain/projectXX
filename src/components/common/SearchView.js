@@ -9,20 +9,18 @@ class SearchView extends Component {
     this.state = { text: '' };
   }
   textChange = (search) => {
-    console.log(search);
     let temp = [];
+      this.props.textInSearchBar(search);
           this.props.storelist.forEach((child) => {
-            console.log(child.brand, ' - ', child.brand.startsWith(search));
             if (child.brand.startsWith(search)) {
               temp.push(child);
             }
           });
-          console.log(temp);
-          this.props.searchText(temp);
+          this.props.filteredResults(temp);
   }
   clear = () => {
     this.setState({ text: '' });
-    this.props.searchText(this.props.storelist);
+    this.props.filteredResults(this.props.storelist);
   }
   render() {
     return (
