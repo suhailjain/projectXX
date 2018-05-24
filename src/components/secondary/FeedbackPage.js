@@ -11,9 +11,19 @@ const styles = {
     flex: 1
   },
   title: {
-    alignSelf: 'center',
     fontSize: 24,
-    marginTop: 25
+    alignSelf: 'center',
+    color: '#ffffff',
+    paddingTop: 10,
+    paddingBottom: 10
+  },
+  titleview: {
+    borderRadius: 17,
+    backgroundColor: '#003366',
+    marginLeft: 40,
+    marginTop: 35,
+    marginRight: 40,
+    justifyContent: 'center'
   }
 };
 class FeedbackPage extends Component {
@@ -55,10 +65,10 @@ class FeedbackPage extends Component {
   render() {
     return (
       <View style={styles.container}>
-      <View style={{ flex: 0.2, justifyContent: 'center' }}>
+      <View style={styles.titleview}>
       <Text style={styles.title}>Please select a service</Text>
       </View>
-      <View style={{ flex: 0.8 }}>
+      <View style={{ marginTop: 50 }}>
       <FlatList
         data={this.state.services}
         renderItem={({ item }) => <Service service={item} />}

@@ -23,48 +23,59 @@ class BootUp extends Component {
     this.getMetaData();
   }
   getMetaData() {
-    return new Promise((resolve) => {
-      this.getStores();
-      this.getFeedbackServices();
-      this.getUserStatus();
-      this.getGallery();
-      resolve();
-    })
-    .then(() => {
-      this.setState({ loading: 'done' });
-    });
+      this.getUserStatus()
+      .then(() => this.getStores()
+    .then(() => this.getGallery()
+  .then(() => this.getFeedbackServices()
+.then(() => {
+  this.setState({ loading: 'done' });
+  Actions.tabs({ type: 'replace' });
+  console.log('downloaded everything');
+}))));
   }
- getStores() {
-    fbAccess.database().ref('/rohiniShop').once('value', (snapshot) => {
+ async getStores() {
+   return new Promise((resolve) => {
+    console.log('fetching stores start');
+     fbAccess.database().ref('/rohiniShop').once('value', (snapshot) => {
       this.props.Rstores(snapshot.val());
     });
-    fbAccess.database().ref('/rohiniFood').once('value', (snapshot) => {
+     fbAccess.database().ref('/rohiniFood').once('value', (snapshot) => {
       this.props.Rfood(snapshot.val());
     });
-    fbAccess.database().ref('/janakpuriShop').once('value', (snapshot) => {
+     fbAccess.database().ref('/janakpuriShop').once('value', (snapshot) => {
       this.props.Jstores(snapshot.val());
     });
-    fbAccess.database().ref('/janakpuriFood').once('value', (snapshot) => {
+     fbAccess.database().ref('/janakpuriFood').once('value', (snapshot) => {
       this.props.Jfood(snapshot.val());
     });
-    fbAccess.database().ref('/shahdraShop').once('value', (snapshot) => {
+     fbAccess.database().ref('/shahdraShop').once('value', (snapshot) => {
       this.props.Sstores(snapshot.val());
     });
-    fbAccess.database().ref('/shahdraFood').once('value', (snapshot) => {
+     fbAccess.database().ref('/shahdraFood').once('value', (snapshot) => {
       this.props.Sfood(snapshot.val());
     });
+     console.log('fetching stores end');
+     resolve();
+   });
   }
   async getFeedbackServices() {
-    await fbAccess.database().ref('/services').once('value', (snapshot) => {
+    return new Promise((resolve) => {
+     console.log('fetching services start');
+     fbAccess.database().ref('/services').once('value', (snapshot) => {
       this.props.feedbackServices(snapshot.val());
     });
+     console.log('fetching services end');
+     resolve();
+  });
   }
   async getUserStatus() {
+    return new Promise((resolve) => {
+     console.log('fetching user start');
     if (fbAccess.auth().currentUser !== null) {
       this.props.loginStatus('email');
       this.props.userid(fbAccess.auth().currentUser.uid);
     }
-    await AccessToken.getCurrentAccessToken().then(
+     AccessToken.getCurrentAccessToken().then(
   (data) => {
       if (data !== null) {
       this.props.loginStatus('facebook');
@@ -72,8 +83,13 @@ class BootUp extends Component {
       }
     }
   );
+   console.log('fetching user end');
+   resolve();
+ });
   }
- getGallery() {
+ async getGallery() {
+   return new Promise((resolve) => {
+  console.log('fetching gallery start');
     let pics = [];
     let spics = [];
     let jpics = [];
@@ -81,7 +97,7 @@ class BootUp extends Component {
     let suserPics = [];
     let juserPics = [];
     //fetching gallery for shahadra
-   fbAccess.database().ref('/sPosts')
+  fbAccess.database().ref('/sPosts')
     .limitToLast(3)
     .once('value', (snapshot) => {
       //reversing the like order and check for approved
@@ -98,7 +114,7 @@ class BootUp extends Component {
     });
 
     //fetching gallery for Janakpuri
-   fbAccess.database().ref('/jPosts')
+  fbAccess.database().ref('/jPosts')
     .limitToLast(3)
     .once('value', (snapshot) => {
       //reversing the like order and check for approved
@@ -114,7 +130,7 @@ class BootUp extends Component {
       });
     });
     //fetching gallery for Rohini
-   fbAccess.database().ref('/posts')
+  fbAccess.database().ref('/posts')
     .limitToLast(3)
     .once('value', (snapshot) => {
       //reversing the like order and check for approved
@@ -129,13 +145,13 @@ class BootUp extends Component {
         }
       });
     });
+  console.log('fetching gallery end');
+  resolve();
+});
   }
   render() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text style={{ fontSize: 26 }}>
-      Loading...
-      </Text>
       <Text>{this.state.loading}</Text>
       <Button
       onPress={() => Actions.tabs({ type: 'replace' })}
