@@ -44,12 +44,16 @@ class FeedbackOptions extends Component {
     fbAccess.database().ref(`${this.props.feedbackref}/service/${this.props.service}`)
     .push({ uid: `${this.props.user}`, type: `${this.props.type}`, review: `${this.state.text}`, rating: `${rating}`, upsertTime: `${sessionId}` })
     .then(() => {
-
+      fbAccess.database().ref(`/users/${this.props.user}/${this.props.feedbackref}`)
+      .transaction((value) => {
+        return value + 1;
+      });
     });
     //update user table
     //fbAccess.database().ref(`/users/${this.props.user}`).update();
   }
   render() {
+    console.log('render');
     return (
       <View style={styles.container}>
         <Text style={styles.rate}>Rate</Text>

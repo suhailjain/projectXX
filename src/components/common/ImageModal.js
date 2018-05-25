@@ -68,7 +68,7 @@ class ImageModal extends Component {
       });
   }
   render() {
-    console.log(this.props.cache);
+    console.log('render');
     return (
       <Modal
         isVisible={this.props.visible}
@@ -82,6 +82,10 @@ class ImageModal extends Component {
         onPress={() => {
           this.uploadImage(this.props.uri, this.props.locate, this.props.dbref, this.props.captiontext, this.props.userid, this.props.usertype)
           .then(() => {
+            fbAccess.database().ref(`/users/${this.props.user}/${this.props.dbref}`)
+            .transaction((value) => {
+              return value + 1;
+            });
             console.log('updated');
             this.props.progress(0.9);
             this.props.uploadscreen(false);
