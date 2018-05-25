@@ -63,36 +63,21 @@ class NotLogged extends Component {
     this.setState({ loading: !this.state.loading });
     fbAccess.auth().signInWithEmailAndPassword(email, pass)
     .then(() => {
+        const sessionId = new Date().getTime();
         this.props.userId(fbAccess.auth().currentUser.uid);
         this.props.loginStatus('email');
+        fbAccess.database().ref(`/users/${fbAccess.auth().currentUser.uid}`)
+        .update({ lastLogin: `${sessionId}` });
+        fbAccess.database().ref(`/users/${fbAccess.auth().currentUser.uid}/totalLogins`)
+        .transaction((value) => {
+          return value + 1;
+        });
         //this.setState({ loading: !this.state.loading, loggedIn: true });
         //update user total login and last login time here
-    })
-    .catch((error) => {
-      console.log(error);
-      fbAccess.auth().createUserWithEmailAndPassword(email, pass)
-      .then(() => {
-        const sessionId = new Date().getTime();
-        fbAccess.database().ref('users').child(fbAccess.auth().currentUser.uid).set({
-            badge: 'noobie',
-            jfeedback: 0,
-            rfeedback: 0,
-            sfeedback: 0,
-            jpics: 0,
-            rpics: 0,
-            spics: 0,
-            lastLogin: `${sessionId}`,
-            totalLogins: 1,
-            type: 'email'
-          });
-          this.props.loginStatus('email');
-          this.props.userId(fbAccess.auth().currentUser.uid);
-          //this.setState({ loading: !this.state.loading, loggedIn: true });
     })
     .catch(() => {
       this.setState({ loading: !this.state.loading });
         Alert.alert('something went wrong');
-      });
     });
   }
 
@@ -107,6 +92,7 @@ class NotLogged extends Component {
   }
 
   render() {
+    console.log('render');
     return (
         <View style={styles.container}>
         <Jiro
@@ -193,7 +179,6 @@ class NotLogged extends Component {
 const mapStateToProps = state => {
   return {
     dbref: state.dbRef,
-    userid: state.userId,
     visible: state.signup
   };
 };
