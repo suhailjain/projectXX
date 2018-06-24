@@ -44,6 +44,7 @@ class Event extends Component {
     this.state = { selectedEvent: [] };
   }
   render() {
+    console.log('render');
   return (
     <View style={styles.eventcard}>
       <Text style={styles.title}>

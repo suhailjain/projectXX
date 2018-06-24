@@ -57,3 +57,32 @@ RNFetchBlob
     );
   });
   */
+
+
+  /*
+  if (info.viewableItems[0].key.includes('Pantaloons')) {
+    this.flatListRefHor.scrollToIndex({ animated: false, index: 0, viewPosition: 0 });
+  } else if ()
+
+      if (info.viewableItems[0].key.includes('Pantaloons')) {
+        console.log('panta');
+          let t = true;
+        info.viewableItems.forEach((child) => {
+          if (!child.key.includes('Pantaloons')) {
+            t = false;
+          }
+        });
+        if (t) {
+          this.flatListRefHor.scrollToIndex({ animated: false, index: 0, viewPosition: 0 });
+        }
+      } else if (info.viewableItems[0].key.includes('Woodland')) {
+          let t = true;
+        info.viewableItems.forEach((child) => {
+          if (!child.key.includes('Woodland')) {
+            t = false;
+          }
+        });
+        if (t) {
+          this.flatListRefHor.scrollToIndex({ animated: false, index: 1, viewPosition: 0 });
+        }
+      } */

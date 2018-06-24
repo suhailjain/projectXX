@@ -6,7 +6,7 @@ const { width } = Dimensions.get('window');
 
 class ProgressBar extends Component {
   render() {
-    console.log(this.props.progress);
+    console.log('render');
     return (
       <View
       style={{

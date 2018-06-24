@@ -9,7 +9,9 @@ import ProgressBar from '../common/ProgressBar';
 
 const styles = {
 activityIndicator: {
-    flex: 1
+    flex: 1,
+    marginTop: 10,
+    marginBottom: 10,
  }
 };
 
@@ -23,7 +25,7 @@ class ImageList extends Component {
         this.state = { isFetching: false, data: store.getState().gallery, loading: false };
         this.refreshIndexByCached();
       } else { */
-//      console.log(this.props);
+        console.log(this.props.gallery);
         this.state = { isFetching: false, data: this.props.gallery, loading: false };
         this.refreshIndex();
       //}
@@ -104,8 +106,7 @@ async loadMoreData() {
 }
 
 refreshIndex() {
-  console.log(this.props.gallery.lastIndex);
-  ImageList.statInd = this.props.gallery[this.props.gallery.lastIndex].id;
+  ImageList.statInd = this.props.gallery[this.props.gallery.length - 1].id;
 }
 refreshIndexByCached() {
   ImageList.statInd = store.getState().gallery[2].id;
@@ -114,9 +115,6 @@ refreshIndexByCached() {
 renderFooter() {
 return (
   <View>
-  <View
-    style={{ height: 40, backgroundColor: '#003366' }}
-  />
   <ActivityIndicator
          animating={this.state.loading}
          color='#bc2b78'
@@ -140,13 +138,10 @@ renderSeparator() {
 }
 //<ProgressBar />
 render() {
-//  console.log(this.props.gallery);
+  console.log('render');
+  console.log(this.props.gallery);
     return (
       <View>
-      <Button
-      title='most liked first'
-      onPress={this.sortByLikes.bind(this)}
-      />
       <FlatList
         refreshing={this.state.isFetching}
         onRefresh={this.onRefresh.bind(this)}
@@ -169,9 +164,7 @@ render() {
 
 const mapStateToProps = (state) => {
   return {
-    url: state.postsDB,
-    dbref: state.dbRef,
-    index: state.lastIndex
+    dbref: state.dbRef
   };
 };
 

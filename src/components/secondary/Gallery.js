@@ -45,6 +45,7 @@ class Gallery extends Component {
     }
   }
   render() {
+    console.log('render');
     this.props.cameraFace('RNCamera.Constants.Type.front');
     return (
       <View style={styles.container}>

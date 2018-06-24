@@ -31,12 +31,12 @@ class SignUp extends Component {
             badge: 'noobie',
             name: `${this.state.name}`,
             contact: `${this.state.contact}`,
+            feedback: 0,
             jfeedback: 0,
-            rfeedback: 0,
             sfeedback: 0,
-            jpics: 0,
-            rpics: 0,
-            spics: 0,
+            posts: 0,
+            jPosts: 0,
+            sPosts: 0,
             lastLogin: `${sessionId}`,
             totalLogins: 1,
             type: 'email'
@@ -51,6 +51,7 @@ class SignUp extends Component {
       });
   }
   render() {
+    console.log('render');
   return (
     <Modal
       isVisible={this.props.visible}

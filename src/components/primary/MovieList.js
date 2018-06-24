@@ -26,7 +26,7 @@ class MovieList extends Component {
   }
 
 
-  render() {
+  render() { console.log('render');
     console.log(this.state.movielist);
     return (
       <ScrollView

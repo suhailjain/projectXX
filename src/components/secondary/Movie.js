@@ -2,7 +2,7 @@ import { Text, View, WebView } from 'react-native';
 import React, { Component } from 'react';
 
 export default class Movie extends Component {
-  render() {
+  render() { console.log('render');
     return (
       <View>
       <WebView

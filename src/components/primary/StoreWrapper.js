@@ -5,6 +5,7 @@ import * as actions from '../../actions';
 
 class StoreWrapper extends Component {
   render() {
+    console.log('render');
     if (this.props.shoporfood) {
     if (this.props.source === 'Rohini') {
       this.props.stores(this.props.rohinistore);

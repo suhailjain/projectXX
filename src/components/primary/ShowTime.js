@@ -47,7 +47,7 @@ class ShowTime extends Component {
   }
   }
 
-  render() {
+  render() { console.log('render');
     return (
       <View style={styles.container}>
       <Button

@@ -67,7 +67,7 @@ class LikeButton extends Component {
       .catch(() => Alert.alert('fishh!, please try again.'));
   }
 
-  render() {
+  render() { console.log('render');
       return (
         <View style={{ position: 'absolute' }}>
         <TouchableOpacity

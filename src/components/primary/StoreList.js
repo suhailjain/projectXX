@@ -116,6 +116,7 @@ renderSeparator() {
   }
 
   render() {
+    console.log('render');
     return (
       <View style={styles.container}>
       <SearchView />

@@ -67,6 +67,7 @@ renderFooter() {
           );
         }
   render() {
+    console.log('render');
     return (
       <View style={{ backgroundColor: '#DBDBDB' }}>
       <FlatList

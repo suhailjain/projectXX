@@ -5,34 +5,30 @@ import Modal from 'react-native-modal';
 import { Header, Icon } from 'react-native-elements';
 import { SwipeRow, Button } from 'native-base';
 import * as actions from '../../actions';
-import fbAccess from './../FirebaseConfig';
 import LikeButton from './LikeButton';
 
 const { width, height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#d0d0d0',
-    backgroundColor: '#ffffff'
+  row: {
+    flex: 1
   },
   image: {
-    borderRadius: 5,
     width: width * 1,
-    height: height * 0.3,
-    justifyContent: 'center',
-  },
-  imageCont: {
-    borderWidth: 1,
-    borderColor: '#d0d0d0',
-    backgroundColor: '#ffffff'
+    height: height * 0.35,
   },
   likes: {
     fontSize: 16
   },
+  text: {
+    flex: 1,
+    alignSelf: 'center',
+    justifyContent: 'center'
+  },
   comments: {
+    flex: 1,
     marginLeft: 7,
+    justifyContent: 'center',
     alignItems: 'center'
   }
 });
@@ -41,18 +37,21 @@ const styles = StyleSheet.create({
 */
 class ImageItem extends Component {
   render() {
+    console.log('render');
     return (
       <SwipeRow
             disableLeftSwipe
             leftOpenValue={170}
+            style={styles.row}
             left={
             //comments
-            <View style={styles.comments}>
-            <Text>
-            {this.props.pic.title}
-            </Text>
-            </View>
+              <View style={styles.comments}>
+              <Text style={styles.text}>
+              {this.props.pic.title}
+              </Text>
+              </View>
             }
+
             body={
               <View>
               <TouchableOpacity

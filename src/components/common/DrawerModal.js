@@ -10,6 +10,7 @@ const { width, height } = Dimensions.get('window');
 class DrawerModal extends Component {
 
   render() {
+    console.log('render');
     return (
       <View>
       <Modal

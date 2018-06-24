@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 });
 
 class MovieItem extends Component {
-  render() {
+  render() { console.log('render');
     return (
       <View>
       <Card

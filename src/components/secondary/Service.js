@@ -61,7 +61,7 @@ class Service extends Component {
     }
   }
 
-  render() {
+  render() { console.log('render');
   return (
     <View style={styles.barInactive}>
     <TouchableOpacity onPress={() => this.props.currentImageVisible(this.props.service.name)} >

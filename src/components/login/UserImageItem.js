@@ -71,6 +71,7 @@ class UserImageItem extends Component {
     new GraphRequestManager().addRequest(infoRequest).start();
    }
   render() {
+   console.log('render');
     return (
       <View style={styles.card}>
       <View style={{ flex: 0.4, justifyContent: 'center' }}>

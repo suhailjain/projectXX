@@ -3,6 +3,7 @@ import { CameraKitCameraScreen } from 'react-native-camera-kit';
 
 class WixCamera extends Component {
   render() {
+    console.log('render');
     return (
       <CameraKitCameraScreen
         actions={{ rightButtonText: 'Done', leftButtonText: 'Cancel' }}

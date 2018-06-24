@@ -26,6 +26,7 @@ class ParkAssist extends Component {
     }
   }
   render() {
+  console.log('render');
     return (
       <View>
       {this.isParked()}

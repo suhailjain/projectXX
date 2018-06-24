@@ -30,13 +30,12 @@ class BootUp extends Component {
 .then(() => {
   this.setState({ loading: 'done' });
   Actions.tabs({ type: 'replace' });
-  console.log('downloaded everything');
 }))));
   }
  async getStores() {
    return new Promise((resolve) => {
     console.log('fetching stores start');
-     fbAccess.database().ref('/rohiniShop').once('value', (snapshot) => {
+     fbAccess.database().ref('/rohinishops').once('value', (snapshot) => {
       this.props.Rstores(snapshot.val());
     });
      fbAccess.database().ref('/rohiniFood').once('value', (snapshot) => {
@@ -150,13 +149,10 @@ class BootUp extends Component {
 });
   }
   render() {
+    console.log('render');
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>{this.state.loading}</Text>
-      <Button
-      onPress={() => Actions.tabs({ type: 'replace' })}
-      title='go'
-      />
       </View>
     );
   }

@@ -1,10 +1,7 @@
 import { View, StyleSheet, Alert, ActivityIndicator, Text, TouchableOpacity, Dimensions } from 'react-native';
 import React, { Component } from 'react';
-import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import axios from 'axios';
-import { Button, Icon, Header } from 'react-native-elements';
-import UserProfile from '../common/UserProfile';
+import { Icon } from 'react-native-elements';
 import fbAccess from '../FirebaseConfig';
 import * as actions from './../../actions';
 import DrawerModal from '../common/DrawerModal';
@@ -71,14 +68,12 @@ class Logged extends Component {
     this.googleUserLogout.bind(this);
     this.logout.bind(this);
     this.state = { loading: false, loggedIn: true };
-    console.log('constructor of logged');
   }
   componentWillMount() {
 
   }
 
   logout() {
-    console.log('logging out of user: ', fbAccess.auth().currentUser.uid);
     this.setState({ loading: !this.state.loading });
     fbAccess.auth().signOut().then(() => {
     //  this.setState({ loading: !this.state.loading, loggedIn: !this.state.loggedIn });
@@ -149,6 +144,7 @@ class Logged extends Component {
   }
 
   render() {
+    console.log('render');
     return (
       <View style={{ flex: 1, backgroundColor: '#DBDBDB' }}>
       <View style={{ height: '20%', backgroundColor: '#034A9C', flexDirection: 'row' }}>
@@ -180,8 +176,6 @@ class Logged extends Component {
 
 const mapStateToProps = (state) => {
   return {
-      userid: state.userId,
-      location: state.currentLocation,
       usertype: state.loginStatus,
       dbref: state.dbRef,
       rpics: state.ruserposts,

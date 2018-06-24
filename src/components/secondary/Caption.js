@@ -19,6 +19,7 @@ class Caption extends Component {
     }
   }
   render() {
+    console.log('render');
     return (
       <TextInput
         multiline

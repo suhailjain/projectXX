@@ -39,6 +39,7 @@ rightIcon() {
   );
 }
   render() {
+    console.log('render');
     return (
       <View style={styles.container}>
       <Header
@@ -52,7 +53,7 @@ rightIcon() {
         <Text style={styles.para}>We at unity one are trying to build a bridge between services we
         have to offer and the experience which our users enjoy at our three premier
         locations Rohini, Janakpuri and Shahdra.</Text>
-      
+
       </View>
     );
   }

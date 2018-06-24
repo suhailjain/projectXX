@@ -262,7 +262,7 @@ renderSeparator() {
       }
 
 render() {
-  console.log(this.props.suserpics);
+  console.log('render');
     return (
       <View>
       {this.userHasPictures()}

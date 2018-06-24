@@ -31,7 +31,8 @@ class CameraComponent extends Component {
     }
   }
 
-  render() {
+  render() { console.log('render');
+    console.log('render camComp');
     return (
       <View style={styles.container}>
         <RNCamera

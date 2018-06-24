@@ -12,6 +12,7 @@ class Store extends Component {
   }
 
   render() {
+    console.log('render');
     let style = {};
     if (this.props.index % 1 === 0) {
       style = styles.container;

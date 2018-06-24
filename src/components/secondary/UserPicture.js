@@ -29,7 +29,7 @@ class UserPicture extends Component {
       return styles.smallImage;
     }
   }
-  render() {
+  render() { console.log('render');
     return (
       <View>
       <View style={{ alignItems: 'center' }}>

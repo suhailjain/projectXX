@@ -63,6 +63,7 @@ class FeedbackPage extends Component {
   }
 
   render() {
+    console.log('render');
     return (
       <View style={styles.container}>
       <View style={styles.titleview}>

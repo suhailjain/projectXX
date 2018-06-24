@@ -28,7 +28,7 @@ rightIcon() {
     />
   );
 }
-    render() {
+    render() { console.log('render');
       return (
         <View style={styles.container} >
         <MovieList />

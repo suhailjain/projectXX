@@ -88,6 +88,7 @@ class UploadCard extends Component {
   }
 
   render() {
+    console.log('render');
     return (
       <View>
       <Header

@@ -31,7 +31,8 @@ class FrontCameraComponent extends Component {
     }
    }
 
-  render() {
+  render() { console.log('render');
+    console.log('render frontCam');
     console.log(this.props.type);
     return (
       <View style={styles.container}>

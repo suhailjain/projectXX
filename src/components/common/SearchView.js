@@ -23,6 +23,7 @@ class SearchView extends Component {
     this.props.filteredResults(this.props.storelist);
   }
   render() {
+    console.log('render');
     return (
       <SearchBar
       lightTheme

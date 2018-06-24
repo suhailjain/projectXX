@@ -74,6 +74,7 @@ class Main extends Component {
        );
    }
   render() {
+  console.log('render');
     return (
       <View style={styles.base}>
       <View style={styles.titleView}>

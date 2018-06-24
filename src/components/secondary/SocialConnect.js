@@ -29,7 +29,6 @@ refreshUserPicList(user) {
     let ruserPics = [];
     let suserPics = [];
     let juserPics = [];
-    console.log(user);
     //fetching gallery for shahadra
     fbAccess.database().ref('/sPosts')
     .once('value', (snapshot) => {
@@ -63,22 +62,17 @@ refreshUserPicList(user) {
      });
      this.props.ruserPics(ruserPics);
    });
-    console.log(suserPics);
-    console.log(juserPics);
-    console.log(ruserPics);
        resolve();
      });
 }
   isUserSignedIn = () => {
     if (Number.parseInt(this.props.userid, 10) === 0) {
-      console.log('redirecting you to : notlogged');
       return (
         <NotLogged navigation={this.props.navigation} />
       );
     } else {
       this.refreshUserPicList(this.props.userid)
       .then(() => {
-        console.log('redirecting you to : logged');
       });
       return (
         <Logged navigation={this.props.navigation} />
@@ -87,6 +81,7 @@ refreshUserPicList(user) {
   }
 
   render() {
+    console.log('render');
     return (
       <View style={styles.container}>
       {this.isUserSignedIn()}
